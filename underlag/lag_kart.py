@@ -151,7 +151,7 @@ STEDER = {
     'Tivat': [42.4047, 18.7233], 'Gdańsk': [54.3776, 18.4662], 'Riga': [56.9236, 23.9711],
     'Vilnius': [54.6341, 25.2858],
     'København': [55.6180, 12.6508], 'Hamburg': [53.6304, 9.9882], 'Edinburgh': [55.9508, -3.3615],
-    'Paris': [49.0097, 2.5479], 'Kraków': [50.0777, 19.7848],
+    'Paris': [49.0097, 2.5479], 'Kraków': [50.0777, 19.7848], 'Keflavík': [63.9850, -22.6056],
 }
 # Busstraseer (omtrentlige veipunkter langs veien) fra Kautokeino til flyplassene
 BUSS = {
@@ -162,13 +162,13 @@ FLYPLASS = {  # navn -> IATA
     'Alta': 'ALF', 'Kittilä': 'KTT', 'Tromsø': 'TOS', 'Oslo': 'OSL', 'Helsingfors': 'HEL', 'Palma': 'PMI', 'Alicante': 'ALC',
     'Barcelona': 'BCN', 'Málaga': 'AGP', 'Faro': 'FAO', 'Split': 'SPU', 'Malta': 'MLA', 'Heraklion': 'HER', 'Rhodos': 'RHO',
     'Tirana': 'TIA', 'Burgas': 'BOJ', 'Antalya': 'AYT', 'Tivat': 'TIV', 'Gdańsk': 'GDN', 'Riga': 'RIX', 'Vilnius': 'VNO',
-    'København': 'CPH', 'Hamburg': 'HAM', 'Edinburgh': 'EDI', 'Paris': 'CDG', 'Kraków': 'KRK',
+    'København': 'CPH', 'Hamburg': 'HAM', 'Edinburgh': 'EDI', 'Paris': 'CDG', 'Kraków': 'KRK', 'Keflavík': 'KEF',
 }
 REGIONER = {
     'Middelhavet': {'id': 'med', 'farge': '#D4901E'},
     'Adriaterhavet og Svartehavet': {'id': 'adr', 'farge': '#A85434'},
     'Østersjøen og Baltikum': {'id': 'balt', 'farge': '#123A4A'},
-    'Storbyer i Nord- og Vest-Europa': {'id': 'by', 'farge': '#3F7A5A'},
+    'Nord- og Vest-Europa': {'id': 'by', 'farge': '#3F7A5A'},
 }
 # Per ark: id, navn i oversikten, base (navn, lat, lng), land, pass påkrevd, transfer flyplass->base.
 # Transfertid merket «(anslag)» står ikke i arkene — det er et grovt anslag ut fra kjøreavstand. De uten merking er hentet fra arket.
@@ -195,6 +195,7 @@ DEST = {
                                        pass_tekst='Storbritannia er utenfor EU og EØS: gyldig pass for alle 28 og digital innreisetillatelse (ETA, £20 per person) før avreise. Europeisk helsetrygdkort gjelder i Storbritannia.'),
     'Klassetur-Paris.html':       dict(id='paris',       oversikt='Paris',         base=['Paris', 48.8546, 2.3600],          land='Frankrike',  pass_=False, transfer='RER-tog · ca. 45 min (anslag)'),
     'Klassetur-Krakow.html':      dict(id='krakow',      oversikt='Kraków',        base=['Kraków', 50.0614, 19.9366],        land='Polen',      pass_=False, transfer='Tog · ca. 20 min (anslag)'),
+    'Klassetur-Island.html':      dict(id='island',      oversikt='Island',        base=['Reykjavík', 64.1466, -21.9426],    land='Island',     pass_=False, transfer='Buss · ca. 45 min (anslag)'),
 }
 # Kreta har to reiseveier i oversikten. Arket beskriver veien via Kittilä/Helsingfors; veien via Alta/Oslo står bare i oversikten.
 KRETA_VIA_OSLO = [
@@ -225,6 +226,7 @@ KREDITT = {
     'Skyline_of_Edinburgh.jpg': ('Andrew Colin', 'CC BY 2.0'), 'City_of_Edinburgh_-_Edinburgh_Castle_-_20140421004403.jpg': ('Enric', 'CC BY-SA 4.0'),
     'La_Tour_Eiffel_vue_de_la_Tour_Saint-Jacques,_Paris_août_2014_(2).jpg': ('Yann Caradec', 'CC BY-SA 2.0'), 'Notre-Dame_de_Paris_and_Île_de_la_Cité_at_dusk_140516_1.jpg': ('DXR', 'CC BY-SA 3.0'),
     'Sukiennice_and_Main_Market_Square_Krakow_Poland.JPG': ('Jorge Lascar', 'CC BY 2.0'), 'Saint_Kinga_Chapel_in_Wieliczka_Salt_Mine.jpg': ('Андрей Романенко', 'CC BY-SA 4.0'),
+    'Gullfoss_from_the_Air_(cropped).jpg': ('Nickspix', 'CC BY-SA 4.0'), 'Reykjavík,_view_from_Hallgrímskirkja_(2).jpg': ('Olga Ernst', 'CC BY-SA 4.0'),
 }
 # Hotellbilder med fri lisens (Wikimedia Commons). Andre hoteller får lenke til Google Maps og en plass for eget bilde i bilder/hotell/.
 HOTELLBILDER = {

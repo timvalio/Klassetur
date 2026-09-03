@@ -367,14 +367,18 @@ def main():
     s = s[:m.start(2)] + js + s[m.end(2):]
     open(KART, 'w', encoding='utf-8', newline='').write(s)   # bevarer linjeskift som de er
     print('Oppdatert', os.path.basename(KART), 'med', len(data['destinasjoner']), 'reisemal —', round(os.path.getsize(KART) / 1024), 'KB. Fila er komplett i seg selv (arkene ligger inni).')
-    # nettversjon: samme fil som index.html + zip klar til Netlify Drop (mappa nett/ ved siden av kartet)
-    nett = os.path.join(os.path.dirname(KART), 'nett')
-    if os.path.isdir(nett):
-        import zipfile
-        open(os.path.join(nett, 'index.html'), 'w', encoding='utf-8', newline='').write(s)
-        with zipfile.ZipFile(os.path.join(nett, 'klassetur-2027.zip'), 'w', zipfile.ZIP_DEFLATED) as z:
-            z.write(os.path.join(nett, 'index.html'), 'index.html')
-        print('Oppdatert nett/index.html og nett/klassetur-2027.zip — dra zip-fila inn pa app.netlify.com/drop for a publisere.')
+    # nettversjon: samme fil som docs/index.html (GitHub Pages, mappa docs/ ved siden av kartet) og/eller nett/ (Netlify Drop, med zip)
+    import zipfile
+    m = os.path.join(os.path.dirname(KART), 'docs')
+    if os.path.isdir(m):
+        open(os.path.join(m, 'index.html'), 'w', encoding='utf-8', newline='').write(s)
+        print('Oppdatert docs/index.html — commit og push, sa er nettsiden oppdatert innen et minutt.')
+    m = os.path.join(os.path.dirname(KART), 'nett')
+    if os.path.isdir(m):
+        open(os.path.join(m, 'index.html'), 'w', encoding='utf-8', newline='').write(s)
+        with zipfile.ZipFile(os.path.join(m, 'klassetur-2027.zip'), 'w', zipfile.ZIP_DEFLATED) as z:
+            z.write(os.path.join(m, 'index.html'), 'index.html')
+        print('Oppdatert nett/index.html og nett/klassetur-2027.zip — dra zip-fila inn pa Deploys-sida i Netlify.')
 
 if __name__ == '__main__':
     main()

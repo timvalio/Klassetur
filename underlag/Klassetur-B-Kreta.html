@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Klassetur 10. klasse — Kreta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --deep:#0B4F6C;        /* Egeerhavet */
+    --deeper:#06364B;
+    --amber:#E8A33D;       /* kretisk sol */
+    --amber-soft:#F6E3C0;
+    --brick:#9C4A38;       /* minoisk rødt */
+    --paper:#FCFAF6;
+    --ink:#1B1B1B;
+    --muted:#6B6459;
+    --line:#DFD9CD;
+    --wait:#8A6A1F;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Archivo',system-ui,sans-serif;font-size:15px;line-height:1.55}
+  .sheet{max-width:900px;margin:0 auto;background:var(--paper)}
+
+  .hero{background:linear-gradient(160deg,var(--deep) 0%,var(--deeper) 100%);color:var(--paper);padding:44px 44px 0;position:relative;overflow:hidden}
+  .kicker{font-size:13px;letter-spacing:.14em;color:var(--amber);margin:0 0 14px}
+  .hero h1{font-size:clamp(52px,11vw,104px);font-weight:800;line-height:.86;letter-spacing:-.035em;margin:0}
+  .hero h1 span{display:block;color:var(--amber-soft);font-size:.42em;letter-spacing:-.01em;font-weight:600;margin-top:14px}
+  .promise{font-family:'Newsreader',Georgia,serif;font-size:21px;line-height:1.45;max-width:34ch;margin:26px 0 0;color:#D9E7EE}
+  .heroband{display:flex;flex-wrap:wrap;gap:0;margin:36px -44px 0;border-top:1px solid rgba(255,255,255,.16)}
+  .heroband div{flex:1 1 25%;padding:16px 44px 18px;border-right:1px solid rgba(255,255,255,.16)}
+  .heroband div:last-child{border-right:0}
+  .heroband b{display:block;font-size:22px;font-weight:800;letter-spacing:-.02em}
+  .heroband small{font-size:12px;color:#9EBCCB}
+
+  .gallery{display:grid;grid-template-columns:2fr 1fr 1fr;gap:2px;background:var(--brick);border-bottom:6px solid var(--brick)}
+  .gallery figure{margin:0;position:relative;overflow:hidden;background:var(--amber-soft)}
+  .gallery img{display:block;width:100%;height:250px;object-fit:cover}
+  .gallery figcaption{position:absolute;left:0;right:0;bottom:0;padding:7px 11px;font-size:11.5px;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.75))}
+
+  section{padding:38px 44px;border-bottom:1px solid var(--line)}
+  h2{font-size:13px;letter-spacing:.14em;color:var(--brick);margin:0 0 18px;font-weight:600}
+  h3{font-size:26px;font-weight:800;letter-spacing:-.02em;margin:0 0 12px}
+  p{margin:0 0 12px;max-width:70ch}
+  .lede{font-family:'Newsreader',Georgia,serif;font-size:18px;line-height:1.6;color:#3A3630}
+
+  .route{display:flex;flex-wrap:wrap;border:1px solid var(--deep);border-radius:3px;overflow:hidden}
+  .leg{flex:1 1 180px;padding:16px 18px;border-right:1px dashed var(--line)}
+  .leg:last-child{border-right:0}
+  .leg b{display:block;font-size:17px;font-weight:800;letter-spacing:-.01em}
+  .leg small{display:block;font-size:12.5px;color:var(--muted);margin-top:3px}
+
+  ol.days{list-style:none;margin:0;padding:0;counter-reset:d}
+  ol.days li{counter-increment:d;display:grid;grid-template-columns:44px 1fr auto;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);align-items:baseline}
+  ol.days li:last-child{border-bottom:0}
+  ol.days li::before{content:counter(d);font-size:15px;font-weight:800;color:var(--brick)}
+  .act{font-size:13px;color:var(--muted);text-align:right;white-space:nowrap}
+  .day b{font-weight:600}
+  .day small{display:block;color:var(--muted);font-size:13px}
+
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th{text-align:left;font-size:12px;letter-spacing:.08em;color:var(--muted);font-weight:600;padding:0 0 10px;border-bottom:1px solid var(--ink)}
+  td{padding:11px 0;border-bottom:1px solid var(--line);vertical-align:top}
+  td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
+  tr.sum td{border-top:1px solid var(--ink);border-bottom:0;font-weight:800;font-size:16px;padding-top:14px}
+  .tag{font-size:11px;padding:2px 7px;border-radius:2px;white-space:nowrap}
+  .t-est{background:#F6E8C8;color:var(--wait)}
+  .t-quote{background:#E7E3DA;color:var(--muted)}
+  .t-ok{background:#DDEBE1;color:#2F6B4F}
+  .basis{display:block;font-size:12.5px;color:var(--muted)}
+
+  .headline-num{display:flex;flex-wrap:wrap;gap:34px;margin-top:26px;padding-top:22px;border-top:2px solid var(--deep)}
+  .headline-num div b{display:block;font-size:34px;font-weight:800;letter-spacing:-.03em;line-height:1.1}
+  .headline-num div small{font-size:13px;color:var(--muted)}
+
+  ul.plain{margin:0;padding-left:19px}
+  ul.plain li{margin-bottom:7px;max-width:68ch}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:34px}
+  .warn{background:#FBEDE9;border-left:4px solid var(--brick);padding:16px 18px;margin-top:8px}
+  footer{padding:26px 44px 40px;font-size:12.5px;color:var(--muted)}
+
+  @media (max-width:700px){
+    .hero,section,footer{padding-left:22px;padding-right:22px}
+    .heroband{margin-left:-22px;margin-right:-22px}
+    .heroband div{padding-left:22px;padding-right:22px;flex-basis:50%}
+    .two{grid-template-columns:1fr;gap:22px}
+  }
+  @media print{
+    body{font-size:10px;line-height:1.4}
+    .hero{padding:18px 26px 0}
+    .hero h1{font-size:40px}
+    .promise{font-size:14px;margin-top:12px}
+    .heroband{margin:16px -26px 0}
+    .heroband div{padding:9px 26px 10px}
+    .heroband b{font-size:16px}
+    .gallery img{height:120px}
+    section{padding:14px 26px;break-inside:avoid}
+    h3{font-size:17px;margin-bottom:6px}
+    h2{margin-bottom:9px}
+    p{margin-bottom:7px}
+    ol.days li{padding:6px 0}
+    td{padding:6px 0}
+    .headline-num{margin-top:14px;padding-top:12px;gap:24px}
+    .headline-num div b{font-size:24px}
+    footer{padding:14px 26px 18px}
+    @page{size:A4;margin:8mm}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="hero">
+    <p class="kicker">Klassetur 10. trinn · Kautokeino skole · juni 2027</p>
+    <h1>Kreta<span>nordkysten, Rethymno-området</span></h1>
+    <p class="promise">Tjueto grader i vannet den første uka i juni. Og en øy utenfor kysten der Hellas stengte de syke inne til 1957 — den historien kjenner de allerede fra serien.</p>
+    <div class="heroband">
+      <div><b>8 dager</b><small>7 netter</small></div>
+      <div><b>28</b><small>22 elever, 6 voksne</small></div>
+      <div><b>22°</b><small>i sjøen første uka i juni</small></div>
+      <div><b>~461 100</b><small>kroner totalt, estimat</small></div>
+    </div>
+  </div>
+
+  <div class="gallery">
+    <figure><img src="https://commons.wikimedia.org/wiki/Special:FilePath/20100820_Spinalonga_island_Crete_Panorama.jpg?width=1400" alt="Spinalonga sett fra sjøen"><figcaption>Spinalonga</figcaption></figure>
+    <figure><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Rethymno_lighthouse_Crete_Greece.jpg?width=800" alt="Fyret i Rethymno"><figcaption>Havna i Rethymno</figcaption></figure>
+    <figure><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Columns_in_Knossos,_Crete.jpg?width=800" alt="Søyler i Knossos"><figcaption>Knossos</figcaption></figure>
+  </div>
+
+  <section>
+    <h2>Reisevei</h2>
+    <div class="route">
+      <div class="leg"><b>Kautokeino → Kittilä</b><small>Buss · ca. 3 t 30 min</small></div>
+      <div class="leg"><b>Kittilä → Helsingfors</b><small>Finnair · ca. 1 t 40 min</small></div>
+      <div class="leg"><b>Helsingfors → Heraklion</b><small>Finnair, direkte · ca. 4 t</small></div>
+      <div class="leg"><b>Heraklion → hotellet</b><small>Buss · ca. 1 t 15 min</small></div>
+    </div>
+    <p style="margin-top:16px">Finnair flyr Helsingfors–Heraklion direkte fra mai til oktober, så ruten er i gang den første uka i juni. Sunclass flyr samme strekning og bør prises opp mot Finnair.</p>
+  </section>
+
+  <section>
+    <h2>Slik ser uka ut</h2>
+    <h3>Én aktivitet hver dag, resten er strand</h3>
+    <ol class="days">
+      <li><div class="day"><b>Reisedag</b><small>Buss, to fly, transfer og innsjekk</small></div><span class="act">—</span></li>
+      <li><div class="day"><b>Strand og bli kjent</b><small>Rutiner, grensene for hvor de kan bevege seg, bading</small></div><span class="act">—</span></li>
+      <li><div class="day"><b>Knossos</b><small>Minoisk palass fra 1900 f.Kr. Arkeologisk museum i Heraklion samme dag</small></div><span class="act">235 + 140 kr</span></li>
+      <li><div class="day"><b>Fortezza i Rethymno</b><small>Venetiansk festning, gamlebyen og havna</small></div><span class="act">50 kr</span></li>
+      <li><div class="day"><b>Spinalonga</b><small>Båt fra Plaka til leprakolonien. Historien fra «Øya»</small></div><span class="act">295 + 95 kr</span></li>
+      <li><div class="day"><b>Kournas-sjøen</b><small>Kajakk og tredemølle-båter på Kretas eneste ferskvannssjø</small></div><span class="act">120 kr</span></li>
+      <li><div class="day"><b>Fridag</b><small>Strand, shopping, valgfritt opplegg i grupper</small></div><span class="act">—</span></li>
+      <li><div class="day"><b>Hjemreise</b><small>Heraklion – Helsingfors – Kittilä – Kautokeino</small></div><span class="act">—</span></li>
+    </ol>
+    <p style="margin-top:16px;font-size:13px;color:var(--muted)">Prisene er veiledende listepriser per person. EU-borgere under 25 har gratis inngang til greske arkeologiske steder — sjekk om EØS-borgere omfattes, det kan spare hele Knossos-posten. Aktiviteter og restauranter er forslag, ikke bestilt.</p>
+  </section>
+
+  <section>
+    <h2>Overnatting</h2>
+    <h3>Må bookes direkte — og hotellet må ta imot ungdomsgrupper</h3>
+    <p class="lede">Ingen av disse er reservert. Flere greske hoteller avviser skolegrupper eller krever depositum, så det spørsmålet må stilles i første telefonsamtale. Malia og Hersonissos er utelatt med vilje: det er utelivsdestinasjoner og feil ramme for en klassetur.</p>
+    <table style="margin-top:18px">
+      <tr><td><b>Rethymno Palace</b><span class="basis">Adelianos Kampos, Rethymno · +30 2831 072418 · stort anlegg, egen strand, halvpensjon</span></td><td class="num"><span class="tag t-quote">Tilbud innhentes</span></td></tr>
+      <tr><td><b>Atlantis Beach Hotel &amp; Spa</b><span class="basis">Rethymno · +30 2831 051002 · gangavstand til gamlebyen, høyest vurdert</span></td><td class="num"><span class="tag t-quote">Tilbud innhentes</span></td></tr>
+      <tr><td><b>Kiani Beach Resort</b><span class="basis">Kalives, Chania · +30 2825 032300 · all-inclusive, lukket anlegg, egen vik</span></td><td class="num"><span class="tag t-quote">Tilbud innhentes</span></td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>Hva turen koster</h2>
+    <table>
+      <tr><th>Post</th><th>Grunnlag</th><th style="text-align:right">Kroner</th></tr>
+      <tr><td>Buss Kautokeino–Kittilä t/r</td><td><span class="tag t-ok">Bekreftet</span><span class="basis">Kjøring og henting, oppgitt pris</span></td><td class="num">26 200</td></tr>
+      <tr><td>Fly, 28 personer t/r</td><td><span class="tag t-quote">Tilbud innhentes</span><span class="basis">28 × 6 300 · Kittilä–Helsingfors anslått til 2 800, Helsingfors–Heraklion til 3 500</span></td><td class="num">176 400</td></tr>
+      <tr><td>Hotell med halvpensjon, 7 netter</td><td><span class="tag t-quote">Tilbud innhentes</span><span class="basis">28 × 7 × 700 · frokost og middag inkludert</span></td><td class="num">137 200</td></tr>
+      <tr><td>Lunsj</td><td><span class="tag t-est">Estimat</span><span class="basis">28 × 7 × 140</span></td><td class="num">27 400</td></tr>
+      <tr><td>Transfer og lokaltransport</td><td><span class="tag t-est">Estimat</span><span class="basis">Buss t/r Heraklion, lokalbusser til utfluktene</span></td><td class="num">9 000</td></tr>
+      <tr><td>Inngang og utflukter</td><td><span class="tag t-est">Estimat</span><span class="basis">Én aktivitet per dag, se programmet</span></td><td class="num">35 000</td></tr>
+      <tr><td>Reiseforsikring for gruppen</td><td><span class="tag t-quote">Tilbud innhentes</span><span class="basis">28 × ca. 290</span></td><td class="num">8 000</td></tr>
+      <tr><td>Buffer</td><td><span class="tag t-est">10 %</span><span class="basis">Valutasving, prisøkning, uforutsett</span></td><td class="num">41 900</td></tr>
+      <tr class="sum"><td>Totalt</td><td></td><td class="num">461 100</td></tr>
+    </table>
+    <div class="headline-num">
+      <div><b>16 500</b><small>kroner per reisende</small></div>
+      <div><b>1 av 8</b><small>poster endelig bekreftet</small></div>
+    </div>
+  </section>
+
+
+
+
+  <footer>
+    Ikke inkludert: lommepenger, pass eller nasjonalt ID-kort, avbestillingsforsikring, egenandel ved sykdom.<br>
+    Valutakurs brukt i beregningen: 1 EUR = 11,80 kr. Alle tall utenom bussen er estimater til tilbudene foreligger.<br>
+    Bilder fra Wikimedia Commons under CC BY-SA: «Spinalonga island Crete Panorama» · «Rethymno lighthouse Crete Greece» · «Columns in Knossos, Crete».
+  </footer>
+
+</div>
+</body>
+</html>

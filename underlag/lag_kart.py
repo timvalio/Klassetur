@@ -151,7 +151,9 @@ STEDER = {
     'Tivat': [42.4047, 18.7233], 'Gdańsk': [54.3776, 18.4662], 'Riga': [56.9236, 23.9711],
     'Vilnius': [54.6341, 25.2858],
     'København': [55.6180, 12.6508], 'Hamburg': [53.6304, 9.9882], 'Edinburgh': [55.9508, -3.3615],
-    'Paris': [49.0097, 2.5479], 'Kraków': [50.0777, 19.7848], 'Keflavík': [63.9850, -22.6056],
+    'Kraków': [50.0777, 19.7848], 'Keflavík': [63.9850, -22.6056],
+    'Ljubljana': [46.2237, 14.4576], 'Bratislava': [48.1702, 17.2127], 'Venezia': [45.5053, 12.3519],
+    'Tallinn': [59.4133, 24.8328], 'Bergen': [60.2934, 5.2181], 'Trondheim': [63.4578, 10.9240],
 }
 # Busstraseer (omtrentlige veipunkter langs veien) fra Kautokeino til flyplassene
 BUSS = {
@@ -162,13 +164,16 @@ FLYPLASS = {  # navn -> IATA
     'Alta': 'ALF', 'Kittilä': 'KTT', 'Tromsø': 'TOS', 'Oslo': 'OSL', 'Helsingfors': 'HEL', 'Palma': 'PMI', 'Alicante': 'ALC',
     'Barcelona': 'BCN', 'Málaga': 'AGP', 'Faro': 'FAO', 'Split': 'SPU', 'Malta': 'MLA', 'Heraklion': 'HER', 'Rhodos': 'RHO',
     'Tirana': 'TIA', 'Burgas': 'BOJ', 'Antalya': 'AYT', 'Tivat': 'TIV', 'Gdańsk': 'GDN', 'Riga': 'RIX', 'Vilnius': 'VNO',
-    'København': 'CPH', 'Hamburg': 'HAM', 'Edinburgh': 'EDI', 'Paris': 'CDG', 'Kraków': 'KRK', 'Keflavík': 'KEF',
+    'København': 'CPH', 'Hamburg': 'HAM', 'Edinburgh': 'EDI', 'Kraków': 'KRK', 'Keflavík': 'KEF',
+    'Ljubljana': 'LJU', 'Bratislava': 'BTS', 'Venezia': 'VCE', 'Tallinn': 'TLL', 'Bergen': 'BGO', 'Trondheim': 'TRD',
 }
 REGIONER = {
     'Middelhavet': {'id': 'med', 'farge': '#D4901E'},
     'Adriaterhavet og Svartehavet': {'id': 'adr', 'farge': '#A85434'},
     'Østersjøen og Baltikum': {'id': 'balt', 'farge': '#123A4A'},
     'Nord- og Vest-Europa': {'id': 'by', 'farge': '#3F7A5A'},
+    'Alpene og Sentral-Europa': {'id': 'sentral', 'farge': '#4A5D8F'},
+    'Norge': {'id': 'norge', 'farge': '#5C3D8C'},
 }
 # Per ark: id, navn i oversikten, base (navn, lat, lng), land, pass påkrevd, transfer flyplass->base.
 # Transfertid merket «(anslag)» står ikke i arkene — det er et grovt anslag ut fra kjøreavstand. De uten merking er hentet fra arket.
@@ -193,7 +198,12 @@ DEST = {
     'Klassetur-Hamburg.html':     dict(id='hamburg',     oversikt='Hamburg',       base=['Hamburg', 53.5488, 9.9872],        land='Tyskland',   pass_=False, transfer='S-tog · ca. 25 min (anslag)'),
     'Klassetur-Edinburgh.html':   dict(id='edinburgh',   oversikt='Edinburgh',     base=['Edinburgh', 55.9533, -3.1883],     land='Skottland',  pass_=True,  transfer='Trikk · ca. 35 min (anslag)',
                                        pass_tekst='Storbritannia er utenfor EU og EØS: gyldig pass for alle 28 og digital innreisetillatelse (ETA, £20 per person) før avreise. Europeisk helsetrygdkort gjelder i Storbritannia.'),
-    'Klassetur-Paris.html':       dict(id='paris',       oversikt='Paris',         base=['Paris', 48.8546, 2.3600],          land='Frankrike',  pass_=False, transfer='RER-tog · ca. 45 min (anslag)'),
+    'Klassetur-Slovenia.html':    dict(id='slovenia',    oversikt='Slovenia',      base=['Bled', 46.3683, 14.1146],          land='Slovenia',   pass_=False, transfer='Buss · ca. 30 min (anslag)'),
+    'Klassetur-Slovakia.html':    dict(id='slovakia',    oversikt='Slovakia',      base=['Bratislava', 48.1486, 17.1077],    land='Slovakia',   pass_=False, transfer='Bybuss 61 · ca. 30 min (anslag)'),
+    'Klassetur-Italia.html':      dict(id='italia',      oversikt='Italia',        base=['Lido di Jesolo', 45.4972, 12.6403], land='Italia',     pass_=False, transfer='Buss · ca. 50 min (anslag)'),
+    'Klassetur-Tallinn.html':     dict(id='tallinn',     oversikt='Tallinn',       base=['Tallinn', 59.4370, 24.7536],       land='Estland',    pass_=False, transfer='Trikk · ca. 21 min (anslag)'),
+    'Klassetur-Fjordene.html':    dict(id='fjordene',    oversikt='Fjordene',      base=['Bergen', 60.3913, 5.3221],         land='Vestlandet', pass_=False, transfer='Bybanen · ca. 45 min (anslag)'),
+    'Klassetur-Trondheim.html':   dict(id='trondheim',   oversikt='Trondheim',     base=['Trondheim', 63.4305, 10.3951],     land='Trøndelag',  pass_=False, transfer='Flybuss · ca. 40 min (anslag)'),
     'Klassetur-Krakow.html':      dict(id='krakow',      oversikt='Kraków',        base=['Kraków', 50.0614, 19.9366],        land='Polen',      pass_=False, transfer='Tog · ca. 20 min (anslag)'),
     'Klassetur-Island.html':      dict(id='island',      oversikt='Island',        base=['Reykjavík', 64.1466, -21.9426],    land='Island',     pass_=False, transfer='Buss · ca. 45 min (anslag)'),
 }
@@ -227,6 +237,12 @@ KREDITT = {
     'La_Tour_Eiffel_vue_de_la_Tour_Saint-Jacques,_Paris_août_2014_(2).jpg': ('Yann Caradec', 'CC BY-SA 2.0'), 'Notre-Dame_de_Paris_and_Île_de_la_Cité_at_dusk_140516_1.jpg': ('DXR', 'CC BY-SA 3.0'),
     'Sukiennice_and_Main_Market_Square_Krakow_Poland.JPG': ('Jorge Lascar', 'CC BY 2.0'), 'Saint_Kinga_Chapel_in_Wieliczka_Salt_Mine.jpg': ('Андрей Романенко', 'CC BY-SA 4.0'),
     'Gullfoss_from_the_Air_(cropped).jpg': ('Nickspix', 'CC BY-SA 4.0'), 'Reykjavík,_view_from_Hallgrímskirkja_(2).jpg': ('Olga Ernst', 'CC BY-SA 4.0'),
+    'Bled_Island_05.jpg': ('Krzysztof Golik', 'CC BY-SA 4.0'), 'Blejski_Vintgar_01.jpg': ('Smihael', 'CC BY-SA 3.0'),
+    'Bratislava_Castle_with_Danube.jpeg': ('Ingo Mehling', 'CC BY-SA 4.0'), 'Devín_Castle_and_Morava-Danube_Confluence_01.jpg': ('Uoaei1', 'CC BY-SA 4.0'),
+    'Lido_di_Jesolo_Pier_5.jpg': ('kallerna', 'CC BY-SA 4.0'), 'Canal_Grande_Chiesa_della_Salute_e_Dogana_dal_ponte_dell_Accademia.jpg': ('Wolfgang Moroder', 'CC BY-SA 3.0'),
+    'Old_town_of_Tallinn_06-03-2012.jpg': ('Ivar Leidus', 'CC BY-SA 3.0 ee'), 'Lennusadam_2015.jpg': ('Hiiumaa mudeliklubi', 'CC BY-SA 4.0'),
+    "Nærøyfjord_-_The_world's_most_beautiful_fjord_(32060514105).jpg": ('Jorge Láscar', 'CC BY 2.0'), 'Bergen_Bryggen_2986.jpg': ('Anna Anichkova', 'CC BY-SA 3.0'),
+    'Catedral_de_Nidaros,_Trondheim,_Noruega,_2019-09-06,_DD_103.jpg': ('Diego Delso', 'CC BY-SA 4.0'), 'Islote_Munkholmen,_Trondheim,_Noruega,_2019-09-06,_DD_12.jpg': ('Diego Delso', 'CC BY-SA 4.0'),
 }
 # Hotellbilder med fri lisens (Wikimedia Commons). Andre hoteller får lenke til Google Maps og en plass for eget bilde i bilder/hotell/.
 HOTELLBILDER = {

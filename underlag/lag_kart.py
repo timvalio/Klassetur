@@ -121,6 +121,9 @@ def les_ark(fn):
     naer = section(s, 'I nærheten')
     d['naerhet'] = [{'navn': txt(a), 'tekst': txt(b)} for a, b in
                     re.findall(r'<li><b>(.*?)</b><span class="basis">(.*?)</span></li>', naer, re.S)]
+    # verdt å vite
+    obs = section(s, 'Verdt å vite')
+    d['obs'] = [txt(x) for x in re.findall(r'<li>(.*?)</li>', obs, re.S)]
     # kostnader
     ko = section(s, 'Hva turen koster')
     rows = []
@@ -398,7 +401,7 @@ def bygg():
             'base': {'navn': k['base'][0], 'lat': k['base'][1], 'lng': k['base'][2], 'beskrivelse': rader[0]['base'], 'maps': maps_link(k['base'][0] + ', ' + k['land'])},
             'pp': ruter[0]['pp'], 'total': ruter[0]['total'], 'ruter': ruter,
             'band': a['band'], 'bilder': bilder, 'reisevei': a['reisevei'],
-            'naerhet': a['naerhet'],
+            'naerhet': a['naerhet'], 'obs': a['obs'],
             'ukeTittel': a['uke_tittel'], 'dager': a['dager'], 'ukeNote': a['uke_note'],
             'hotellTittel': a['hotell_tittel'], 'hotellLede': a['hotell_lede'], 'hoteller': hoteller,
             'kostnader': a['kostnader'], 'sum': a['sum'], 'headline': a['headline'], 'warn': a['warn'], 'footer': a['footer'],

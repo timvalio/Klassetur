@@ -204,17 +204,17 @@ DEST = {
     'Klassetur-Slovenia.html':    dict(id='slovenia',    oversikt='Slovenia',      base=['Bled', 46.3683, 14.1146],          land='Slovenia',   pass_=False, transfer='Buss · ca. 30 min (anslag)'),
     'Klassetur-Slovakia.html':    dict(id='slovakia',    oversikt='Slovakia',      base=['Bratislava', 48.1486, 17.1077],    land='Slovakia',   pass_=False, transfer='Bybuss 61 · ca. 30 min (anslag)'),
     'Klassetur-Italia.html':      dict(id='italia',      oversikt='Italia',        base=['Lido di Jesolo', 45.4972, 12.6403], land='Italia',     pass_=False, transfer='Buss · ca. 50 min (anslag)'),
-    'Klassetur-Tallinn.html':     dict(id='tallinn',     oversikt='Tallinn',       base=['Tallinn', 59.4370, 24.7536],       land='Estland',    pass_=False, transfer='Trikk · ca. 21 min (anslag)'),
+    'Klassetur-Tallinn.html':     dict(id='tallinn',     oversikt='Tallinn',       base=['Tallinn', 59.4370, 24.7536],       land='Estland',    pass_=False, transfer='Til fots · ca. 15 min (anslag)'),
     'Klassetur-Fjordene.html':    dict(id='fjordene',    oversikt='Fjordene',      base=['Bergen', 60.3913, 5.3221],         land='Vestlandet', pass_=False, transfer='Bybanen · ca. 45 min (anslag)'),
     'Klassetur-Trondheim.html':   dict(id='trondheim',   oversikt='Trondheim',     base=['Trondheim', 63.4305, 10.3951],     land='Trøndelag',  pass_=False, transfer='Flybuss · ca. 40 min (anslag)'),
     'Klassetur-Krakow.html':      dict(id='krakow',      oversikt='Kraków',        base=['Kraków', 50.0614, 19.9366],        land='Polen',      pass_=False, transfer='Tog · ca. 20 min (anslag)'),
     'Klassetur-Island.html':      dict(id='island',      oversikt='Island',        base=['Reykjavík', 64.1466, -21.9426],    land='Island',     pass_=False, transfer='Buss · ca. 45 min (anslag)'),
 }
-# Tallinn har to reiseveier: fly via Oslo (står i arket) og buss/nattog/ferje via Kolari (står bare i oversikten).
-TALLINN_VIA_KOLARI = [
-    {'strekning': 'Kautokeino → Kolari', 'info': 'Buss · ca. 4 t 30 min (anslag)'},
-    {'strekning': 'Kolari → Helsingfors', 'info': 'VR nattog · ca. 13 t 30 min'},
-    {'strekning': 'Helsingfors → Tallinn', 'info': 'Tallink ferje · ca. 2 t'},
+# Tallinn har to reiseveier: buss/nattog/ferje via Kolari (står i arket) og fly via Oslo (står bare i oversikten).
+TALLINN_VIA_OSLO = [
+    {'strekning': 'Kautokeino → Alta', 'info': 'Buss · ca. 2 t'},
+    {'strekning': 'Alta → Oslo', 'info': 'Norwegian eller SAS · ca. 2 t'},
+    {'strekning': 'Oslo → Tallinn', 'info': 'Norwegian eller airBaltic, direkte · ca. 1 t 25 min'},
 ]
 # Kreta har to reiseveier i oversikten. Arket beskriver veien via Kittilä/Helsingfors; veien via Alta/Oslo står bare i oversikten.
 KRETA_VIA_OSLO = [
@@ -344,15 +344,16 @@ def bygg():
             if k['id'] == 'kreta' and via.startswith('Alta'):
                 legs = bygg_legs(KRETA_VIA_OSLO, k['base'], 'Buss · ca. 1 t 15 min')
                 kilde = 'oversikt'
-            elif k['id'] == 'tallinn' and via.startswith('Kolari'):
-                legs = bygg_legs(TALLINN_VIA_KOLARI, k['base'], 'Til fots · ca. 15 min (anslag)')
+            elif k['id'] == 'tallinn' and via.startswith('Alta'):
+                legs = bygg_legs(TALLINN_VIA_OSLO, k['base'], 'Trikk · ca. 21 min (anslag)')
                 kilde = 'oversikt'
             else:
                 legs = bygg_legs(a['reisevei'], k['base'], k['transfer'])
                 kilde = 'ark'
             tider = [varighet_min(l['info']) for l in legs]
             ruter.append({'via': via, 'pp': r['pp'], 'total': r['total'], 'legs': legs, 'kilde': kilde,
-                          'fra': legs[0]['til'] if legs else '', 'hub': next((l['til'] for l in legs if l['type'] == 'fly'), ''),
+                          'fra': legs[0]['til'] if legs else '', 'hub': (lambda L: L[0]['til'] if len(L) > 1 else '')([l for l in legs if l['type'] in ('fly', 'tog', 'ferje')]),
+                          'hubType': 'fly' if any(l['type'] == 'fly' for l in legs) else 'annet',
                           'reisetid': {'min': sum(t for t in tider if t), 'mangler': [l['fra'] + ' → ' + l['til'] for l, t in zip(legs, tider) if not t],
                                        'bareTransfer': all(l['type'] == 'transfer' for l, t in zip(legs, tider) if not t)}})
         ruter.sort(key=lambda r: r['pp'])

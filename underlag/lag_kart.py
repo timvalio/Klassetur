@@ -117,6 +117,10 @@ def les_ark(fn):
     for navn, basis, tag in re.findall(r'<tr><td><b>(.*?)</b><span class="basis">(.*?)</span></td><td class="num"><span class="tag[^"]*">(.*?)</span></td></tr>', ov, re.S):
         hot.append({'navn': txt(navn), 'basis': txt(basis), 'tag': txt(tag)})
     d['hoteller'] = hot
+    # i nærheten
+    naer = section(s, 'I nærheten')
+    d['naerhet'] = [{'navn': txt(a), 'tekst': txt(b)} for a, b in
+                    re.findall(r'<li><b>(.*?)</b><span class="basis">(.*?)</span></li>', naer, re.S)]
     # kostnader
     ko = section(s, 'Hva turen koster')
     rows = []
@@ -142,7 +146,7 @@ def les_ark(fn):
 # Steder brukt i reiseveiene (navn slik de står i arkene) -> [lat, lng]
 STEDER = {
     'Kautokeino': [69.0117, 23.0417],
-    'Alta': [69.9761, 23.3717], 'Kittilä': [67.7010, 24.8468], 'Tromsø': [69.6833, 18.9189],
+    'Alta': [69.9761, 23.3717], 'Kittilä': [67.7010, 24.8468], 'Tromsø': [69.6833, 18.9189], 'Kolari': [67.3306, 23.7947],
     'Oslo': [60.1976, 11.1004], 'Helsingfors': [60.3172, 24.9633],
     'Palma': [39.5517, 2.7388], 'Alicante': [38.2822, -0.5582], 'Barcelona': [41.2971, 2.0785],
     'Málaga': [36.6749, -4.4991], 'Faro': [37.0144, -7.9659], 'Split': [43.5389, 16.2980],
@@ -150,7 +154,7 @@ STEDER = {
     'Tirana': [41.4147, 19.7206], 'Burgas': [42.5696, 27.5152], 'Antalya': [36.8987, 30.8005],
     'Tivat': [42.4047, 18.7233], 'Gdańsk': [54.3776, 18.4662], 'Riga': [56.9236, 23.9711],
     'Vilnius': [54.6341, 25.2858],
-    'København': [55.6180, 12.6508], 'Hamburg': [53.6304, 9.9882], 'Edinburgh': [55.9508, -3.3615],
+    'Edinburgh': [55.9508, -3.3615],
     'Kraków': [50.0777, 19.7848], 'Keflavík': [63.9850, -22.6056],
     'Ljubljana': [46.2237, 14.4576], 'Bratislava': [48.1702, 17.2127], 'Venezia': [45.5053, 12.3519],
     'Tallinn': [59.4133, 24.8328], 'Bergen': [60.2934, 5.2181], 'Trondheim': [63.4578, 10.9240],
@@ -159,12 +163,13 @@ STEDER = {
 BUSS = {
     'Alta': [[69.0117, 23.0417], [69.1250, 23.0300], [69.2600, 23.2500], [69.4300, 23.6600], [69.5600, 23.6300], [69.7100, 23.5700], [69.8300, 23.4300], [69.9500, 23.3000], [69.9761, 23.3717]],
     'Kittilä': [[69.0117, 23.0417], [68.8400, 23.0100], [68.6800, 23.0800], [68.5500, 23.1300], [68.4200, 23.1500], [68.2900, 23.0900], [68.1300, 23.3000], [67.9600, 23.6800], [67.8700, 24.0500], [67.7600, 24.4500], [67.6800, 24.8500], [67.7010, 24.8468]],
+    'Kolari': [[69.0117, 23.0417], [68.8400, 23.0100], [68.6800, 23.0800], [68.5500, 23.1300], [68.4200, 23.1500], [68.2900, 23.0900], [68.1300, 23.3000], [67.9600, 23.6800], [67.8000, 23.7000], [67.6000, 23.6500], [67.4500, 23.7200], [67.3306, 23.7947]],
 }
 FLYPLASS = {  # navn -> IATA
     'Alta': 'ALF', 'Kittilä': 'KTT', 'Tromsø': 'TOS', 'Oslo': 'OSL', 'Helsingfors': 'HEL', 'Palma': 'PMI', 'Alicante': 'ALC',
     'Barcelona': 'BCN', 'Málaga': 'AGP', 'Faro': 'FAO', 'Split': 'SPU', 'Malta': 'MLA', 'Heraklion': 'HER', 'Rhodos': 'RHO',
     'Tirana': 'TIA', 'Burgas': 'BOJ', 'Antalya': 'AYT', 'Tivat': 'TIV', 'Gdańsk': 'GDN', 'Riga': 'RIX', 'Vilnius': 'VNO',
-    'København': 'CPH', 'Hamburg': 'HAM', 'Edinburgh': 'EDI', 'Kraków': 'KRK', 'Keflavík': 'KEF',
+    'Edinburgh': 'EDI', 'Kraków': 'KRK', 'Keflavík': 'KEF',
     'Ljubljana': 'LJU', 'Bratislava': 'BTS', 'Venezia': 'VCE', 'Tallinn': 'TLL', 'Bergen': 'BGO', 'Trondheim': 'TRD',
 }
 REGIONER = {
@@ -194,8 +199,6 @@ DEST = {
     'Klassetur-A-Gdansk.html':    dict(id='gdansk',      oversikt='Gdańsk',        base=['Gdańsk', 54.3520, 18.6466],        land='Polen',      pass_=False, transfer='Buss · ca. 25 min (anslag)'),
     'Klassetur-Riga.html':        dict(id='riga',        oversikt='Riga',          base=['Riga', 56.9496, 24.1052],          land='Latvia',     pass_=False, transfer='Buss · ca. 20 min (anslag)'),
     'Klassetur-Vilnius.html':     dict(id='vilnius',     oversikt='Vilnius',       base=['Vilnius', 54.6872, 25.2797],       land='Litauen',    pass_=False, transfer='Buss · ca. 15 min (anslag)'),
-    'Klassetur-Kobenhavn.html':   dict(id='kobenhavn',   oversikt='København',     base=['København', 55.6761, 12.5683],     land='Danmark',    pass_=False, transfer='Metro · ca. 15 min (anslag)'),
-    'Klassetur-Hamburg.html':     dict(id='hamburg',     oversikt='Hamburg',       base=['Hamburg', 53.5488, 9.9872],        land='Tyskland',   pass_=False, transfer='S-tog · ca. 25 min (anslag)'),
     'Klassetur-Edinburgh.html':   dict(id='edinburgh',   oversikt='Edinburgh',     base=['Edinburgh', 55.9533, -3.1883],     land='Skottland',  pass_=True,  transfer='Trikk · ca. 35 min (anslag)',
                                        pass_tekst='Storbritannia er utenfor EU og EØS: gyldig pass for alle 28 og digital innreisetillatelse (ETA, £20 per person) før avreise. Europeisk helsetrygdkort gjelder i Storbritannia.'),
     'Klassetur-Slovenia.html':    dict(id='slovenia',    oversikt='Slovenia',      base=['Bled', 46.3683, 14.1146],          land='Slovenia',   pass_=False, transfer='Buss · ca. 30 min (anslag)'),
@@ -207,6 +210,12 @@ DEST = {
     'Klassetur-Krakow.html':      dict(id='krakow',      oversikt='Kraków',        base=['Kraków', 50.0614, 19.9366],        land='Polen',      pass_=False, transfer='Tog · ca. 20 min (anslag)'),
     'Klassetur-Island.html':      dict(id='island',      oversikt='Island',        base=['Reykjavík', 64.1466, -21.9426],    land='Island',     pass_=False, transfer='Buss · ca. 45 min (anslag)'),
 }
+# Tallinn har to reiseveier: fly via Oslo (står i arket) og buss/nattog/ferje via Kolari (står bare i oversikten).
+TALLINN_VIA_KOLARI = [
+    {'strekning': 'Kautokeino → Kolari', 'info': 'Buss · ca. 4 t 30 min (anslag)'},
+    {'strekning': 'Kolari → Helsingfors', 'info': 'VR nattog · ca. 13 t 30 min'},
+    {'strekning': 'Helsingfors → Tallinn', 'info': 'Tallink ferje · ca. 2 t'},
+]
 # Kreta har to reiseveier i oversikten. Arket beskriver veien via Kittilä/Helsingfors; veien via Alta/Oslo står bare i oversikten.
 KRETA_VIA_OSLO = [
     {'strekning': 'Kautokeino → Alta', 'info': 'Buss · ca. 2 t'},
@@ -274,6 +283,13 @@ def bygg_legs(reisevei, base, transfer):
         if til == 'hotellet':
             legs.append({'type': 'transfer', 'fra': fra, 'til': base[0], 'info': info, 'a': STEDER[fra], 'b': base[1:3]})
             continue
+        lav = info.lower()
+        if lav.startswith(('tog', 'vr nattog', 'nattog')):
+            legs.append({'type': 'tog', 'fra': fra, 'til': til, 'info': info, 'a': STEDER[fra], 'b': STEDER[til]})
+            continue
+        if lav.startswith(('ferje', 'ferge', 'tallink', 'hurtigbåt', 'båt')):
+            legs.append({'type': 'ferje', 'fra': fra, 'til': til, 'info': info, 'a': STEDER[fra], 'b': STEDER[til]})
+            continue
         if info.lower().startswith('buss'):
             legs.append({'type': 'buss', 'fra': fra, 'til': til, 'info': info, 'a': STEDER[fra], 'b': STEDER[til], 'trase': BUSS.get(til)})
         else:
@@ -328,6 +344,9 @@ def bygg():
             if k['id'] == 'kreta' and via.startswith('Alta'):
                 legs = bygg_legs(KRETA_VIA_OSLO, k['base'], 'Buss · ca. 1 t 15 min')
                 kilde = 'oversikt'
+            elif k['id'] == 'tallinn' and via.startswith('Kolari'):
+                legs = bygg_legs(TALLINN_VIA_KOLARI, k['base'], 'Til fots · ca. 15 min (anslag)')
+                kilde = 'oversikt'
             else:
                 legs = bygg_legs(a['reisevei'], k['base'], k['transfer'])
                 kilde = 'ark'
@@ -353,6 +372,7 @@ def bygg():
             'base': {'navn': k['base'][0], 'lat': k['base'][1], 'lng': k['base'][2], 'beskrivelse': rader[0]['base'], 'maps': maps_link(k['base'][0] + ', ' + k['land'])},
             'pp': ruter[0]['pp'], 'total': ruter[0]['total'], 'ruter': ruter,
             'band': a['band'], 'bilder': bilder, 'reisevei': a['reisevei'],
+            'naerhet': a['naerhet'],
             'ukeTittel': a['uke_tittel'], 'dager': a['dager'], 'ukeNote': a['uke_note'],
             'hotellTittel': a['hotell_tittel'], 'hotellLede': a['hotell_lede'], 'hoteller': hoteller,
             'kostnader': a['kostnader'], 'sum': a['sum'], 'headline': a['headline'], 'warn': a['warn'], 'footer': a['footer'],

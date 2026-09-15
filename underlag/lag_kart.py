@@ -231,7 +231,7 @@ DEST_10B = {
 # Klassene. Den første er den kartet åpner med.
 KLASSER = [
     dict(id='10B', n=28, mappe=os.path.join(HER, '10B'), oversikt='Klassetur-kandidater-10B.html', dest=DEST_10B, prefix='10B/', varianter=['billigst', 'best'],
-         beskrivelse='22 elever og 6 voksne. Tre reisemål valgt, hvert regnet både billigst og best.'),
+         beskrivelse='21 elever og 7 voksne. Tre reisemål valgt, hvert regnet både billigst og best.'),
     dict(id='10A', n=20, mappe=HER, oversikt='Klassetur-kandidater-2027.html', dest=DEST, prefix='', varianter=[],
          beskrivelse='20 reisende. Alle kandidatene, regnet med prisene fra 4. september 2026.'),
 ]
@@ -241,11 +241,11 @@ TALLINN_VIA_OSLO = [
     {'strekning': 'Alta → Oslo', 'info': 'Norwegian eller SAS · ca. 2 t'},
     {'strekning': 'Oslo → Tallinn', 'info': 'Norwegian eller airBaltic, direkte · ca. 1 t 25 min'},
 ]
-# Kreta har to reiseveier i oversikten. Arket beskriver veien via Kittilä/Helsingfors; veien via Alta/Oslo står bare i oversikten.
-KRETA_VIA_OSLO = [
-    {'strekning': 'Kautokeino → Alta', 'info': 'Buss · ca. 2 t'},
-    {'strekning': 'Alta → Oslo', 'info': 'Norwegian eller SAS · ca. 2 t'},
-    {'strekning': 'Oslo → Heraklion', 'info': 'Flyselskap og reisetid ikke oppgitt i arkene'},
+# Kreta (10A) har to reiseveier i oversikten. Arket beskriver veien via Alta/Oslo (Norwegian til Chania); veien via Kittilä/Helsingfors står bare i oversikten.
+KRETA_VIA_KITTILA = [
+    {'strekning': 'Kautokeino → Kittilä', 'info': 'Buss · ca. 3 t 30 min'},
+    {'strekning': 'Kittilä → Helsingfors', 'info': 'Finnair, én avgang om dagen · natt i Helsingfors · ca. 2 t 5 min'},
+    {'strekning': 'Helsingfors → Chania', 'info': 'Finnair, direkte · ca. 3 t 55 min'},
 ]
 # Bildekreditter (fotograf, lisens) for bildene som er brukt i arkene — filnavn på Wikimedia Commons
 KREDITT = {
@@ -391,8 +391,8 @@ def bygg_klasse(kl):
         ruter = []
         for r in rader:
             via = r['vei']
-            if k['id'] == 'kreta' and via.startswith('Alta'):
-                legs = bygg_legs(KRETA_VIA_OSLO, k['base'], 'Buss · ca. 1 t 15 min')
+            if k['id'] == 'kreta' and via.startswith('Kittilä'):
+                legs = bygg_legs(KRETA_VIA_KITTILA, k['base'], 'KTEL-rutebuss via Chania · ca. 1 t 45 min')
                 kilde = 'oversikt'
             elif k['id'] == 'tallinn' and via.startswith('Alta'):
                 legs = bygg_legs(TALLINN_VIA_OSLO, k['base'], 'Trikk · ca. 21 min (anslag)')

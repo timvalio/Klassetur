@@ -4,8 +4,9 @@
 lag_kart.py — oppdaterer Klassetur-kart-2027.html med innholdet i turarkene.
 
 Ligger i undermappa «underlag» sammen med arkene. Kjør:   python lag_kart.py
-Skriptet leser Klassetur-kandidater-2027.html (oversikten) og hvert Klassetur-*.html (turark) i sin egen mappe,
-og skriver innholdet inn i datablokken i ../Klassetur-kart-2027.html (mappa over). Selve kartsiden (HTML/JS) røres ikke.
+Skriptet leser to klasser: 10A (Klassetur-kandidater-2027.html og Klassetur-*.html i denne mappa, 20 reisende) og
+10B (undermappa 10B/ med Klassetur-kandidater-10B.html og seks ark, billigst/best for tre reisemål, 28 reisende),
+og skriver alt inn i datablokken i ../Klassetur-kart-2027.html (mappa over). Selve kartsiden (HTML/JS) røres ikke.
 Ingen eksterne biblioteker — bare standard Python 3.
 
 Egne hotellbilder legges som underlag/bilder/hotell/<navn>.jpg (filnavnet står under hvert hotell i kartet);
@@ -40,8 +41,8 @@ def section(s, title):
     return m.group(1) if m else ''
 
 # ---------------------------------------------------------------- oversikten
-def les_oversikt():
-    s = open(OVERSIKT, encoding='utf-8').read()
+def les_oversikt(fn):
+    s = open(fn, encoding='utf-8').read()
     o = {}
     band = re.findall(r'<div><b>([^<]*)</b><small>([^<]*)</small></div>', s)
     o['band'] = [[txt(a), txt(b)] for a, b in band]
@@ -161,6 +162,7 @@ STEDER = {
     'Kraków': [50.0777, 19.7848], 'Keflavík': [63.9850, -22.6056],
     'Ljubljana': [46.2237, 14.4576], 'Bratislava': [48.1702, 17.2127], 'Venezia': [45.5053, 12.3519],
     'Tallinn': [59.4133, 24.8328], 'Bergen': [60.2934, 5.2181], 'Trondheim': [63.4578, 10.9240],
+    'Chania': [35.5317, 24.1497],
 }
 # Busstraseer (omtrentlige veipunkter langs veien) fra Kautokeino til flyplassene
 BUSS = {
@@ -173,7 +175,7 @@ FLYPLASS = {  # navn -> IATA
     'Barcelona': 'BCN', 'Málaga': 'AGP', 'Faro': 'FAO', 'Split': 'SPU', 'Malta': 'MLA', 'Heraklion': 'HER', 'Rhodos': 'RHO',
     'Tirana': 'TIA', 'Burgas': 'BOJ', 'Antalya': 'AYT', 'Tivat': 'TIV', 'Gdańsk': 'GDN', 'Riga': 'RIX', 'Vilnius': 'VNO',
     'Edinburgh': 'EDI', 'Kraków': 'KRK', 'Keflavík': 'KEF',
-    'Ljubljana': 'LJU', 'Bratislava': 'BTS', 'Venezia': 'VCE', 'Tallinn': 'TLL', 'Bergen': 'BGO', 'Trondheim': 'TRD',
+    'Ljubljana': 'LJU', 'Bratislava': 'BTS', 'Venezia': 'VCE', 'Tallinn': 'TLL', 'Bergen': 'BGO', 'Trondheim': 'TRD', 'Chania': 'CHQ',
 }
 REGIONER = {
     'Middelhavet': {'id': 'med', 'farge': '#D4901E'},
@@ -182,6 +184,10 @@ REGIONER = {
     'Nord- og Vest-Europa': {'id': 'by', 'farge': '#3F7A5A'},
     'Alpene og Sentral-Europa': {'id': 'sentral', 'farge': '#4A5D8F'},
     'Norge': {'id': 'norge', 'farge': '#5C3D8C'},
+    # 10B: oversikten er gruppert per reisemål, ikke per region
+    'Kreta': {'id': 'kreta', 'farge': '#D4901E'},
+    'Costa Blanca': {'id': 'costablanca', 'farge': '#A85434'},
+    'Split': {'id': 'split', 'farge': '#123A4A'},
 }
 # Per ark: id, navn i oversikten, base (navn, lat, lng), land, pass påkrevd, transfer flyplass->base.
 # Transfertid merket «(anslag)» står ikke i arkene — det er et grovt anslag ut fra kjøreavstand. De uten merking er hentet fra arket.
@@ -213,6 +219,22 @@ DEST = {
     'Klassetur-Krakow.html':      dict(id='krakow',      oversikt='Kraków',        base=['Kraków', 50.0614, 19.9366],        land='Polen',      pass_=False, transfer='Tog · ca. 20 min (anslag)'),
     'Klassetur-Island.html':      dict(id='island',      oversikt='Island',        base=['Reykjavík', 64.1466, -21.9426],    land='Island',     pass_=False, transfer='Buss · ca. 45 min (anslag)'),
 }
+# 10B: seks ark i undermappa 10B/. «variant» må stå først i basis-teksten på raden i 10B-oversikten (Billigst …/Best …).
+DEST_10B = {
+    'Klassetur-Kreta-billigst.html':       dict(id='kreta-billigst',       par='kreta',       variant='billigst', oversikt='Kreta',        base=['Rethymno', 35.3650, 24.4820],  land='Hellas', pass_=False, transfer=None),
+    'Klassetur-Kreta-best.html':           dict(id='kreta-best',           par='kreta',       variant='best',     oversikt='Kreta',        base=['Platanes', 35.3760, 24.5450],  land='Hellas', pass_=False, transfer=None),
+    'Klassetur-CostaBlanca-billigst.html': dict(id='costablanca-billigst', par='costablanca', variant='billigst', oversikt='Costa Blanca', base=['Albir', 38.5697, -0.0642],     land='Spania', pass_=False, transfer=None),
+    'Klassetur-CostaBlanca-best.html':     dict(id='costablanca-best',     par='costablanca', variant='best',     oversikt='Costa Blanca', base=['Albir', 38.5697, -0.0642],     land='Spania', pass_=False, transfer=None),
+    'Klassetur-Split-billigst.html':       dict(id='split-billigst',       par='split',       variant='billigst', oversikt='Split',        base=['Split', 43.5081, 16.4402],     land='Kroatia', pass_=False, transfer=None),
+    'Klassetur-Split-best.html':           dict(id='split-best',           par='split',       variant='best',     oversikt='Split',        base=['Podstrana', 43.4870, 16.5520], land='Kroatia', pass_=False, transfer=None),
+}
+# Klassene. Den første er den kartet åpner med.
+KLASSER = [
+    dict(id='10B', n=28, mappe=os.path.join(HER, '10B'), oversikt='Klassetur-kandidater-10B.html', dest=DEST_10B, prefix='10B/', varianter=['billigst', 'best'],
+         beskrivelse='22 elever og 6 voksne. Tre reisemål valgt, hvert regnet både billigst og best.'),
+    dict(id='10A', n=20, mappe=HER, oversikt='Klassetur-kandidater-2027.html', dest=DEST, prefix='', varianter=[],
+         beskrivelse='20 reisende. Alle kandidatene, regnet med prisene fra 4. september 2026.'),
+]
 # Tallinn har to reiseveier: buss/nattog/ferje via Kolari (står i arket) og fly via Oslo (står bare i oversikten).
 TALLINN_VIA_OSLO = [
     {'strekning': 'Kautokeino → Alta', 'info': 'Buss · ca. 2 t'},
@@ -352,17 +374,17 @@ def eget_bilde(slug_):
 def maps_link(q):
     return 'https://www.google.com/maps/search/?api=1&query=' + quote_plus(q)
 
-def bygg():
-    o = les_oversikt()
-    ark = {os.path.basename(f): les_ark(f) for f in glob.glob(os.path.join(HER, 'Klassetur-*.html')) if 'kandidater' not in f and 'kart' not in f}
+def bygg_klasse(kl):
+    o = les_oversikt(os.path.join(kl['mappe'], kl['oversikt']))
+    ark = {os.path.basename(f): les_ark(f) for f in glob.glob(os.path.join(kl['mappe'], 'Klassetur-*.html')) if 'kandidater' not in f and 'kart' not in f}
     dest = []
-    for fil, k in DEST.items():
+    for fil, k in kl['dest'].items():
         if fil not in ark:
-            print('mangler ark:', fil); continue
+            print('mangler ark:', kl['prefix'] + fil); continue
         a = ark[fil]
-        rader = [r for r in o['kandidater'] if r['navn'] == k['oversikt']]
+        rader = [r for r in o['kandidater'] if r['navn'] == k['oversikt'] and (not k.get('variant') or r['base'].lower().startswith(k['variant']))]
         if not rader:
-            print('finner ikke', k['oversikt'], 'i oversikten'); continue
+            print('finner ikke', k['oversikt'], k.get('variant', ''), 'i oversikten', kl['oversikt']); continue
         gruppe = rader[0]['gruppe']
         reg = REGIONER.get(gruppe, {'id': 'x', 'farge': '#555'})
         # reiseveier: én per rad i oversikten
@@ -396,7 +418,7 @@ def bygg():
         for b in a['bilder']:
             bilder.append({**b, 'kreditt': kreditt_for(b['url'])})
         dest.append({
-            'id': k['id'], 'fil': fil, 'navn': a['navn'], 'under': a['under'], 'kicker': a['kicker'], 'promise': a['promise'],
+            'id': k['id'], 'par': k.get('par', k['id']), 'variant': k.get('variant'), 'fil': kl['prefix'] + fil, 'navn': a['navn'], 'under': a['under'], 'kicker': a['kicker'], 'promise': a['promise'],
             'region': reg['id'], 'regionNavn': gruppe, 'farge': reg['farge'], 'land': k['land'], 'pass': k['pass_'], 'passTekst': k.get('pass_tekst'),
             'base': {'navn': k['base'][0], 'lat': k['base'][1], 'lng': k['base'][2], 'beskrivelse': rader[0]['base'], 'maps': maps_link(k['base'][0] + ', ' + k['land'])},
             'pp': ruter[0]['pp'], 'total': ruter[0]['total'], 'ruter': ruter,
@@ -408,17 +430,23 @@ def bygg():
             'arkHtml': a['arkHtml'],
         })
     dest.sort(key=lambda d: (d['pp'], d['navn']))
+    return {'id': kl['id'], 'n': kl['n'], 'beskrivelse': kl['beskrivelse'], 'varianter': kl['varianter'],
+            'oversikt': {'fil': kl['prefix'] + kl['oversikt'], 'band': o['band'], 'avreise': o['avreise'], 'direktefly': o['direktefly'],
+                         'warn': o['warn'], 'modeller': o['modeller'], 'pass': o['Pass og helsetrygdkort'], 'utelatt': o['Feriesteder som ikke er tatt med'],
+                         'neste': o['Neste steg'], 'footer': o['footer'], 'arkHtml': o['arkHtml']},
+            'destinasjoner': dest}
+
+def bygg():
+    klasser = [bygg_klasse(kl) for kl in KLASSER]
     data = {
         'generert': datetime.date.today().isoformat(),
         'prefix': PREFIX,
-        'oversikt': {'fil': os.path.basename(OVERSIKT), 'band': o['band'], 'avreise': o['avreise'], 'direktefly': o['direktefly'],
-                     'warn': o['warn'], 'modeller': o['modeller'], 'pass': o['Pass og helsetrygdkort'], 'utelatt': o['Feriesteder som ikke er tatt med'],
-                     'neste': o['Neste steg'], 'footer': o['footer'], 'arkHtml': o['arkHtml']},
+        'standard': KLASSER[0]['id'],
+        'klasser': {k['id']: k for k in klasser},
         'origo': {'navn': 'Kautokeino', 'lat': STEDER['Kautokeino'][0], 'lng': STEDER['Kautokeino'][1]},
         'steder': {n: {'lat': v[0], 'lng': v[1], 'kode': FLYPLASS.get(n, '')} for n, v in STEDER.items()},
         'buss': BUSS,
         'regioner': {v['id']: {'navn': n, 'farge': v['farge']} for n, v in REGIONER.items()},
-        'destinasjoner': dest,
     }
     return data
 
@@ -433,7 +461,7 @@ def main():
         print('Fant ikke datablokken i kartsiden.'); sys.exit(1)
     s = s[:m.start(2)] + js + s[m.end(2):]
     open(KART, 'w', encoding='utf-8', newline='').write(s)   # bevarer linjeskift som de er
-    print('Oppdatert', os.path.basename(KART), 'med', len(data['destinasjoner']), 'reisemal —', round(os.path.getsize(KART) / 1024), 'KB. Fila er komplett i seg selv (arkene ligger inni).')
+    print('Oppdatert', os.path.basename(KART), 'med', ' + '.join('%s: %d ark' % (k, len(v['destinasjoner'])) for k, v in data['klasser'].items()), '—', round(os.path.getsize(KART) / 1024), 'KB. Fila er komplett i seg selv (arkene ligger inni).')
     # nettversjon: samme fil som docs/index.html (GitHub Pages, mappa docs/ ved siden av kartet) og/eller nett/ (Netlify Drop, med zip)
     import zipfile
     m = os.path.join(os.path.dirname(KART), 'docs')

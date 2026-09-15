@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Klassetur 10B — Split, billigst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --deep:#20423A;        /* dalmatisk furu */
+    --deeper:#142B26;
+    --amber:#D9A441;       /* kalkstein i sol */
+    --amber-soft:#EFE2C4;
+    --brick:#8C5230;       /* romersk tegl */
+    --paper:#FCFAF6;
+    --ink:#1B1B1B;
+    --muted:#6B6459;
+    --line:#DFD9CD;
+    --wait:#8A6A1F;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Archivo',system-ui,sans-serif;font-size:15px;line-height:1.55}
+  .sheet{max-width:900px;margin:0 auto;background:var(--paper)}
+
+  .hero{background:linear-gradient(160deg,var(--deep) 0%,var(--deeper) 100%);color:var(--paper);padding:44px 44px 0;position:relative;overflow:hidden}
+  .kicker{font-size:13px;letter-spacing:.14em;color:var(--amber);margin:0 0 14px}
+  .hero h1{font-size:clamp(52px,11vw,104px);font-weight:800;line-height:.86;letter-spacing:-.035em;margin:0}
+  .hero h1 span{display:block;color:var(--amber-soft);font-size:.42em;letter-spacing:-.01em;font-weight:600;margin-top:14px}
+  .promise{font-family:'Newsreader',Georgia,serif;font-size:21px;line-height:1.45;max-width:34ch;margin:26px 0 0;color:#DCE7E1}
+  .heroband{display:flex;flex-wrap:wrap;gap:0;margin:36px -44px 0;border-top:1px solid rgba(255,255,255,.16)}
+  .heroband div{flex:1 1 25%;padding:16px 44px 18px;border-right:1px solid rgba(255,255,255,.16)}
+  .heroband div:last-child{border-right:0}
+  .heroband b{display:block;font-size:22px;font-weight:800;letter-spacing:-.02em}
+  .heroband small{font-size:12px;color:#A9BFB4}
+
+  .gallery{display:grid;grid-template-columns:2fr 1fr 1fr;gap:2px;background:var(--brick);border-bottom:6px solid var(--brick)}
+  .gallery figure{margin:0;position:relative;overflow:hidden;background:var(--amber-soft)}
+  .gallery img{display:block;width:100%;height:250px;object-fit:cover}
+  .gallery figcaption{position:absolute;left:0;right:0;bottom:0;padding:7px 11px;font-size:11.5px;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.75))}
+
+  section{padding:38px 44px;border-bottom:1px solid var(--line)}
+  h2{font-size:13px;letter-spacing:.14em;color:var(--brick);margin:0 0 18px;font-weight:600}
+  h3{font-size:26px;font-weight:800;letter-spacing:-.02em;margin:0 0 12px}
+  p{margin:0 0 12px;max-width:70ch}
+  .lede{font-family:'Newsreader',Georgia,serif;font-size:18px;line-height:1.6;color:#3A3630}
+
+  .route{display:flex;flex-wrap:wrap;border:1px solid var(--deep);border-radius:3px;overflow:hidden}
+  .leg{flex:1 1 180px;padding:16px 18px;border-right:1px dashed var(--line)}
+  .leg:last-child{border-right:0}
+  .leg b{display:block;font-size:17px;font-weight:800;letter-spacing:-.01em}
+  .leg small{display:block;font-size:12.5px;color:var(--muted);margin-top:3px}
+
+  ol.days{list-style:none;margin:0;padding:0;counter-reset:d}
+  ol.days li{counter-increment:d;display:grid;grid-template-columns:44px 1fr auto;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);align-items:baseline}
+  ol.days li:last-child{border-bottom:0}
+  ol.days li::before{content:counter(d);font-size:15px;font-weight:800;color:var(--brick)}
+  .act{font-size:13px;color:var(--muted);text-align:right;white-space:nowrap}
+  .day b{font-weight:600}
+  .day small{display:block;color:var(--muted);font-size:13px}
+
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th{text-align:left;font-size:12px;letter-spacing:.08em;color:var(--muted);font-weight:600;padding:0 0 10px;border-bottom:1px solid var(--ink)}
+  td{padding:11px 0;border-bottom:1px solid var(--line);vertical-align:top}
+  td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
+  tr.sum td{border-top:1px solid var(--ink);border-bottom:0;font-weight:800;font-size:16px;padding-top:14px}
+  .tag{font-size:11px;padding:2px 7px;border-radius:2px;white-space:nowrap}
+  .t-est{background:#F6E8C8;color:var(--wait)}
+  .t-quote{background:#E7E3DA;color:var(--muted)}
+  .t-ok{background:#DDEBE1;color:#2F6B4F}
+  .basis{display:block;font-size:12.5px;color:var(--muted)}
+
+  .headline-num{display:flex;flex-wrap:wrap;gap:34px;margin-top:26px;padding-top:22px;border-top:2px solid var(--deep)}
+  .headline-num div b{display:block;font-size:34px;font-weight:800;letter-spacing:-.03em;line-height:1.1}
+  .headline-num div small{font-size:13px;color:var(--muted)}
+
+  ul.plain{margin:0;padding-left:19px}
+  ul.plain li{margin-bottom:7px;max-width:68ch}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:34px}
+  .warn{background:#FBEDE9;border-left:4px solid var(--brick);padding:16px 18px;margin-top:8px}
+  footer{padding:26px 44px 40px;font-size:12.5px;color:var(--muted)}
+
+  @media (max-width:700px){
+    .hero,section,footer{padding-left:22px;padding-right:22px}
+    .heroband{margin-left:-22px;margin-right:-22px}
+    .heroband div{padding-left:22px;padding-right:22px;flex-basis:50%}
+    .two{grid-template-columns:1fr;gap:22px}
+  }
+  @media print{
+    body{font-size:10px;line-height:1.4}
+    .hero{padding:18px 26px 0}
+    .hero h1{font-size:40px}
+    .promise{font-size:14px;margin-top:12px}
+    .heroband{margin:16px -26px 0}
+    .heroband div{padding:9px 26px 10px}
+    .heroband b{font-size:16px}
+    .gallery img{height:120px}
+    section{padding:14px 26px;break-inside:avoid}
+    h3{font-size:17px;margin-bottom:6px}
+    h2{margin-bottom:9px}
+    p{margin-bottom:7px}
+    ol.days li{padding:6px 0}
+    td{padding:6px 0}
+    .headline-num{margin-top:14px;padding-top:12px;gap:24px}
+    .headline-num div b{font-size:24px}
+    footer{padding:14px 26px 18px}
+    @page{size:A4;margin:8mm}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="hero">
+    <p class="kicker">Klassetur 10B · Kautokeino skole · 7.–15. juni 2027 · 28 reisende</p>
+    <h1>Split<span>Billigst · hostel i gamlebyen, rutefly via Oslo</span></h1>
+    <p class="promise">Norwegian fra Oslo rett til Split, én natt ved Gardermoen på veien ned, hostel innenfor palassmurene og rutebuss og ferje til Krka, Klis og Brač. Ni dager, 7 netter i Split.</p>
+    <div class="heroband">
+      <div><b>9 dager</b><small>7 netter i Split, 1 ved Gardermoen</small></div>
+      <div><b>28</b><small>22 elever, 6 voksne</small></div>
+      <div><b>13 300</b><small>kroner per reisende</small></div>
+      <div><b>373 608</b><small>kroner totalt</small></div>
+    </div>
+  </div>
+
+  <div class="gallery">
+    <figure><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Aerial_view_of_Diocletian%27s_Palace_in_Split%2C_Croatia_%2848608247353%29.jpg?width=1400" alt="Diokletians palass sett ovenfra"><figcaption>Palasset er fortsatt en bydel</figcaption></figure>
+    <figure><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Peristyle_of_Diocletian%27s_Palace%2C_Split_%2811908116224%29.jpg?width=800" alt="Peristyl i Diokletians palass"><figcaption>Peristyl</figcaption></figure>
+    <figure><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Dioklecijanova_pala%C4%8Da%2C_Split_-_jugoistok.JPG?width=800" alt="Sørveggen av palasset mot Rivaen"><figcaption>Rivaen og sørveggen</figcaption></figure>
+    <figure><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Skradinski_buk_waterfall_%E2%80%93_NP_Krka_%E2%80%93_2016.jpg?width=1400" alt="Skradinski buk i Krka nasjonalpark"><figcaption>Skradinski buk i Krka nasjonalpark</figcaption></figure>
+  </div>
+
+  <section>
+    <h2>Reisevei</h2>
+    <div class="route"><div class="leg"><b>Kautokeino → Alta</b><small>Buss · ca. 2 t · mandag 7. juni, avgang rundt 09:00</small></div><div class="leg"><b>Alta → Oslo</b><small>Norwegian DY 321 · man 7. juni 11:55–13:55 · natt på hotell ved Gardermoen · ca. 2 t</small></div><div class="leg"><b>Oslo → Split</b><small>Norwegian DY 1950, direkte · tir 8. juni 07:15–10:05 · ca. 2 t 50 min</small></div><div class="leg"><b>Split → hotellet</b><small>Flybuss (Platanus) til busstasjonen · ca. 30 min</small></div></div>
+    <p style="margin-top:16px">Hjemreise tirsdag 15. juni: flybuss, Norwegian DY 1951 Split 10:50 – Oslo 13:40, Norwegian DY 328 Oslo 19:50 – Alta 22:50 (30 minutters teknisk stopp i Tromsø, ingen flybytte), buss til Kautokeino ca. 01:00. Norwegian flyr direkte Oslo–Split tirsdag, torsdag, fredag, lørdag og søndag; SAS lørdager. Alle morgenavgangene krever natt i Oslo, og fredagsavgangen 17:40 gir hjemreise med natt i Oslo, så tirsdag–tirsdag er den korteste turen.</p>
+  </section>
+
+  <section>
+    <h2>I nærheten</h2>
+    <ul class="plain near"><li><b>Diokletians palass</b><span class="basis">Byen er bygd inne i et romersk keiserpalass fra år 305. Gratis å gå rundt i, kjellerhallene koster inngang.</span></li><li><b>Øyene Brač og Hvar</b><span class="basis">Ferje fra Split. Zlatni Rat på Brač er stranda som skifter form med strømmen; en time hver vei.</span></li><li><b>Krka-fossene</b><span class="basis">Nasjonalpark med fossefall i terrasser, halvannen time nordover. Bading har vært forbudt i hele parken siden 1. januar 2021, så dette er en tur for å se, ikke bade.</span></li></ul>
+  </section>
+
+  <section>
+    <h2>Verdt å vite</h2>
+    <ul class="plain obs"><li>Bading er forbudt i hele Krka nasjonalpark siden 1. januar 2021. Turen dit er for å se fossene, ikke bade.</li><li>Dagsturen med ferje går til Brač og Zlatni Rat. Hvar by er kjent for uteliv om kvelden og er ikke lagt inn i programmet.</li><li>Flyet fra Gardermoen går 07:15, så gruppen må stå opp rundt 04:30 på hotellet. Hotellet ligger 4,7 km fra terminalen; buss eller taxi må ordnes for 28 med bagasje.</li><li>Bare en liten veske under setet er inkludert i flyprisen. Én koffert på 23 kg koster 169–449 kroner per flyvning hos Norwegian, eller er inkludert hvis dere bestiller som gruppe.</li><li>Split i juni er dyrt på overnatting, og hostelet er det eneste stedet med plass til 28 som var åpent for salg. Prisen kan falle når leilighetshotellene i Podstrana åpner juni 2027.</li></ul>
+  </section>
+
+  <section>
+    <h2>Slik ser uka ut</h2>
+    <h3>Palasset, fossene og øyene med rutebuss og ferje</h3>
+    <ol class="days"><li><div class="day"><b>Man 7. juni · Reisedag til Oslo</b><small>Buss til Alta, fly til Oslo, innsjekk på hotell ved Gardermoen</small></div><span class="act">—</span></li><li><div class="day"><b>Tir 8. juni · Til Split</b><small>Fly 07:15, landing 10:05, flybuss, innsjekk. Diokletians palass og Rivaen om ettermiddagen</small></div><span class="act">—</span></li><li><div class="day"><b>Ons 9. juni · Marjan og Bačvice</b><small>Skogåsen over byen og bystranda med picigin, gratis</small></div><span class="act">—</span></li><li><div class="day"><b>Tor 10. juni · Krka nasjonalpark</b><small>Rutebuss til Skradin, skolegruppebillett 15 euro. Badeforbud i hele parken</small></div><span class="act">350 kr</span></li><li><div class="day"><b>Fre 11. juni · Klis og kjellerne</b><small>Klis-festningen med bybuss (12 euro, 4 for dem under 16) og palasskjellerne</small></div><span class="act">215 kr</span></li><li><div class="day"><b>Lør 12. juni · Brač</b><small>Jadrolinija-ferje til Supetar (6,50 euro hver vei) og buss til Zlatni Rat</small></div><span class="act">250 kr</span></li><li><div class="day"><b>Søn 13. juni · Trogir</b><small>Bybuss 37 til gamlebyen på verdensarvlisten</small></div><span class="act">90 kr</span></li><li><div class="day"><b>Man 14. juni · Fridag</b><small>Strand, shopping, valgfritt opplegg i grupper</small></div><span class="act">—</span></li><li><div class="day"><b>Tir 15. juni · Hjemreise</b><small>Split 10:50 – Oslo 13:40 – Alta 22:50 – Kautokeino ca. 01:00</small></div><span class="act">—</span></li></ol>
+    <p style="margin-top:16px;font-size:13px;color:var(--muted)">Priser per person, listepriser 2026. Krka: 15 euro for skolegrupper over 20 i juni, meldes skriftlig 24 timer før (offisiell prisliste 2026). Rutebussen til Skradin er anslått til 8 euro hver vei. Aktiviteter og restauranter er forslag, ikke bestilt.</p>
+  </section>
+
+  <section>
+    <h2>Overnatting</h2>
+    <h3>Slått opp for 8.–15. juni 2027, ikke reservert</h3>
+    <p class="lede">Design Hostel One ligger innenfor murene i gamlebyen, fem minutter fra palasset. Booking.com foreslo en blanding av firemannsrom, dobbeltrom og sovesalsplasser for 28, uten måltider, med fri avbestilling til 5. juni 2027 og ingen forskuddsbetaling. Split hadde svært få steder åpne for salg for juni 2027 da dette ble slått opp (booking.com: 99 prosent ikke ledig), så gruppehotellene i Podstrana bør spørres direkte når de åpner.</p>
+    <table style="margin-top:18px"><tr><td><b>Design Hostel One</b><span class="basis">Morpurgova poljana 2, Split · +385 21 332 500 · info@designhostelone.com · hostel i gamlebyen, 618 per person per natt</span></td><td class="num"><span class="tag t-ok">Slått opp</span></td></tr><tr><td><b>Plavi Horizont, Podstrana</b><span class="basis">+385 21 735 370 · info@plavi-horizont.hr · gruppehotell ved stranda 20 minutter sør for Split, pris på forespørsel</span></td><td class="num"><span class="tag t-quote">Tilbud innhentes</span></td></tr><tr><td><b>Hotel Zagreb, Duilovo</b><span class="basis">Put Duilova 23, Split · 3 stjerner, gruppehotell ved stranda · ingen priser for juni 2027 ennå</span></td><td class="num"><span class="tag t-quote">Tilbud innhentes</span></td></tr></table>
+  </section>
+
+  <section>
+    <h2>Hva turen koster</h2>
+    <table>
+      <tr><th>Post</th><th>Grunnlag</th><th style="text-align:right">Kroner</th></tr>
+      <tr><td>Buss Kautokeino–Alta t/r</td><td><span class="tag t-ok">Bekreftet</span><span class="basis">Kjøring og henting, oppgitt pris</span></td><td class="num">17 000</td></tr><tr><td>Fly, 28 personer t/r</td><td><span class="tag t-ok">Slått opp</span><span class="basis">28 × 4 382 · Alta–Oslo 1 799 (DY 321 man 7. juni), Oslo–Split 1 229 (DY 1950 tir 8. juni), Split–Oslo 555 (DY 1951 tir 15. juni), Oslo–Alta 799 (DY 328 tir 15. juni) · Norwegian LowFare: bare en liten veske under setet (30×40×20 cm) er med i prisen · laveste pris for én person på norwegian.com 15.9.2026 — gruppepris for 28 må innhentes</span></td><td class="num">122 696</td></tr><tr><td>Hotell ved Gardermoen, 1 natt</td><td><span class="tag t-ok">Slått opp</span><span class="basis">28 × 575 · Quality Airport Hotel Gardermoen, dobbelt- og familierom uten frokost, fri avbestilling til 6. juni 2027 · booking.com 15.9.2026, 16 090 for 28 · buss eller taxi til hotellet (4,7 km) kommer i tillegg</span></td><td class="num">16 100</td></tr><tr><td>Hostel i Split, 7 netter</td><td><span class="tag t-ok">Slått opp</span><span class="basis">28 × 4 329 · Design Hostel One, firemannsrom, dobbeltrom og sovesalsplasser, uten måltider, fri avbestilling til 5. juni 2027 · booking.com 15.9.2026, 121 210 for 28</span></td><td class="num">121 212</td></tr><tr><td>Mat, enkel</td><td><span class="tag t-est">Estimat</span><span class="basis">28 × 2 100 · burek eller bakeri til frokost (50), ćevapi eller pizza til lunsj (60) og dagsmeny til middag (130) i sju dager, pluss mat på reisedagene</span></td><td class="num">58 800</td></tr><tr><td>Aktiviteter og lokaltransport</td><td><span class="tag t-est">Estimat</span><span class="basis">28 × 1 060 · flybuss t/r (162), Krka med rutebuss og skolegruppebillett, Klis, kjellerne, ferje til Brač, Trogir — se programmet</span></td><td class="num">29 680</td></tr><tr><td>Reiseforsikring for gruppen</td><td><span class="tag t-quote">Tilbud innhentes</span><span class="basis">28 × 290</span></td><td class="num">8 120</td></tr>
+      <tr class="sum"><td>Totalt</td><td></td><td class="num">373 608</td></tr>
+    </table>
+    <div class="headline-num">
+      <div><b>13 300</b><small>kroner per reisende</small></div>
+      <div><b>4 av 7</b><small>poster bekreftet eller slått opp</small></div>
+    </div>
+    <div class="warn">
+      <b>Flyprisene er laveste nettpris for én person 15. september 2026</b> — ikke gruppepris. Norwegian selger inntil 9 seter per bestilling på nett; 28 seter må bestilles som gruppe (group.norwegian.com). Gruppebillett koster «litt mer» enn enkeltbilletter, men inkluderer 2 × 23 kg koffert og håndbagasje for alle, 30 % depositum innen 21 dager og resten 30 dager før avreise, og navnene kan settes inn til 5 dager før. På flere av avgangene var det bare 1–7 seter igjen til laveste pris, så regn med at gruppeprisen ligger over. Hostelet er slått opp på booking.com for de nøyaktige datoene, med fri avbestilling. Mat og aktiviteter er anslag. Kurs brukt: 1 EUR = 10,77 kr (Norges Bank 14.9.2026).
+    </div>
+  </section>
+
+
+
+  <footer>
+    Ikke inkludert: lommepenger, pass eller nasjonalt ID-kort, avbestillingsforsikring, egenandel ved sykdom.<br>
+    Bilder fra Wikimedia Commons: «Aerial view of Diocletian's Palace in Split, Croatia (48608247353)» av dronepicr (CC BY 2.0) · «Peristyle of Diocletian's Palace, Split (11908116224)» av Following Hadrian (CC BY-SA 2.0) · «Dioklecijanova palača, Split - jugoistok» av Silverije (CC BY-SA 3.0) · «Skradinski buk waterfall – NP Krka – 2016» av Skot (CC BY-SA 4.0).<br>
+    Alle beløp i kroner. Fly, hotell og pakker er slått opp 15. september 2026 for de oppgitte datoene; mat og aktiviteter er anslag. Beløpene er for 28 reisende, uten buffer.
+  </footer>
+
+</div>
+</body>
+</html>

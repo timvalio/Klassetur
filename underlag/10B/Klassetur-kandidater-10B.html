@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Klassetur 10B — Kreta, Costa Blanca og Split, juni 2027</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --deep:#123A4A; --deeper:#0A2531; --amber:#E2A02F; --amber-soft:#F5E3C2;
+    --brick:#A85434; --paper:#FCFAF6; --ink:#1B1B1B; --muted:#6B6459; --line:#DFD9CD;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Archivo',system-ui,sans-serif;font-size:15px;line-height:1.55}
+  .sheet{max-width:960px;margin:0 auto}
+  .hero{background:linear-gradient(160deg,var(--deep),var(--deeper));color:var(--paper);padding:44px 44px 0}
+  .kicker{font-size:13px;letter-spacing:.14em;color:var(--amber);margin:0 0 14px}
+  .hero h1{font-size:clamp(40px,8vw,74px);font-weight:800;line-height:.92;letter-spacing:-.035em;margin:0}
+  .heroband{display:flex;flex-wrap:wrap;margin:30px -44px 0;border-top:1px solid rgba(255,255,255,.16)}
+  .heroband div{flex:1 1 25%;padding:16px 44px 18px;border-right:1px solid rgba(255,255,255,.16)}
+  .heroband div:last-child{border-right:0}
+  .heroband b{display:block;font-size:21px;font-weight:800;letter-spacing:-.02em}
+  .heroband small{font-size:12px;color:#9FB8C4}
+  section{padding:34px 44px;border-bottom:1px solid var(--line)}
+  h2{font-size:13px;letter-spacing:.14em;color:var(--brick);margin:0 0 16px;font-weight:600}
+  h3{font-size:22px;font-weight:800;letter-spacing:-.02em;margin:0 0 12px}
+  p{margin:0 0 10px;max-width:72ch}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th{text-align:left;font-size:12px;letter-spacing:.07em;color:var(--muted);font-weight:600;padding:0 10px 10px 0;border-bottom:1px solid var(--ink)}
+  td{padding:11px 10px 11px 0;border-bottom:1px solid var(--line);vertical-align:top}
+  td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
+  tr.gruppe td{border-bottom:0;padding-top:20px;padding-bottom:4px;font-size:12px;letter-spacing:.07em;color:var(--brick);font-weight:600}
+  .basis{display:block;font-size:12.5px;color:var(--muted)}
+  ul.plain{margin:0;padding-left:19px} ul.plain li{margin-bottom:6px;max-width:70ch}
+  .warn{background:#FBF0DD;border-left:4px solid var(--amber);padding:15px 18px;margin-top:16px}
+  .two{display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px}
+  footer{padding:24px 44px 36px;font-size:12.5px;color:var(--muted)}
+  @media (max-width:700px){
+    .hero,section,footer{padding-left:22px;padding-right:22px}
+    .heroband{margin-left:-22px;margin-right:-22px}
+    .heroband div{padding-left:22px;padding-right:22px;flex-basis:50%}
+    .two{grid-template-columns:1fr;gap:22px}
+  }
+  @media print{
+    body{font-size:10.5px;line-height:1.4}
+    .hero{padding:18px 26px 0} .hero h1{font-size:40px}
+    .heroband{margin:16px -26px 0} .heroband div{padding:9px 26px 10px} .heroband b{font-size:16px}
+    section{padding:14px 26px;break-inside:avoid} h3{font-size:16px} td{padding:6px 0}
+    footer{padding:14px 26px 18px}
+    @page{size:A4;margin:8mm}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="hero">
+    <p class="kicker">Klassetur 10B · Kautokeino skole · 28 reisende</p>
+    <h1>Kreta, Costa Blanca<br>og Split — juni 2027</h1>
+    <div class="heroband">
+      <div><b>4.–10. juni</b><small>avreisevindu, 7 netter</small></div>
+      <div><b>28</b><small>22 elever, 6 voksne</small></div>
+      <div><b>550 000</b><small>kroner i ramme</small></div>
+      <div><b>19 600</b><small>kroner per reisende</small></div>
+    </div>
+  </div>
+
+  <section>
+    <h2>Avreisesteder</h2>
+    <table>
+      <tr><th>Flyplass</th><th>Buss fra Kautokeino</th><th>Buss t/r for gruppen</th><th>Videre</th></tr>
+      <tr><td><b>Alta</b></td><td>ca. 2 t</td><td class="num">17 000</td><td>Oslo med Norwegian (11:55) og SAS (14:30); Apollos charter rett til Chania tirsdag 8. juni</td></tr>
+      <tr><td><b>Tromsø</b></td><td>6–7 t</td><td class="num">ikke innhentet</td><td>Lørdagscharter til Chania 5.–12. juni med Apollo, Ving og TUI</td></tr>
+    </table>
+    <p style="margin-top:14px">Fra Alta går det bare to direktefly om dagen til Oslo, 11:55 (Norwegian DY 321) og 14:30 (SAS SK 4545), og ingen på lørdag 5. juni. Norwegian har i tillegg et morgenfly 07:00 med teknisk stopp i Tromsø. Hjem fra Oslo går de siste direkteflyene 11:55, men søndag, tirsdag, onsdag og torsdag er det et kveldsfly 19:50 med teknisk stopp i Tromsø (DY 328) — det er dette som gjør tirsdag 8.–15. juni til den beste uka for alle tre reisemålene. Fra Oslo flyr Norwegian direkte til Alicante daglig, til Chania tirsdag, torsdag og lørdag, og til Split tirsdag, torsdag, fredag, lørdag og søndag. Direktefly Oslo–Heraklion starter først 17. juni. Apollo flyr charter Alta–Chania tirsdager til 15. juni; 8. juni er den eneste avgangen i vinduet.</p>
+  </section>
+
+  <section>
+    <h2>Kandidatene</h2>
+    <h3>Alle beløp i kroner, hele turen, 28 reisende</h3>
+    <table>
+      <tr><th>Reisemål og opplegg</th><th>Avreise og vei</th><th style="text-align:right">Per person</th><th style="text-align:right">28 personer</th></tr>
+
+      <tr class="gruppe"><td colspan="4">Kreta</td></tr>
+      <tr><td><b>Kreta</b><span class="basis">Billigst · Rethymno by, 3 stjerner med frokost, rutebuss</span></td><td>Alta, Oslo (natt), Chania</td><td class="num">13 300</td><td class="num">371 088</td></tr>
+      <tr><td><b>Kreta</b><span class="basis">Best · Platanes, på stranda med frokost, leiebuss</span></td><td>Alta, Chania — direktefly</td><td class="num">19 500</td><td class="num">547 012</td></tr>
+
+      <tr class="gruppe"><td colspan="4">Costa Blanca</td></tr>
+      <tr><td><b>Costa Blanca</b><span class="basis">Billigst · Albir, leiligheter med kjøkken, lokalbuss</span></td><td>Alta, Oslo, Alicante</td><td class="num">10 100</td><td class="num">283 644</td></tr>
+      <tr><td><b>Costa Blanca</b><span class="basis">Best · Albir, 4 stjerner med halvpensjon, leiebuss</span></td><td>Alta, Oslo, Alicante</td><td class="num">14 300</td><td class="num">401 300</td></tr>
+
+      <tr class="gruppe"><td colspan="4">Split</td></tr>
+      <tr><td><b>Split</b><span class="basis">Billigst · hostel i gamlebyen, rutebuss og ferje</span></td><td>Alta, Oslo (natt), Split</td><td class="num">13 300</td><td class="num">373 608</td></tr>
+      <tr><td><b>Split</b><span class="basis">Best · Podstrana, 4 stjerner på stranda med frokost, leiebuss</span></td><td>Alta, Oslo (natt), Split</td><td class="num">17 600</td><td class="num">491 432</td></tr>
+    </table>
+    <div class="warn">
+      <b>Billigst</b> er det som er mulig å få til når det kuttes på det meste: laveste flypris uten koffert, enkel overnatting, rutebuss, enkel mat. <b>Best</b> er komfortabel reise og greit hotell: koffert og setereservasjon på flyet, 3–4 stjerner med frokost eller halvpensjon, leiebuss på utfluktene. Begge er regnet med de samme seks postene som 10A — buss, fly, overnatting, mat, aktiviteter og reiseforsikring — uten buffer.
+      <b>Fly, hotell og pakker er slått opp 15. september 2026 for de nøyaktige datoene</b> hos Norwegian, Apollo og booking.com; alle hotellene hadde fri avbestilling, så de kan holdes av uten risiko. Flyprisene er laveste nettpris for én person og ikke gruppepris; Norwegian tar inntil 9 seter per nettbestilling, så 28 må bestilles som gruppe, og gruppeprisen ligger «litt over» enkeltbilletter men inkluderer koffert. Mat, aktiviteter og leiebuss er anslag.
+    </div>
+  </section>
+
+  <section class="two">
+    <div>
+      <h2>Regnet inn — billigst</h2>
+      <table>
+        <tr><td>Buss, andel per person</td><td class="num">610</td></tr>
+        <tr><td>Fly t/r, Norwegian LowFare uten koffert</td><td class="num">3 200 – 5 600</td></tr>
+        <tr><td>Natt ved Gardermoen (Kreta og Split)</td><td class="num">575</td></tr>
+        <tr><td>Overnatting, 7 netter</td><td class="num">3 100 – 4 300</td></tr>
+        <tr><td>Mat</td><td class="num">1 900 – 2 100</td></tr>
+        <tr><td>Aktiviteter og lokaltransport</td><td class="num">1 000 – 1 200</td></tr>
+        <tr><td>Reiseforsikring</td><td class="num">290</td></tr>
+      </table>
+    </div>
+    <div>
+      <h2>Regnet inn — best</h2>
+      <table>
+        <tr><td>Buss, andel per person</td><td class="num">610</td></tr>
+        <tr><td>Fly t/r med koffert, eller Apollo-pakke</td><td class="num">5 000 – 13 700</td></tr>
+        <tr><td>Natt ved Gardermoen med frokost (Split)</td><td class="num">700</td></tr>
+        <tr><td>Hotell 3–4 stjerner, 7 netter, frokost eller halvpensjon</td><td class="num">5 400 – i pakken</td></tr>
+        <tr><td>Mat</td><td class="num">1 450 – 2 800</td></tr>
+        <tr><td>Aktiviteter med leiebuss</td><td class="num">1 700 – 2 100</td></tr>
+        <tr><td>Reiseforsikring</td><td class="num">290</td></tr>
+      </table>
+      <p style="margin-top:8px;font-size:13px;opacity:.75">Kreta best er Apollos pakke med direktefly fra Alta: fly, hotell med frokost, koffert og transfer for 13 739 per person. Det er den eneste turen uten mellomlanding og uten natt i Oslo, og den dyreste.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Pass og helsetrygdkort</h2>
+    <p>Hellas, Spania og Kroatia er alle i EU. Nasjonalt ID-kort holder, og Europeisk helsetrygdkort gjelder. Reiseforsikringen er likevel med i alle seks regnestykkene for avbestilling, reisegods og hjemtransport.</p>
+  </section>
+
+  <section>
+    <h2>Feriesteder som ikke er tatt med</h2>
+    <p>Benidorm sentrum, Malia og Hersonissos på Kreta og Hvar by om kvelden. Basene ligger 20–30 minutter unna med samme strand: Albir, Rethymno og Platanes, Split gamleby og Podstrana.</p>
+  </section>
+
+  <section>
+    <h2>Neste steg</h2>
+    <ul class="plain">
+      <li>Be om gruppepris hos Norwegian på group.norwegian.com for 28 på de nøyaktige flyene i arket; tilbudet gjelder i 5 virkedager, depositum 30 % innen 21 dager</li>
+      <li>Kreta best: ring Apollos gruppeavdeling 21 01 75 41 (hverdager 9–15) om 10 rom 8.–15. juni fra Alta og «den 21. gratis»; depositum 2 000 per person innen 24 timer</li>
+      <li>Hold av hotellet på booking.com så snart valget er tatt — alle hadde fri avbestilling fram til juni 2027 og ingen forskuddsbetaling</li>
+      <li>Innhent tilbud på leiebuss for utfluktene og på flyplasstransfer; Beniconnect har allerede gitt pris for Alicante–Albir (607 euro t/r for 28)</li>
+      <li>Skaff deltakerliste og attest fra skolen: gratis inngang på Knossos og i Samaria, skolepris i Terra Mítica, Aqualandia og Krka</li>
+    </ul>
+  </section>
+
+  <footer>
+    Ikke inkludert: lommepenger, pass eller nasjonalt ID-kort, avbestillingsforsikring, egenandel ved sykdom.<br>
+    Alle beløp i kroner. Kurs brukt: 1 EUR = 10,77 kr (Norges Bank 14.9.2026). Beløpene er for 28 reisende, uten buffer.
+  </footer>
+
+</div>
+</body>
+</html>

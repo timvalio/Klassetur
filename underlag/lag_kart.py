@@ -140,6 +140,28 @@ def les_ark(fn):
     d['sum'] = num(m.group(2)) if m else None
     d['headline'] = [[txt(a), txt(b)] for a, b in re.findall(r'<div><b>(.*?)</b><small>(.*?)</small></div>', ko, re.S)]
     m = re.search(r'<div class="warn">(.*?)</div>', ko, re.S); d['warn'] = txt(m.group(1)) if m else ''
+    # tilbud nederst på arket (egen seksjon «Tilbud fra …» med hotellrad, kostnadstabell, headline og warn)
+    d['tilbud'] = None
+    mt = re.search(r'<section>\s*<h2>(Tilbud fra[^<]*)</h2>(.*?)</section>', s, re.S)
+    if mt:
+        t = {'tittel': txt(mt.group(1))}
+        sec = mt.group(2)
+        m = re.search(r'<h3>(.*?)</h3>', sec, re.S); t['under'] = txt(m.group(1)) if m else ''
+        m = re.search(r'<p class="lede">(.*?)</p>', sec, re.S); t['lede'] = txt(m.group(1)) if m else ''
+        t['hoteller'] = [{'navn': txt(a), 'basis': txt(b), 'tag': txt(c)} for a, b, c in
+                         re.findall(r'<tr><td><b>(.*?)</b><span class="basis">(.*?)</span></td><td class="num"><span class="tag[^"]*">(.*?)</span></td></tr>', sec, re.S)]
+        rows = []
+        for tr in re.findall(r'<tr>(?!<th)(.*?)</tr>', sec, re.S):
+            c = re.findall(r'<td[^>]*>(.*?)</td>', tr, re.S)
+            if len(c) == 3:
+                tag = re.search(r'<span class="tag[^"]*">(.*?)</span>', c[1], re.S)
+                basis = re.search(r'<span class="basis">(.*?)</span>', c[1], re.S)
+                rows.append({'post': txt(c[0]), 'tag': txt(tag.group(1)) if tag else '', 'basis': txt(basis.group(1)) if basis else '', 'belop': num(c[2])})
+        t['kostnader'] = rows
+        m = re.search(r'<tr class="sum"><td>(.*?)</td><td></td><td class="num">(.*?)</td></tr>', sec, re.S); t['sum'] = num(m.group(2)) if m else None
+        t['headline'] = [[txt(a), txt(b)] for a, b in re.findall(r'<div><b>(.*?)</b><small>(.*?)</small></div>', sec, re.S)]
+        m = re.search(r'<div class="warn">(.*?)</div>', sec, re.S); t['warn'] = txt(m.group(1)) if m else ''
+        d['tilbud'] = t
     # ekstra avsnitt i kostnadsdelen (f.eks. liste over hva som må ringes) og footer
     m = re.search(r'<footer>(.*?)</footer>', s, re.S)
     d['footer'] = [txt(x) for x in re.split(r'<br\s*/?>', m.group(1))] if m else []
@@ -169,6 +191,7 @@ BUSS = {
     'Alta': [[69.0117, 23.0417], [69.1250, 23.0300], [69.2600, 23.2500], [69.4300, 23.6600], [69.5600, 23.6300], [69.7100, 23.5700], [69.8300, 23.4300], [69.9500, 23.3000], [69.9761, 23.3717]],
     'Kittilä': [[69.0117, 23.0417], [68.8400, 23.0100], [68.6800, 23.0800], [68.5500, 23.1300], [68.4200, 23.1500], [68.2900, 23.0900], [68.1300, 23.3000], [67.9600, 23.6800], [67.8700, 24.0500], [67.7600, 24.4500], [67.6800, 24.8500], [67.7010, 24.8468]],
     'Kolari': [[69.0117, 23.0417], [68.8400, 23.0100], [68.6800, 23.0800], [68.5500, 23.1300], [68.4200, 23.1500], [68.2900, 23.0900], [68.1300, 23.3000], [67.9600, 23.6800], [67.8000, 23.7000], [67.6000, 23.6500], [67.4500, 23.7200], [67.3306, 23.7947]],
+    'Tromsø': [[69.0117, 23.0417], [68.8400, 23.0100], [68.6800, 23.0800], [68.5500, 23.1300], [68.4200, 23.1500], [68.2900, 23.0900], [68.4500, 22.4800], [68.6500, 21.9500], [68.8500, 21.4000], [69.0500, 20.7900], [69.2300, 20.4500], [69.3900, 20.2700], [69.2200, 19.5500], [69.3800, 19.2800], [69.5500, 19.2000], [69.6500, 18.9600], [69.6833, 18.9189]],
 }
 FLYPLASS = {  # navn -> IATA
     'Alta': 'ALF', 'Kittilä': 'KTT', 'Tromsø': 'TOS', 'Oslo': 'OSL', 'Helsingfors': 'HEL', 'Palma': 'PMI', 'Alicante': 'ALC',
@@ -247,6 +270,12 @@ KRETA_VIA_KITTILA = [
     {'strekning': 'Kittilä → Helsingfors', 'info': 'Finnair, én avgang om dagen · natt i Helsingfors · ca. 2 t 5 min'},
     {'strekning': 'Helsingfors → Chania', 'info': 'Finnair, direkte · ca. 3 t 55 min'},
 ]
+# Kreta best (10B) har en ekstra rad i oversikten: TUIs pakketilbud fra Tromsø (hotellet ligger i Gerani, ikke Platanes).
+KRETA_VIA_TROMSO = [
+    {'strekning': 'Kautokeino → Tromsø', 'info': 'Buss · ca. 6 t 30 min · lørdag, busspris ikke innhentet'},
+    {'strekning': 'Tromsø → Chania', 'info': 'TUI charter, direkte · lørdag · ca. 4 t 30 min'},
+]
+GERANI = ['Gerani', 35.5225, 23.8760]
 # Bildekreditter (fotograf, lisens) for bildene som er brukt i arkene — filnavn på Wikimedia Commons
 KREDITT = {
     'Gdansk_at_night.jpg': ('22Kartika', 'CC BY-SA 3.0'), 'PL_GD_Gdansk_crane.jpg': ('Andrei Stroe', 'CC BY-SA 3.0 pl'), 'Motława_Gdańsk.jpg': ('Wikimedia Commons', 'CC BY-SA 3.0'),
@@ -391,17 +420,29 @@ def bygg_klasse(kl):
         ruter = []
         for r in rader:
             via = r['vei']
+            tilbud = None
             if k['id'] == 'kreta' and via.startswith('Kittilä'):
                 legs = bygg_legs(KRETA_VIA_KITTILA, k['base'], 'KTEL-rutebuss via Chania · ca. 1 t 45 min')
                 kilde = 'oversikt'
             elif k['id'] == 'tallinn' and via.startswith('Alta'):
                 legs = bygg_legs(TALLINN_VIA_OSLO, k['base'], 'Trikk · ca. 21 min (anslag)')
                 kilde = 'oversikt'
+            elif k['id'] == 'kreta-best' and via.startswith('Tromsø'):
+                legs = bygg_legs(KRETA_VIA_TROMSO, GERANI, 'TUIs transferbuss · ca. 1 t')
+                kilde = 'oversikt'
+                tilbud = a.get('tilbud')
             else:
                 legs = bygg_legs(a['reisevei'], k['base'], k['transfer'])
                 kilde = 'ark'
+            if tilbud:
+                th = []
+                for h in tilbud['hoteller']:
+                    sl = slug(h['navn']); eget = eget_bilde(sl); hb = HOTELLBILDER.get(h['navn'])
+                    th.append({**h, 'slug': sl, 'maps': maps_link(h['navn'] + ' ' + h['basis'].split('·')[0].strip()),
+                               'bilde': eget or (hb[0] if hb else None), 'bildekreditt': 'eget bilde' if eget else ((hb[1] + ', ' + hb[2]) if hb else None)})
+                tilbud = {**tilbud, 'hoteller': th}
             tider = [varighet_min(l['info']) for l in legs]
-            ruter.append({'via': via, 'pp': r['pp'], 'total': r['total'], 'legs': legs, 'kilde': kilde,
+            ruter.append({'via': via, 'pp': r['pp'], 'total': r['total'], 'legs': legs, 'kilde': kilde, 'basis': r['base'], 'tilbud': tilbud,
                           'fra': legs[0]['til'] if legs else '', 'hub': (lambda L: L[0]['til'] if len(L) > 1 else '')([l for l in legs if l['type'] in ('fly', 'tog', 'ferje')]),
                           'hubType': 'fly' if any(l['type'] == 'fly' for l in legs) else 'annet',
                           'reisetid': {'min': sum(t for t in tider if t), 'mangler': [l['fra'] + ' → ' + l['til'] for l, t in zip(legs, tider) if not t],

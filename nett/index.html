@@ -868,6 +868,7 @@ ul.foresp li{padding:9px 0;border-bottom:1px solid var(--line);display:grid;grid
 ul.foresp li:last-child{border-bottom:0}
 ul.foresp b{font-size:13.5px;font-weight:700;line-height:1.25}
 ul.foresp .hva{grid-column:1/2;font-size:12.5px;color:var(--muted)}
+ul.foresp .hva .nar{white-space:nowrap}
 ul.foresp .pp{grid-column:1/3;font-size:12.5px;font-weight:700;margin-top:2px}
 ul.foresp .tekst{grid-column:1/3;font-size:12.5px;line-height:1.5;color:var(--ink);opacity:.85;margin-top:2px;max-width:60ch}
 .status .fork{margin:10px 0 0;font-size:12px;line-height:1.5;color:var(--muted);max-width:60ch}
@@ -1312,7 +1313,7 @@ function forespFor(d) {
 function forespLi(p) {
   const S = DATA.status;
   return `<li><b>${esc(p.hvem)}</b><span class="pill-st ${p.status}">${esc(S.merke[p.status])}</span>`
-    + `<span class="hva">${esc(p.hva)} · ${esc(p.dato)}</span>`
+    + `<span class="hva">${esc(p.hva)} · <span class="nar">${esc(p.dato)}</span></span>`
     + (p.pp ? `<span class="pp num">${fmt(p.pp)} kr per reisende</span>` : '')
     + (p.tekst ? `<span class="tekst">${esc(p.tekst)}</span>` : '') + `</li>`;
 }

@@ -5,6 +5,7 @@
 lag_kart.py legger dette inn i kartsiden, og template.html tegner boksen og merkene.
 
 status:  tilbud  — pris mottatt
+         oss     — de har svart, men venter på noe fra oss
          venter  — forespørsel sendt, ikke besvart
          klar    — ferdig utfylt, men ikke sendt
          nei     — svart nei, eller ikke aktuelt
@@ -45,8 +46,9 @@ POSTER = [
          tekst='Bare fly, overnatting og transfer, så prisene kan sammenlignes.'),
 
     dict(hvem='Ving gruppeavdeling', hva='Pris på alle tre reisemål',
-         maal=[], status='venter', dato='sendt 16. sep',
-         tekst='Bare fly, overnatting og transfer, så prisene kan sammenlignes.'),
+         maal=[], status='oss', dato='svarte 16. sep',
+         tekst='Ving har ingen charter fra Alta og må hente pris på rutefly for hver dato og hvert reisemål. '
+               'De spør om vi kan flytte på datoene, hva turen får koste, og hvem andre vi har spurt. Svar er på vei.'),
 
     dict(hvem='Travelmate', hva='Pris på alle tre reisemål',
          maal=[], status='nei', dato='svarte 16. sep',
@@ -79,8 +81,12 @@ FORKASTET = ('Sjekket og lagt bort: Klasseturer.no kjører bare Norge, Polen og 
              'Ingen finsk operatør flyr charter fra Kittilä om sommeren. '
              'Ticket har ingen e-post til gruppeavdelingen.')
 
-MERKE = {'tilbud': 'Tilbud mottatt', 'venter': 'Venter svar', 'klar': 'Klar til å sendes', 'nei': 'Ikke aktuelt'}
-RANG = {'tilbud': 0, 'klar': 1, 'venter': 2, 'nei': 3}
+MERKE = {'tilbud': 'Tilbud mottatt', 'oss': 'Venter på oss', 'venter': 'Venter svar',
+         'klar': 'Klar til å sendes', 'nei': 'Ikke aktuelt'}
+# Rekkefølge i lista: det vi må gjøre noe med først.
+RANG = {'oss': 0, 'tilbud': 1, 'klar': 2, 'venter': 3, 'nei': 4}
+# Merket på reisemålskortet skal vise det beste resultatet, ikke gjøremålet.
+RANG_MERKE = {'tilbud': 0, 'klar': 1, 'venter': 2, 'oss': 3, 'nei': 4}
 
 
 def bygg(par_ider):
@@ -90,7 +96,7 @@ def bygg(par_ider):
     for p in poster:
         for m in (p['maal'] or list(par_ider)):
             par = m.split('-')[0]
-            if RANG[p['status']] < RANG.get(per.get(par, 'nei'), 9):
+            if RANG_MERKE[p['status']] < RANG_MERKE.get(per.get(par), 9):
                 per[par] = p['status']
     return {'oppdatert': OPPDATERT, 'lede': LEDE, 'forkastet': FORKASTET,
             'merke': MERKE, 'poster': poster, 'per': per}

@@ -97,8 +97,8 @@ def les_omraade(s):
         pl = re.search(r'</h3>\s*<p>(.*?)</p>', del_, re.S)
         bilder = [{'url': html.unescape(u), 'tekst': txt(t)} for u, t in
                   re.findall(r'<img src="([^"]+)"[^>]*><figcaption>(.*?)</figcaption>', del_, re.S)]
-        punkter = [{'navn': txt(a), 'tekst': txt(b), 'fakta': txt(c)} for a, b, c in
-                   re.findall(r'<li><b>(.*?)</b><small>(.*?)</small><span class="fakta">(.*?)</span></li>', del_, re.S)]
+        punkter = [{'url': html.unescape(u), 'navn': txt(a), 'tekst': txt(b), 'fakta': txt(c)} for u, a, b, c in
+                   re.findall(r'<li><b><a href="([^"]+)"[^>]*>(.*?)</a>.*?</b><small>(.*?)</small><span class="fakta">(.*?)</span></li>', del_, re.S)]
         temaer.append({'tittel': txt(tit.group(1)) if tit else '', 'lede': txt(pl.group(1)) if pl else '',
                        'bilder': bilder, 'punkter': punkter})
     return {'lede': txt(lede.group(1)) if lede else '', 'temaer': temaer,

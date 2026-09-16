@@ -14,6 +14,7 @@ de bakes inn i HTML-fila når skriptet kjøres. Arkene bakes også inn, så Klas
 Koordinater, reisevei-tillegg (transfer) og bildekreditter ligger i KONFIG nederst her.
 """
 import re, os, sys, json, html, glob, datetime
+import status_data
 from urllib.parse import quote_plus
 
 HER = os.path.dirname(os.path.abspath(__file__))
@@ -512,6 +513,8 @@ def bygg():
         'steder': {n: {'lat': v[0], 'lng': v[1], 'kode': FLYPLASS.get(n, '')} for n, v in STEDER.items()},
         'buss': BUSS,
         'regioner': {v['id']: {'navn': n, 'farge': v['farge']} for n, v in REGIONER.items()},
+        'status': status_data.bygg(sorted({d['par'] for k in klasser if k['id'] == '10B' for d in k['destinasjoner']})),
+        'statusKlasse': '10B',
     }
     return data
 

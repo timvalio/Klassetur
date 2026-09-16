@@ -83,6 +83,27 @@ def les_oversikt(fn):
     o['arkHtml'] = s
     return o
 
+def les_omraade(s):
+    """«Dette finnes i området»: ingress, temaer med galleri og punktliste, og bildekreditt."""
+    m = re.search(r'<section>\s*<h2>Dette finnes i området</h2>(.*?)</section>', s, re.S)
+    if not m: return None
+    sec = m.group(1)
+    kr = re.search(r'<p class="omr-kreditt">(.*?)</p>', sec, re.S)
+    if kr: sec = sec.replace(kr.group(0), '')
+    lede = re.search(r'<p class="omr-lede">(.*?)</p>', sec, re.S)
+    temaer = []
+    for del_ in re.split(r'<h3 class="tema">', sec)[1:]:
+        tit = re.match(r'(.*?)</h3>', del_, re.S)
+        pl = re.search(r'</h3>\s*<p>(.*?)</p>', del_, re.S)
+        bilder = [{'url': html.unescape(u), 'tekst': txt(t)} for u, t in
+                  re.findall(r'<img src="([^"]+)"[^>]*><figcaption>(.*?)</figcaption>', del_, re.S)]
+        punkter = [{'navn': txt(a), 'tekst': txt(b), 'fakta': txt(c)} for a, b, c in
+                   re.findall(r'<li><b>(.*?)</b><small>(.*?)</small><span class="fakta">(.*?)</span></li>', del_, re.S)]
+        temaer.append({'tittel': txt(tit.group(1)) if tit else '', 'lede': txt(pl.group(1)) if pl else '',
+                       'bilder': bilder, 'punkter': punkter})
+    return {'lede': txt(lede.group(1)) if lede else '', 'temaer': temaer,
+            'kreditt': txt(kr.group(1)) if kr else ''}
+
 # ---------------------------------------------------------------- turarkene
 def les_ark(fn):
     s = open(fn, encoding='utf-8').read()
@@ -96,12 +117,15 @@ def les_ark(fn):
     m = re.search(r'<p class="promise">(.*?)</p>', s, re.S); d['promise'] = txt(m.group(1)) if m else ''
     hb = re.search(r'<div class="heroband">(.*?)\n\s*</div>', s, re.S)
     d['band'] = [[txt(a), txt(b)] for a, b in re.findall(r'<div><b>(.*?)</b><small>(.*?)</small></div>', hb.group(1) if hb else '', re.S)]
-    # bilder
+    # bilder (bare heltegalleriet øverst; områdeseksjonen har sine egne)
     bilder = []
-    for src, alt in re.findall(r'<img src="([^"]+)" alt="([^"]*)"', s):
-        cap = re.search(r'<img src="' + re.escape(src) + r'"[^>]*>\s*<figcaption>(.*?)</figcaption>', s, re.S)
-        bilder.append({'url': html.unescape(src), 'tekst': txt(cap.group(1)) if cap else html.unescape(alt)})
+    g = re.search(r'<div class="gallery[^"]*">(.*?)</div>', s, re.S)
+    if g:
+        for src, alt in re.findall(r'<img src="([^"]+)" alt="([^"]*)"', g.group(1)):
+            cap = re.search(r'<img src="' + re.escape(src) + r'"[^>]*>\s*<figcaption>(.*?)</figcaption>', g.group(1), re.S)
+            bilder.append({'url': html.unescape(src), 'tekst': txt(cap.group(1)) if cap else html.unescape(alt)})
     d['bilder'] = bilder
+    d['omraade'] = les_omraade(s)
     # reisevei
     d['reisevei'] = [{'strekning': txt(a), 'info': txt(b)} for a, b in re.findall(r'<div class="leg"><b>(.*?)</b><small>(.*?)</small></div>', s, re.S)]
     # uka
@@ -465,7 +489,7 @@ def bygg_klasse(kl):
             'pp': ruter[0]['pp'], 'total': ruter[0]['total'], 'ruter': ruter,
             'band': a['band'], 'bilder': bilder, 'reisevei': a['reisevei'],
             'naerhet': a['naerhet'], 'obs': a['obs'],
-            'ukeTittel': a['uke_tittel'], 'dager': a['dager'], 'ukeNote': a['uke_note'],
+            'ukeTittel': a['uke_tittel'], 'dager': a['dager'], 'ukeNote': a['uke_note'], 'omraade': a.get('omraade'),
             'hotellTittel': a['hotell_tittel'], 'hotellLede': a['hotell_lede'], 'hoteller': hoteller,
             'kostnader': a['kostnader'], 'sum': a['sum'], 'headline': a['headline'], 'warn': a['warn'], 'footer': a['footer'],
             'arkHtml': a['arkHtml'],

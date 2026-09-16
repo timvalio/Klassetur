@@ -96,7 +96,7 @@ def les_omraade(s):
         tit = re.match(r'(.*?)</h3>', del_, re.S)
         pl = re.search(r'</h3>\s*<p>(.*?)</p>', del_, re.S)
         bilder = [{'url': html.unescape(u), 'tekst': txt(t)} for u, t in
-                  re.findall(r'<img src="([^"]+)"[^>]*><figcaption>(.*?)</figcaption>', del_, re.S)]
+                  re.findall(r'<img src="([^"]+)"[^>]*>(?:</a>)?<figcaption>(.*?)</figcaption>', del_, re.S)]
         punkter = [{'url': html.unescape(u), 'navn': txt(a), 'tekst': txt(b), 'fakta': txt(c)} for u, a, b, c in
                    re.findall(r'<li><b><a href="([^"]+)"[^>]*>(.*?)</a>.*?</b><small>(.*?)</small><span class="fakta">(.*?)</span></li>', del_, re.S)]
         temaer.append({'tittel': txt(tit.group(1)) if tit else '', 'lede': txt(pl.group(1)) if pl else '',
@@ -122,7 +122,7 @@ def les_ark(fn):
     g = re.search(r'<div class="gallery[^"]*">(.*?)</div>', s, re.S)
     if g:
         for src, alt in re.findall(r'<img src="([^"]+)" alt="([^"]*)"', g.group(1)):
-            cap = re.search(r'<img src="' + re.escape(src) + r'"[^>]*>\s*<figcaption>(.*?)</figcaption>', g.group(1), re.S)
+            cap = re.search(r'<img src="' + re.escape(src) + r'"[^>]*>(?:</a>)?\s*<figcaption>(.*?)</figcaption>', g.group(1), re.S)
             bilder.append({'url': html.unescape(src), 'tekst': txt(cap.group(1)) if cap else html.unescape(alt)})
     d['bilder'] = bilder
     d['omraade'] = les_omraade(s)

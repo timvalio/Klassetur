@@ -9,4 +9,5 @@ Interaktivt kart over kandidatene til klasseturen for 10. trinn ved Kautokeino s
 - `lag_kart.py` bygger kartet fra begge mappene: `cd underlag && python lag_kart.py`. Skriptet skriver `../Klassetur-kart-2027.html`, `../docs/index.html` og `../nett/`.
 - `publiser.bat` gjør begge deler i ett: bygger kartet på nytt og gjør commit og push. Dobbeltklikk den i stedet for å åpne GitHub Desktop. Nettsida er oppdatert innen et minutt.
 - `underlag/status_data.py` er lista over hvem som er spurt om pris og hva de har svart. Rediger den når det kommer et svar, kjør `publiser.bat`, og «Forespørsler»-boksen på sida er oppdatert.
+- `underlag/betaling_data.py` styrer boksen «Når må pengene være der»: hvilket forfallstidspunkt hver rad i kostnadstabellen hører til. Beløpene hentes fra arkene, så det er bare vilkårene som står her.
 - `underlag/kalkulator_data.py` er grunnlaget for «Sett sammen turen» inne på hvert 10B-reisemål: hotellalternativer med pris, tre nivåer på matbudsjettet, og hvilke rader i kostnadstabellen som er valgbare. Fast pris, utflukter og standardvalg regnes ut av `lag_kart.py` fra arkene, så de holder seg i synk av seg selv.

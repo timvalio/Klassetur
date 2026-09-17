@@ -16,6 +16,7 @@ Koordinater, reisevei-tillegg (transfer) og bildekreditter ligger i KONFIG neder
 import re, os, sys, json, html, glob, datetime
 import status_data
 import kalkulator_data
+import betaling_data
 from urllib.parse import quote_plus
 
 HER = os.path.dirname(os.path.abspath(__file__))
@@ -476,6 +477,31 @@ def kalkulator(did, kostnader, dager, n):
             'hotelltittel': K.get('hotelltittel', 'Overnatting'), 'hotellnote': K.get('hotellnote', ''),
             'hotell': hotell, 'mat': mat, 'utflukter': utflukter}
 
+
+def betaling(kostnader, n):
+    """Grupperer kostnadsradene etter når de forfaller, i kroner per reisende."""
+    poser, mangler = {}, []
+    for r in kostnader:
+        regler = betaling_data.POST.get(r['post'])
+        if not regler:
+            mangler.append(r['post']); continue
+        for andel, trinn, tekst in regler:
+            d = poser.setdefault(trinn, {'pp': 0, 'linjer': []})
+            kr = int(round(r['belop'] * andel / float(n)))
+            d['pp'] += kr
+            d['linjer'].append({'tekst': tekst, 'pp': kr})
+    ut = []
+    for nokkel, tittel, under in betaling_data.TRINN:
+        if nokkel in poser:
+            d = poser[nokkel]
+            d['linjer'].sort(key=lambda x: -x['pp'])
+            ut.append({'id': nokkel, 'tittel': tittel, 'under': under, 'pp': d['pp'], 'linjer': d['linjer']})
+    if mangler:
+        print('  betaling: ingen regel for', ', '.join(sorted(set(mangler))))
+    klassekassa = sum(t['pp'] for t in ut if t['id'] != 'underveis')
+    return {'trinn': ut, 'lede': betaling_data.LEDE, 'bunn': betaling_data.BUNN,
+            'klassekassa': klassekassa, 'total': sum(t['pp'] for t in ut)}
+
 def bygg_klasse(kl):
     o = les_oversikt(os.path.join(kl['mappe'], kl['oversikt']))
     ark = {os.path.basename(f): les_ark(f) for f in glob.glob(os.path.join(kl['mappe'], 'Klassetur-*.html')) if 'kandidater' not in f and 'kart' not in f}
@@ -533,6 +559,7 @@ def bygg_klasse(kl):
             bilder.append({**b, 'kreditt': kreditt_for(b['url'])})
         dest.append({
             'kalkulator': kalkulator(k['id'], a['kostnader'], a['dager'], kl['n']),
+            'betaling': betaling(a['kostnader'], kl['n']) if k['id'] in kalkulator_data.DATA else None,
             'id': k['id'], 'par': k.get('par', k['id']), 'variant': k.get('variant'), 'fil': kl['prefix'] + fil, 'navn': a['navn'], 'under': a['under'], 'kicker': a['kicker'], 'promise': a['promise'],
             'region': reg['id'], 'regionNavn': gruppe, 'farge': reg['farge'], 'land': k['land'], 'pass': k['pass_'], 'passTekst': k.get('pass_tekst'),
             'base': {'navn': k['base'][0], 'lat': k['base'][1], 'lng': k['base'][2], 'beskrivelse': rader[0]['base'], 'maps': maps_link(k['base'][0] + ', ' + k['land'])},

@@ -15,7 +15,7 @@ maal:    liste med reisemål-id-er ('kreta', 'costablanca', 'split'), eller
          Tom liste = gjelder alle tre.
 """
 
-OPPDATERT = '16. september 2026'
+OPPDATERT = '17. september 2026'
 
 LEDE = ('Vi har spurt flybolag, reisebyrå og hotell om pris på de tre reisemålene. '
         'Her står hvem som har svart, og hvem vi fortsatt venter på.')
@@ -32,18 +32,30 @@ POSTER = [
          tekst='470 925 kroner for 28 på Blue Star Caldera Creta Paradise i Gerani, med mat på flyet, '
                'bagasje og transfer. Avreise fra Tromsø, så buss dit kommer i tillegg.'),
 
-    dict(hvem='Norwegian gruppeavdeling', hva='Fly til Chania og Split, via Oslo',
-         maal=['kreta', 'split'], status='klar', dato='klar 16. sep',
-         tekst='Tre forespørsler ligger ferdig utfylt: Alta–Oslo tur/retur, Oslo–Chania tur/retur '
-               'og Oslo–Split tur/retur.'),
+    dict(hvem='Norwegian gruppeavdeling', hva='Fly Oslo–Chania tur/retur',
+         maal=['kreta'], status='tilbud', dato='17. sep', pp=4800,
+         tekst='Tilbud XV5CP6: 134 400 kroner for 28 med skatter, på DY 1898 ut 8. juni og DY 1899 hjem 15. juni. '
+               'Står i fem dager, altså til rundt 22. september.'),
+
+    dict(hvem='Norwegian gruppeavdeling', hva='Fly Oslo–Split tur/retur',
+         maal=['split'], status='tilbud', dato='17. sep', pp=2600,
+         tekst='Tilbud XV8K8J: 72 800 kroner for 28 med skatter, på DY 1950 ut 8. juni og DY 1951 hjem 15. juni. '
+               'Står i fem dager, altså til rundt 22. september.'),
+
+    dict(hvem='Norwegian gruppeavdeling', hva='Fly Alta–Oslo tur/retur',
+         maal=['kreta', 'split'], status='venter', dato='sendt 16. sep',
+         tekst='Den siste biten som mangler før Kreta og Split kan regnes ferdig. Ut mandag 7. juni, hjem tirsdag 15. juni.'),
 
     dict(hvem='Apollo', hva='Direktefly Alta–Chania med hotell',
-         maal=['kreta'], status='klar', dato='klar 15. sep',
-         tekst='Skjemaet er ferdig utfylt. Gruppeavdelingen tar bare telefon, så det må ringes inn.'),
+         maal=['kreta'], status='venter', dato='registrert 17. sep',
+         tekst='Elisabeth Holmsen i gruppeavdelingen har registrert forespørselen under DTN:08490001588 '
+               'og kommer tilbake med forslag og gruppepriser når kapasiteten er sjekket. '
+               'De kan nås direkte på grupper@apollo.no.'),
 
     dict(hvem='Peer Gynt Tours', hva='Pris på alle tre reisemål',
-         maal=[], status='venter', dato='sendt 16. sep',
-         tekst='Bare fly, overnatting og transfer, så prisene kan sammenlignes.'),
+         maal=[], status='oss', dato='svarte 16. sep',
+         tekst='De ser på mulighetene, men trenger å vite hva turen får koste og om vi vil bo i sentrum '
+               'eller heller ved stranda. Svar er på vei.'),
 
     dict(hvem='Ving gruppeavdeling', hva='Pris på alle tre reisemål',
          maal=[], status='oss', dato='svarte 16. sep',
@@ -56,8 +68,11 @@ POSTER = [
                'ingen god rute til Split, og over 8 000 kroner til Kreta fra Alta.'),
 
     # --- hotell
-    dict(hvem='Olympic Palladium, Rethymno', hva='7 netter for 28',
-         maal=['kreta-billigst'], status='venter', dato='sendt 16. sep', tekst=''),
+    dict(hvem='Olympic Palladium, Rethymno', hva='7 netter med frokost',
+         maal=['kreta-billigst'], status='tilbud', dato='17. sep', pp=2820,
+         tekst='HotelBrain har gitt gruppepris: 8 tremannsrom à 105 euro og 2 dobbeltrom à 78 euro per natt '
+               'med frokost, pluss klimaskatt 5 euro per rom per natt. Til sammen 78 900 kroner for hele uka. '
+               'Halvpensjon koster 16 euro ekstra per person per dag. Rommene er ikke holdt av ennå.'),
 
     dict(hvem='Albir Garden Resort', hva='7 netter for 28',
          maal=['costablanca-billigst'], status='venter', dato='sendt 16. sep', tekst=''),
@@ -70,7 +85,10 @@ POSTER = [
          maal=['split-best'], status='venter', dato='sendt 16. sep', tekst=''),
 
     dict(hvem='Design Hostel One, Split', hva='7 netter for 28',
-         maal=['split-billigst'], status='venter', dato='sendt 16. sep', tekst=''),
+         maal=['split-billigst'], status='oss', dato='svarte 16. sep',
+         tekst='Kan ta hele gruppen: tre sovesaler med seks senger og én med fire til elevene, uten andre gjester inne, '
+               'og private rom til de voksne. 5 prosent avslag. Frokost koster 12 euro per person per dag. '
+               'De venter på svar om hvor mange rom de voksne trenger.'),
 
     dict(hvem='Quality Airport Hotel Gardermoen', hva='Natten i Oslo på veien ned',
          maal=['kreta', 'split'], status='venter', dato='sendt 16. sep', tekst=''),

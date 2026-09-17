@@ -15,6 +15,7 @@ Koordinater, reisevei-tillegg (transfer) og bildekreditter ligger i KONFIG neder
 """
 import re, os, sys, json, html, glob, datetime
 import status_data
+import kalkulator_data
 from urllib.parse import quote_plus
 
 HER = os.path.dirname(os.path.abspath(__file__))
@@ -428,6 +429,53 @@ def eget_bilde(slug_):
 def maps_link(q):
     return 'https://www.google.com/maps/search/?api=1&query=' + quote_plus(q)
 
+
+def kalkulator(did, kostnader, dager, n):
+    """Deler kostnadene i fast, hotell, mat og utflukter slik «Sett sammen turen» trenger dem."""
+    K = kalkulator_data.DATA.get(did)
+    if not K:
+        return None
+    def pp(b):
+        return int(round(b / float(n)))
+    fast, hot_pp, mat_pp, akt_pp = 0, 0, 0, 0
+    for r in kostnader:
+        post = r['post']
+        if post == K['hotellpost']:
+            hot_pp = pp(r['belop'])
+        elif post == K['matpost']:
+            mat_pp = pp(r['belop'])
+        elif post == K['aktivpost']:
+            akt_pp = pp(r['belop'])
+        else:
+            fast += pp(r['belop'])
+    utflukter = []
+    for d in dager:
+        m = re.match(r'^\s*([\d\s\u00a0]+)\s*kr\s*$', d.get('pris') or '')
+        if not m:
+            continue
+        kr = int(re.sub(r'\D', '', m.group(1)))
+        tit = d['tittel']
+        navn = tit.split('\u00b7')[-1].strip() if '\u00b7' in tit else tit
+        utflukter.append({'navn': navn, 'pp': kr, 'tekst': d.get('tekst', ''), 'dag': tit.split('\u00b7')[0].strip()})
+    rest = akt_pp - sum(u['pp'] for u in utflukter)
+    fast += max(0, rest)
+    hotell = [dict(h) for h in K['hotell']]
+    for h in hotell:                      # standardvalget er det arket allerede regner med
+        h['standard'] = (h['pp'] == hot_pp) or (hot_pp and h['pp'] and abs(h['pp'] - hot_pp) <= 15)
+    if not any(h.get('standard') for h in hotell):
+        for h in hotell:
+            if h['pp']:
+                h['standard'] = True
+                break
+    mat = [dict(m) for m in K['mat']]
+    for m in mat:
+        m['standard'] = (m['pp'] == mat_pp) or abs(m['pp'] - mat_pp) <= 60
+    if not any(m.get('standard') for m in mat) and mat:
+        mat[min(1, len(mat) - 1)]['standard'] = True
+    return {'fast': fast, 'fastTekst': kalkulator_data.FAST_TEKST, 'lede': kalkulator_data.LEDE,
+            'hotelltittel': K.get('hotelltittel', 'Overnatting'), 'hotellnote': K.get('hotellnote', ''),
+            'hotell': hotell, 'mat': mat, 'utflukter': utflukter}
+
 def bygg_klasse(kl):
     o = les_oversikt(os.path.join(kl['mappe'], kl['oversikt']))
     ark = {os.path.basename(f): les_ark(f) for f in glob.glob(os.path.join(kl['mappe'], 'Klassetur-*.html')) if 'kandidater' not in f and 'kart' not in f}
@@ -484,6 +532,7 @@ def bygg_klasse(kl):
         for b in a['bilder']:
             bilder.append({**b, 'kreditt': kreditt_for(b['url'])})
         dest.append({
+            'kalkulator': kalkulator(k['id'], a['kostnader'], a['dager'], kl['n']),
             'id': k['id'], 'par': k.get('par', k['id']), 'variant': k.get('variant'), 'fil': kl['prefix'] + fil, 'navn': a['navn'], 'under': a['under'], 'kicker': a['kicker'], 'promise': a['promise'],
             'region': reg['id'], 'regionNavn': gruppe, 'farge': reg['farge'], 'land': k['land'], 'pass': k['pass_'], 'passTekst': k.get('pass_tekst'),
             'base': {'navn': k['base'][0], 'lat': k['base'][1], 'lng': k['base'][2], 'beskrivelse': rader[0]['base'], 'maps': maps_link(k['base'][0] + ', ' + k['land'])},

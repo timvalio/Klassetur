@@ -479,28 +479,28 @@ def kalkulator(did, kostnader, dager, n):
 
 
 def betaling(kostnader, n):
-    """Grupperer kostnadsradene etter når de forfaller, i kroner per reisende."""
+    """Grupperer kostnadsradene etter når de forfaller. Beløpene er for hele gruppen."""
     poser, mangler = {}, []
     for r in kostnader:
         regler = betaling_data.POST.get(r['post'])
         if not regler:
             mangler.append(r['post']); continue
         for andel, trinn, tekst in regler:
-            d = poser.setdefault(trinn, {'pp': 0, 'linjer': []})
-            kr = int(round(r['belop'] * andel / float(n)))
-            d['pp'] += kr
-            d['linjer'].append({'tekst': tekst, 'pp': kr})
+            d = poser.setdefault(trinn, {'kr': 0, 'linjer': []})
+            kr = int(round(r['belop'] * andel))
+            d['kr'] += kr
+            d['linjer'].append({'tekst': tekst, 'kr': kr})
     ut = []
     for nokkel, tittel, under in betaling_data.TRINN:
         if nokkel in poser:
             d = poser[nokkel]
-            d['linjer'].sort(key=lambda x: -x['pp'])
-            ut.append({'id': nokkel, 'tittel': tittel, 'under': under, 'pp': d['pp'], 'linjer': d['linjer']})
+            d['linjer'].sort(key=lambda x: -x['kr'])
+            ut.append({'id': nokkel, 'tittel': tittel, 'under': under, 'kr': d['kr'], 'linjer': d['linjer']})
     if mangler:
         print('  betaling: ingen regel for', ', '.join(sorted(set(mangler))))
-    klassekassa = sum(t['pp'] for t in ut if t['id'] != 'underveis')
-    return {'trinn': ut, 'lede': betaling_data.LEDE, 'bunn': betaling_data.BUNN,
-            'klassekassa': klassekassa, 'total': sum(t['pp'] for t in ut)}
+    klassekassa = sum(t['kr'] for t in ut if t['id'] != 'underveis')
+    return {'trinn': ut, 'bunn': betaling_data.BUNN, 'n': n,
+            'klassekassa': klassekassa, 'total': sum(t['kr'] for t in ut)}
 
 def bygg_klasse(kl):
     o = les_oversikt(os.path.join(kl['mappe'], kl['oversikt']))

@@ -52,7 +52,5 @@ POST = {
     'Aktiviteter med leiebuss':           [(1.0, 'underveis', 'Utflukter med leiebuss')],
 }
 
-LEDE = ('Beløpene er for hele turen, delt likt på 28 reisende. Hvor mye som dekkes av dugnad og hvor mye '
-        'hver familie må betale selv, bestemmer foreldregruppa.')
-BUNN = ('Datoene bygger på at gruppetilbudet på flyet bekreftes i løpet av september 2026 og at turen går '
+BUNN = ('Alle beløp er for hele gruppen. Datoene bygger på at gruppetilbudet på flyet bekreftes i løpet av september 2026 og at turen går '
         '7.–15. juni 2027. Fram til depositumet er betalt kan alt avbestilles fritt.')

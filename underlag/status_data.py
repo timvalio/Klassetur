@@ -91,7 +91,11 @@ POSTER = [
                'De venter på svar om hvor mange rom de voksne trenger.'),
 
     dict(hvem='Quality Airport Hotel Gardermoen', hva='Natten i Oslo på veien ned',
-         maal=['kreta', 'split'], status='venter', dato='sendt 16. sep', tekst=''),
+         maal=['kreta', 'split'], status='tilbud', dato='17. sep', pp=750,
+         tekst='Christer Johansen har ledige rom: tremannsrom 2 215, dobbeltrom 1 580 og noen få familierom 2 515, '
+               'alle med frokost. Med 8 tremannsrom og 2 dobbeltrom blir det 20 880 for hele gruppen. '
+               'Frokosten serveres fra klokka 04:00, så den rekkes før utsjekk 04:30. '
+               'Hvordan 28 personer med bagasje kommer til terminalen, har de ikke svart på.'),
 ]
 
 # Sjekket, men ikke aktuelle — vises som én linje under lista.

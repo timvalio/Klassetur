@@ -17,6 +17,7 @@ import re, os, sys, json, html, glob, datetime
 import status_data
 import kalkulator_data
 import betaling_data
+import kart_punkter
 from urllib.parse import quote_plus
 
 HER = os.path.dirname(os.path.abspath(__file__))
@@ -436,6 +437,10 @@ def kalkulator(did, kostnader, dager, n):
     K = kalkulator_data.DATA.get(did)
     if not K:
         return None
+    def sted(navn):
+        pt = kart_punkter.PUNKT.get(navn)
+        return {'lat': pt[0], 'lng': pt[1], 'zoom': pt[2]} if pt else None
+
     def pp(b):
         return int(round(b / float(n)))
     fast, hot_pp, mat_pp, akt_pp = 0, 0, 0, 0
@@ -457,10 +462,13 @@ def kalkulator(did, kostnader, dager, n):
         kr = int(re.sub(r'\D', '', m.group(1)))
         tit = d['tittel']
         navn = tit.split('\u00b7')[-1].strip() if '\u00b7' in tit else tit
-        utflukter.append({'navn': navn, 'pp': kr, 'tekst': d.get('tekst', ''), 'dag': tit.split('\u00b7')[0].strip()})
+        utflukter.append({'navn': navn, 'pp': kr, 'tekst': d.get('tekst', ''),
+                          'dag': tit.split('\u00b7')[0].strip(), 'sted': sted(navn)})
     rest = akt_pp - sum(u['pp'] for u in utflukter)
     fast += max(0, rest)
     hotell = [dict(h) for h in K['hotell']]
+    for h in hotell:
+        h['sted'] = sted(h['navn'])
     for h in hotell:                      # standardvalget er det arket allerede regner med
         h['standard'] = (h['pp'] == hot_pp) or (hot_pp and h['pp'] and abs(h['pp'] - hot_pp) <= 15)
     if not any(h.get('standard') for h in hotell):

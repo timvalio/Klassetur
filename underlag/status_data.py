@@ -82,7 +82,9 @@ POSTER = [
          tekst='Hotellet tar ikke imot skolegrupper. Vi trenger et annet hotell til denne varianten.'),
 
     dict(hvem='Hotel San Antonio, Podstrana', hva='7 netter for 28',
-         maal=['split-best'], status='venter', dato='sendt 16. sep', tekst=''),
+         maal=['split-best'], status='nei', dato='svarte 18. sep',
+         tekst='Har bare ledig 8.–10. juni, ikke hele uka. De setter oss på venteliste og sier fra hvis det blir avbestillinger. '
+               'Samme gruppe driver også Classic Hotel Gala i Split og Jona Rooms i Podstrana, og åpner et femstjerners Marriott-hotell i Split neste år.'),
 
     dict(hvem='Design Hostel One, Split', hva='7 netter for 28',
          maal=['split-billigst'], status='oss', dato='svarte 16. sep',

@@ -103,8 +103,8 @@ DATA = {
     aktivpost='Aktiviteter med leiebuss',
     hotelltittel='Hotell, sju netter med frokost',
     hotell=[
-        dict(navn='Hotel San Antonio', pp=5410, tekst='4 stjerner rett på stranda i Podstrana, frokost. Bybuss 60 inn til gamlebyen, 8–10 km.'),
-        dict(navn='Cora Hotel', pp=5960, tekst='4 stjerner 1,5 km fra sentrum i Split, 9,3 av 10 i omtale, frokost. Nærmere byen, men ikke på stranda.'),
+        dict(navn='Cora Hotel', pp=5960, tekst='4 stjerner 1,5 km fra sentrum i Split, 9,3 av 10 i omtale, frokost. Nærmere byen, men ikke på stranda. Eneste alternativ vi har pris på nå.'),
+        dict(navn='Hotel San Antonio', pp=None, tekst='4 stjerner rett på stranda i Podstrana. Svarte 18. september at de bare har ledig 8.–10. juni, ikke hele uka. Vi står på venteliste.'),
         dict(navn='Hotel Atrium', pp=None, tekst='5 stjerner 1,3 km fra sentrum. Prisen vi har er en Ving-pakke med SAS-fly, så den kan ikke regnes inn her.'),
     ],
     mat=[

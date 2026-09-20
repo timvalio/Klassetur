@@ -18,7 +18,9 @@ import status_data
 import kalkulator_data
 import betaling_data
 import kart_punkter
-from urllib.parse import quote_plus
+import objekt_data
+import bildekreditt
+from urllib.parse import quote_plus, quote
 
 HER = os.path.dirname(os.path.abspath(__file__))
 KART = os.path.join(os.path.dirname(HER), 'Klassetur-kart-2027.html')
@@ -432,14 +434,85 @@ def maps_link(q):
     return 'https://www.google.com/maps/search/?api=1&query=' + quote_plus(q)
 
 
-def kalkulator(did, kostnader, dager, n):
+# ---------------------------------------------------------------- klikkbare objekter
+def sted_for(navn):
+    """Hvor kartet skal zoome for dette navnet, eller None."""
+    pt = kart_punkter.PUNKT.get(navn)
+    return {'lat': pt[0], 'lng': pt[1], 'zoom': pt[2]} if pt else None
+
+
+def commons_url(fil, w=900):
+    return 'https://commons.wikimedia.org/wiki/Special:FilePath/' + quote(fil) + '?width=%d' % w
+
+
+def objekt_bilder(filer, omr=False):
+    ut = []
+    for f in filer:
+        k = bildekreditt.NYE_KREDITT.get(f.replace(' ', '_'))
+        tittel = os.path.splitext(f)[0].replace('_', ' ')
+        ut.append({'url': commons_url(f), 'tekst': objekt_data.bildetekst(f), 'omr': omr,
+                   'kreditt': '\u00ab%s\u00bb%s' % (tittel, (' av %s (%s)' % k) if k else '')})
+    return ut
+
+
+BOKSTAV = u'0-9A-Za-z\u00c0-\u024f'
+
+def tema_bilder(navn, tema):
+    """Bilder i temaets galleri som hoyst sannsynlig viser nettopp dette punktet.
+
+    Vi krever at navnet (eller et ord pa minst fem bokstaver fra det) star i bildeteksten,
+    og at treffet begynner pa et ordskille — ellers ville «Imbros-juvet» fatt bildet av
+    «Samaria-juvet»."""
+    ord = sorted({t for t in re.split(u'[^%s]+' % BOKSTAV, navn) if len(t) >= 5}, key=len, reverse=True)
+    ut = []
+    for b in tema['bilder']:
+        for t in [navn] + ord:
+            if re.search(u'(?<![%s\\-])' % BOKSTAV + re.escape(t), b['tekst'], re.I):
+                ut.append(b); break
+        if len(ut) >= 2:
+            break
+    return ut
+
+
+def bilde_fra_url(b):
+    """Et bilde fra arket (url + tekst) med fotograf og lisens pa plass."""
+    k = kreditt_for(b['url']) or {}
+    fot, lis = k.get('fotograf', ''), k.get('lisens', '')
+    if not fot:
+        nk = bildekreditt.NYE_KREDITT.get((k.get('fil') or '').replace(' ', '_'))
+        if nk:
+            fot, lis = nk
+    return {'url': b['url'], 'tekst': b['tekst'], 'omr': False,
+            'kreditt': u'\u00ab%s\u00bb%s' % (k.get('tittel', ''), (' av %s (%s)' % (fot, lis)) if fot else '')}
+
+
+def objekt(navn, typ='sted', pkt=None, **extra):
+    """Alt panelet nederst til hoyre trenger: bilder, tekst, lenke og hvor kartet skal."""
+    o = objekt_data.hent(navn) or {}
+    ut = {'navn': navn, 'type': o.get('type') or typ, 'sted': sted_for(navn),
+          'bilder': objekt_bilder(o.get('bilder', [])) + objekt_bilder(o.get('omrbilder', []), True),
+          'omrtekst': o.get('omrtekst', ''), 'tekst': o.get('tekst', ''),
+          'punkter': [], 'lenke': o.get('lenke')}
+    for pn in o.get('punkt', []):
+        q = (pkt or {}).get(pn)
+        if q and q['navn'] != navn:
+            ut['punkter'].append({'navn': q['navn'], 'tekst': q['tekst'], 'fakta': q['fakta'], 'url': q['url']})
+    if not ut['lenke']:
+        egen = (pkt or {}).get(navn)
+        ut['lenke'] = egen['url'] if egen else ((o.get('punkt') and (pkt or {}).get(o['punkt'][0]) or {}).get('url'))
+    for nokkel, verdi in extra.items():
+        if verdi:
+            ut[nokkel] = verdi
+    return {n: v for n, v in ut.items() if v or n in ('navn', 'type')}   # tomme felt sloyfes
+
+
+def kalkulator(did, kostnader, dager, n, pkt=None, hmaps=None, land=''):
     """Deler kostnadene i fast, hotell, mat og utflukter slik «Sett sammen turen» trenger dem."""
     K = kalkulator_data.DATA.get(did)
     if not K:
         return None
-    def sted(navn):
-        pt = kart_punkter.PUNKT.get(navn)
-        return {'lat': pt[0], 'lng': pt[1], 'zoom': pt[2]} if pt else None
+    sted = sted_for
+    hmaps = hmaps or {}
 
     def pp(b):
         return int(round(b / float(n)))
@@ -462,13 +535,17 @@ def kalkulator(did, kostnader, dager, n):
         kr = int(re.sub(r'\D', '', m.group(1)))
         tit = d['tittel']
         navn = tit.split('\u00b7')[-1].strip() if '\u00b7' in tit else tit
+        dag = tit.split('\u00b7')[0].strip()
         utflukter.append({'navn': navn, 'pp': kr, 'tekst': d.get('tekst', ''),
-                          'dag': tit.split('\u00b7')[0].strip(), 'sted': sted(navn)})
+                          'dag': dag, 'sted': sted(navn),
+                          'objekt': objekt(navn, 'utflukt', pkt, dag=dag)})
     rest = akt_pp - sum(u['pp'] for u in utflukter)
     fast += max(0, rest)
     hotell = [dict(h) for h in K['hotell']]
     for h in hotell:
         h['sted'] = sted(h['navn'])
+        h['objekt'] = objekt(h['navn'], 'hotell', pkt,
+                             maps=hmaps.get(h['navn']) or maps_link(h['navn'] + (', ' + land if land else '')))
     for h in hotell:                      # standardvalget er det arket allerede regner med
         h['standard'] = (h['pp'] == hot_pp) or (hot_pp and h['pp'] and abs(h['pp'] - hot_pp) <= 15)
     if not any(h.get('standard') for h in hotell):
@@ -565,12 +642,40 @@ def bygg_klasse(kl):
         bilder = []
         for b in a['bilder']:
             bilder.append({**b, 'kreditt': kreditt_for(b['url'])})
+        # --- klikkbare objekter: hoteller, utflukter, steder
+        temaer = ((a.get('omraade') or {}).get('temaer') or [])
+        pkt = {q['navn']: q for t in temaer for q in t['punkter']}
+        hmaps = {h['navn']: h['maps'] for h in hoteller}
+        tilbudshoteller = [h for r in ruter if r.get('tilbud') for h in r['tilbud']['hoteller']]
+        for h in tilbudshoteller:
+            hmaps.setdefault(h['navn'], h['maps'])
+        for t in temaer:
+            for q in t['punkter']:
+                ob = objekt(q['navn'], 'sted', pkt)     # NB: ikke 'o' — det er oversikten
+                if not ob.get('bilder'):
+                    egne = [bilde_fra_url(x) for x in tema_bilder(q['navn'], t)]
+                    if egne:
+                        ob['bilder'] = egne
+                q['objekt'] = ob
+        for x in a['naerhet']:
+            x['objekt'] = objekt(x['navn'], 'sted', pkt)
+        for h in hoteller + tilbudshoteller:
+            h['objekt'] = objekt(h['navn'], 'hotell', pkt, maps=h['maps'],
+                                 bilde=h['bilde'], bildekreditt=h['bildekreditt'])
+        for x in a['dager']:
+            tit = x['tittel']
+            nvn = tit.split('·')[-1].strip() if '·' in tit else tit
+            if objekt_data.OBJEKT.get(nvn) or kart_punkter.PUNKT.get(nvn):
+                x['objekt'] = objekt(nvn, 'utflukt', pkt, dag=tit.split('·')[0].strip())
+        baseobj = objekt(k['base'][0], 'sted', pkt, maps=maps_link(k['base'][0] + ', ' + k['land']))
+        if not baseobj.get('sted'):
+            baseobj['sted'] = {'lat': k['base'][1], 'lng': k['base'][2], 'zoom': 13}
         dest.append({
-            'kalkulator': kalkulator(k['id'], a['kostnader'], a['dager'], kl['n']),
+            'kalkulator': kalkulator(k['id'], a['kostnader'], a['dager'], kl['n'], pkt, hmaps, k['land']),
             'betaling': betaling(a['kostnader'], kl['n']) if k['id'] in kalkulator_data.DATA else None,
             'id': k['id'], 'par': k.get('par', k['id']), 'variant': k.get('variant'), 'fil': kl['prefix'] + fil, 'navn': a['navn'], 'under': a['under'], 'kicker': a['kicker'], 'promise': a['promise'],
             'region': reg['id'], 'regionNavn': gruppe, 'farge': reg['farge'], 'land': k['land'], 'pass': k['pass_'], 'passTekst': k.get('pass_tekst'),
-            'base': {'navn': k['base'][0], 'lat': k['base'][1], 'lng': k['base'][2], 'beskrivelse': rader[0]['base'], 'maps': maps_link(k['base'][0] + ', ' + k['land'])},
+            'base': {'navn': k['base'][0], 'lat': k['base'][1], 'lng': k['base'][2], 'beskrivelse': rader[0]['base'], 'maps': maps_link(k['base'][0] + ', ' + k['land']), 'objekt': baseobj},
             'pp': ruter[0]['pp'], 'total': ruter[0]['total'], 'ruter': ruter,
             'band': a['band'], 'bilder': bilder, 'reisevei': a['reisevei'],
             'naerhet': a['naerhet'], 'obs': a['obs'],

@@ -502,8 +502,9 @@ def bilde_fra_url(b):
 def objekt(navn, typ='sted', pkt=None, **extra):
     """Alt panelet nederst til hoyre trenger: bilder, tekst, lenke og hvor kartet skal."""
     o = objekt_data.hent(navn) or {}
+    eksterne = [{'url': e[0], 'tekst': e[1], 'omr': False, 'kreditt': e[2]} for e in o.get('eksterne', [])]
     ut = {'navn': navn, 'type': o.get('type') or typ, 'sted': sted_for(navn),
-          'bilder': objekt_bilder(o.get('bilder', [])) + objekt_bilder(o.get('omrbilder', []), True),
+          'bilder': objekt_bilder(o.get('bilder', [])) + eksterne + objekt_bilder(o.get('omrbilder', []), True),
           'omrtekst': o.get('omrtekst', ''), 'tekst': o.get('tekst', ''),
           'punkter': [], 'lenke': o.get('lenke')}
     for pn in o.get('punkt', []):

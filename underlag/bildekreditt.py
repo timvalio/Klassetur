@@ -16,6 +16,8 @@ NYE_KREDITT = {
     '2._SKYWALK_(BIOKOVO).jpg': ('Marko Jukić', 'CC BY-SA 4.0'),
     'Bisevo_blue_cave_-_panoramio.jpg': ('Dejan Sekuloski', 'CC BY 3.0'),
     'Fruit_at_Pazar.jpg': ('Fighting Irish 1977 fr', 'CC BY 2.0'),
+    'Villa_Romana_de_El_Albir_(Alfaz_del_Pi).jpg': ('Jos\u00e9 Luis Filpo Cabana', 'CC BY-SA 4.0'),
+    'Aqualandia.jpg': ('Julio Latorre', 'CC BY 3.0'),
     # --- Kreta
     'Preveli_Palm_Beach_03.JPG': ('Uoaei1', 'CC BY-SA 4.0'),
     'Preveli_Palm_Beach_Panorama_02.JPG': ('Uoaei1', 'CC BY-SA 4.0'),

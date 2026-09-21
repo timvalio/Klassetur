@@ -46,6 +46,8 @@ EGNE_TEKSTER = {
     '2. SKYWALK (BIOKOVO).jpg': 'Skywalk-plattformen på Biokovo',
     'Bisevo blue cave - panoramio.jpg': 'Den blå grotta på Biševo',
     'Fruit at Pazar.jpg': 'Frukt på Pazar, torget i Split',
+    'Villa Romana de El Albir (Alfaz del Pi).jpg': 'Villa Romana de l’Albir, romersk villa i friluftsmuseum',
+    'Aqualandia.jpg': 'Aqualandia i Benidorm',
 }
 
 
@@ -79,8 +81,7 @@ OBJEKT = {
 # ---------------------------------------------------------------- Costa Blanca, utflukter
 'Altea': dict(type='utflukt', bilder=["Cúpula d'Altea", 'Altea, Spain (26889065385)'],
     punkt=['Altea gamleby', 'Strendene i Altea']),
-'Aqualandia': dict(type='utflukt', omrbilder=['DD 33'], punkt=['Aqualandia'],
-    omrtekst='Benidorm — Aqualandia ligger på høyden over Levante-stranda.'),
+'Aqualandia': dict(type='utflukt', bilder=['Aqualandia.jpg'], punkt=['Aqualandia']),
 'Algar-fossene': dict(type='utflukt', bilder=['toll Blau', 'toll del Baladre'],
     punkt=["Les Fonts de l'Algar"]),
 'Isla de Benidorm': dict(type='utflukt', bilder=['Isla de Benidorm, España', 'DD 86'],
@@ -113,6 +114,29 @@ OBJEKT = {
 'Krka-fossene': dict(type='sted', bilder=['Skradinski Buk'], punkt=['Krka nasjonalpark']),
 'Øyene Brač og Hvar': dict(type='sted', bilder=['Zlatni Rat, Hvar'],
     punkt=['Zlatni Rat på Brač', 'Blå grotte og Hvar']),
+
+# --- frie bilder utenfor Wikimedia-settet i arkene (Flickr via Openverse, CC BY-NC-SA)
+'Limnoupolis vannpark': dict(type='sted', eksterne=[(
+    'https://live.staticflickr.com/305/20302815401_e519b3cf48_b.jpg',
+    'Limnoupolis vannpark utenfor Chania',
+    '\u00abKreta 2006\u00bb av Martin Wippel (CC BY-NC-SA 2.0, Flickr)')]),
+'Limnoupolis': dict(type='utflukt', punkt=['Limnoupolis vannpark'], eksterne=[(
+    'https://live.staticflickr.com/305/20302815401_e519b3cf48_b.jpg',
+    'Limnoupolis vannpark utenfor Chania',
+    '\u00abKreta 2006\u00bb av Martin Wippel (CC BY-NC-SA 2.0, Flickr)')]),
+'Agreco-g\u00e5rden': dict(type='sted', eksterne=[(
+    'https://live.staticflickr.com/8315/8027881661_cc3e35a722_b.jpg',
+    'Agreco-g\u00e5rden ved Rethymno',
+    '\u00abAgreco farm, Crete\u00bb av *sandrinelle* (CC BY-NC-SA 2.0, Flickr)')]),
+'Omi\u0161 \u2014 Velika Pla\u017ea': dict(type='sted', eksterne=[(
+    'https://live.staticflickr.com/1213/833407731_3904e31f64_b.jpg',
+    'Kysten ved Omi\u0161',
+    '\u00abAdriatic and Omis\u00bb av Bea Kotecka (CC BY-NC-SA 2.0, Flickr)')]),
+'Villa Romana de l\'Albir': dict(type='sted', bilder=['Villa Romana de El Albir (Alfaz del Pi).jpg']),
+
+# --- steder som skulle hatt bilde fra samlingen i arkene
+'Les Fonts de l\'Algar': dict(type='sted', bilder=['toll Blau', 'toll del Baladre']),
+'Altea gamleby': dict(type='sted', bilder=["C\u00fapula d'Altea", 'Absis i c\u00fapula']),
 
 # ---------------------------------------------------------------- steder vi har hentet bilde til selv
 'Cala de Finestrat': dict(type='sted', bilder=['Cala de Finestrat, Finestrat, España, 2014-07-03, DD 01.JPG']),

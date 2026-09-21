@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Klassetur 10B — Brač med charter, charter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --deep:#20423A;        /* dalmatisk furu */
+    --deeper:#142B26;
+    --amber:#D9A441;       /* kalkstein i sol */
+    --amber-soft:#EFE2C4;
+    --brick:#8C5230;       /* romersk tegl */
+    --paper:#FCFAF6;
+    --ink:#1B1B1B;
+    --muted:#6B6459;
+    --line:#DFD9CD;
+    --wait:#8A6A1F;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:'Archivo',system-ui,sans-serif;font-size:15px;line-height:1.55}
+  .sheet{max-width:900px;margin:0 auto;background:var(--paper)}
+
+  .hero{background:linear-gradient(160deg,var(--deep) 0%,var(--deeper) 100%);color:var(--paper);padding:44px 44px 0;position:relative;overflow:hidden}
+  .kicker{font-size:13px;letter-spacing:.14em;color:var(--amber);margin:0 0 14px}
+  .hero h1{font-size:clamp(52px,11vw,104px);font-weight:800;line-height:.86;letter-spacing:-.035em;margin:0}
+  .hero h1 span{display:block;color:var(--amber-soft);font-size:.42em;letter-spacing:-.01em;font-weight:600;margin-top:14px}
+  .promise{font-family:'Newsreader',Georgia,serif;font-size:21px;line-height:1.45;max-width:34ch;margin:26px 0 0;color:#DCE7E1}
+  .heroband{display:flex;flex-wrap:wrap;gap:0;margin:36px -44px 0;border-top:1px solid rgba(255,255,255,.16)}
+  .heroband div{flex:1 1 25%;padding:16px 44px 18px;border-right:1px solid rgba(255,255,255,.16)}
+  .heroband div:last-child{border-right:0}
+  .heroband b{display:block;font-size:22px;font-weight:800;letter-spacing:-.02em}
+  .heroband small{font-size:12px;color:#A9BFB4}
+
+  .gallery{display:grid;grid-template-columns:2fr 1fr 1fr;gap:2px;background:var(--brick);border-bottom:6px solid var(--brick)}
+  .gallery figure{margin:0;position:relative;overflow:hidden;background:var(--amber-soft)}
+  .gallery img{display:block;width:100%;height:250px;object-fit:cover}
+  .gallery figcaption{position:absolute;left:0;right:0;bottom:0;padding:7px 11px;font-size:11.5px;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.75))}
+
+  section{padding:38px 44px;border-bottom:1px solid var(--line)}
+  h2{font-size:13px;letter-spacing:.14em;color:var(--brick);margin:0 0 18px;font-weight:600}
+  h3{font-size:26px;font-weight:800;letter-spacing:-.02em;margin:0 0 12px}
+  p{margin:0 0 12px;max-width:70ch}
+  .lede{font-family:'Newsreader',Georgia,serif;font-size:18px;line-height:1.6;color:#3A3630}
+
+  .route{display:flex;flex-wrap:wrap;border:1px solid var(--deep);border-radius:3px;overflow:hidden}
+  .leg{flex:1 1 180px;padding:16px 18px;border-right:1px dashed var(--line)}
+  .leg:last-child{border-right:0}
+  .leg b{display:block;font-size:17px;font-weight:800;letter-spacing:-.01em}
+  .leg small{display:block;font-size:12.5px;color:var(--muted);margin-top:3px}
+
+  ol.days{list-style:none;margin:0;padding:0;counter-reset:d}
+  ol.days li{counter-increment:d;display:grid;grid-template-columns:44px 1fr auto;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);align-items:baseline}
+  ol.days li:last-child{border-bottom:0}
+  ol.days li::before{content:counter(d);font-size:15px;font-weight:800;color:var(--brick)}
+  .act{font-size:13px;color:var(--muted);text-align:right;white-space:nowrap}
+  .day b{font-weight:600}
+  .day small{display:block;color:var(--muted);font-size:13px}
+
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th{text-align:left;font-size:12px;letter-spacing:.08em;color:var(--muted);font-weight:600;padding:0 0 10px;border-bottom:1px solid var(--ink)}
+  td{padding:11px 0;border-bottom:1px solid var(--line);vertical-align:top}
+  td.num{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
+  tr.sum td{border-top:1px solid var(--ink);border-bottom:0;font-weight:800;font-size:16px;padding-top:14px}
+  .tag{font-size:11px;padding:2px 7px;border-radius:2px;white-space:nowrap}
+  .t-est{background:#F6E8C8;color:var(--wait)}
+  .t-quote{background:#E7E3DA;color:var(--muted)}
+  .t-ok{background:#DDEBE1;color:#2F6B4F}
+  .basis{display:block;font-size:12.5px;color:var(--muted)}
+
+  .headline-num{display:flex;flex-wrap:wrap;gap:34px;margin-top:26px;padding-top:22px;border-top:2px solid var(--deep)}
+  .headline-num div b{display:block;font-size:34px;font-weight:800;letter-spacing:-.03em;line-height:1.1}
+  .headline-num div small{font-size:13px;color:var(--muted)}
+
+  ul.plain{margin:0;padding-left:19px}
+  ul.plain li{margin-bottom:7px;max-width:68ch}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:34px}
+  .warn{background:#FBEDE9;border-left:4px solid var(--brick);padding:16px 18px;margin-top:8px}
+  footer{padding:26px 44px 40px;font-size:12.5px;color:var(--muted)}
+
+  @media (max-width:700px){
+    .hero,section,footer{padding-left:22px;padding-right:22px}
+    .heroband{margin-left:-22px;margin-right:-22px}
+    .heroband div{padding-left:22px;padding-right:22px;flex-basis:50%}
+    .two{grid-template-columns:1fr;gap:22px}
+  }
+  @media print{
+    body{font-size:10px;line-height:1.4}
+    .hero{padding:18px 26px 0}
+    .hero h1{font-size:40px}
+    .promise{font-size:14px;margin-top:12px}
+    .heroband{margin:16px -26px 0}
+    .heroband div{padding:9px 26px 10px}
+    .heroband b{font-size:16px}
+    .gallery img{height:120px}
+    section{padding:14px 26px;break-inside:avoid}
+    h3{font-size:17px;margin-bottom:6px}
+    h2{margin-bottom:9px}
+    p{margin-bottom:7px}
+    ol.days li{padding:6px 0}
+    td{padding:6px 0}
+    .headline-num{margin-top:14px;padding-top:12px;gap:24px}
+    .headline-num div b{font-size:24px}
+    footer{padding:14px 26px 18px}
+    @page{size:A4;margin:8mm}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="hero">
+    <p class="kicker">Klassetur 10B · Kautokeino skole · 11.–18. juni 2027 · 28 reisende</p>
+    <h1>Brač med charter<span>Charter fra Oslo · resort i Supetar</span></h1>
+    <p class="promise">Norwegian rett fra Oslo til Split, ferje over til Supetar på Brač, og en uke på øya med Zlatni Rat, Vidova Gora og én dagstur inn til palasset i Split. Åtte dager, 7 netter på Brač.</p>
+    <div class="heroband">
+      <div><b>8 dager</b><small>7 netter på Brač</small></div>
+      <div><b>28</b><small>21 elever, 7 voksne</small></div>
+      <div><b>15 500</b><small>kroner per reisende</small></div>
+      <div><b>434 620</b><small>kroner totalt</small></div>
+    </div>
+  </div>
+
+  <div class="gallery">
+    <figure><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Aerial_view_of_Diocletian%27s_Palace_in_Split%2C_Croatia_%2848608247353%29.jpg?width=1400" alt="Diokletians palass sett ovenfra"><figcaption>Palasset er fortsatt en bydel</figcaption></figure>
+    <figure><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Peristyle_of_Diocletian%27s_Palace%2C_Split_%2811908116224%29.jpg?width=800" alt="Peristyl i Diokletians palass"><figcaption>Peristyl</figcaption></figure>
+    <figure><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Dioklecijanova_pala%C4%8Da%2C_Split_-_jugoistok.JPG?width=800" alt="Sørveggen av palasset mot Rivaen"><figcaption>Rivaen og sørveggen</figcaption></figure>
+    <figure><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Skradinski_buk_waterfall_%E2%80%93_NP_Krka_%E2%80%93_2016.jpg?width=1400" alt="Skradinski buk i Krka nasjonalpark"><figcaption>Skradinski buk i Krka nasjonalpark</figcaption></figure>
+  </div>
+
+  <section>
+    <h2>Reisevei</h2>
+    <div class="route"><div class="leg"><b>Kautokeino → Alta</b><small>Buss · ca. 2 t · fredag 11. juni, avgang rundt 04:15</small></div><div class="leg"><b>Alta → Oslo</b><small>Norwegian · fre 11. juni 07:00–10:15 · teknisk stopp i Tromsø, ingen flybytte · ca. 3 t 15 min</small></div><div class="leg"><b>Oslo → Split</b><small>Norwegian, direkte · fre 11. juni 16:25–19:15 · ca. 2 t 50 min</small></div><div class="leg"><b>Split → hotellet</b><small>Transfer og ferje til Supetar, med i Vings pris · ca. 1 t</small></div></div>
+    <p style="margin-top:16px">Hele utreisen går på én dag. Morgenflyet fra Alta lander Gardermoen 10:15, og charteret til Split går 16:25 — seks timer og et kvarter mellom flyene, nok til å sjekke inn bagasjen på nytt i ro og mak. Neste direktefly fra Alta, Norwegian 11:55–13:55, gir to og en halv time og er også mulig. Hjemreise fredag 18. juni: ferje fra Supetar om morgenen, Norwegian Split 10:30 – Oslo 13:20, og videre med SAS og Widerøe Oslo 18:00 – Tromsø – Alta 21:30, buss hjem rundt 23:30. Siste direktefly Oslo–Alta den fredagen går 11:55, før charteret lander, så veien hjem går om Tromsø. Ingen natt ved Gardermoen.</p>
+  </section>
+
+  <section>
+    <h2>I nærheten</h2>
+    <ul class="plain near"><li><b>Diokletians palass</b><span class="basis">Byen er bygd inne i et romersk keiserpalass fra år 305. Gratis å gå rundt i, kjellerhallene koster inngang.</span></li><li><b>Øyene Brač og Hvar</b><span class="basis">Ferje fra Split. Zlatni Rat på Brač er stranda som skifter form med strømmen; en time hver vei.</span></li><li><b>Krka-fossene</b><span class="basis">Nasjonalpark med fossefall i terrasser, halvannen time nordover. Bading har vært forbudt i hele parken siden 1. januar 2021, så dette er en tur for å se, ikke bade.</span></li></ul>
+  </section>
+
+  <section>
+    <h2>Verdt å vite</h2>
+    <ul class="plain obs"><li>Hotellet ligger på Brač, ikke i Split. Supetar er 50 minutters ferje fra byen, og alt på fastlandet — Krka, Klis, Trogir og rafting i Cetina — blir en heldagstur med to ferjeturer. Programmet er derfor lagt til øya, med én dagstur inn til Split.</li><li>Bussen fra Kautokeino går 04:15 for å rekke morgenflyet fra Alta. Turen ned blir én lang dag: hjemmefra i firetida, framme på hotellet i Supetar rundt 21.</li><li>Alta–Oslo og charteret er to separate billetter. Bagasjen må hentes og sjekkes inn på nytt på Gardermoen, og blir morgenflyet forsinket, dekker ikke Ving charteret.</li><li>Hjemreisen går over Tromsø: Split 10:30 – Oslo 13:20, SAS og Widerøe Oslo 18:00 – Alta 21:30, buss hjem rundt 23:30. Ingen ekstra natt.</li><li>Charteret går 11.–18. juni, ikke 8.–15. Datoene er klarert mot skoleruta.</li><li>Overnattingen er den største enkeltposten på turen. Vings pakkepris er utgangspunktet; andre hoteller i Supetar og ellers på Brač er ikke priset ennå.</li></ul>
+  </section>
+
+  <section>
+    <h2>Slik ser uka ut</h2>
+    <h3>En uke på Brač, med én ferjetur inn til Split</h3>
+    <ol class="days"><li><div class="day"><b>Fre 11. juni · Reisedag til Brač</b><small>Buss fra Kautokeino 04:15, fly Alta 07:00, charter fra Oslo 16:25, landing 19:15, ferje til Supetar og sen innsjekk</small></div><span class="act">—</span></li><li><div class="day"><b>Lør 12. juni · Supetar</b><small>Buktene, havna og gamlebyen i gangavstand fra hotellet</small></div><span class="act">—</span></li><li><div class="day"><b>Søn 13. juni · Zlatni Rat</b><small>Buss over øya til Bol og Kroatias mest kjente strand, 45 minutter</small></div><span class="act">85 kr</span></li><li><div class="day"><b>Man 14. juni · Vidova Gora</b><small>Adriaterhavets høyeste øytopp, 778 meter, med utsikt rett ned på Zlatni Rat</small></div><span class="act">120 kr</span></li><li><div class="day"><b>Tir 15. juni · Split</b><small>Ferje til Split, Diokletians palass, kjellerne og Rivaen, ferje tilbake om kvelden</small></div><span class="act">205 kr</span></li><li><div class="day"><b>Ons 16. juni · Pučišća</b><small>Steinhoggerskolen og marmorbruddene på nordsiden av øya</small></div><span class="act">130 kr</span></li><li><div class="day"><b>Tor 17. juni · Fridag</b><small>Strand, sykkel eller kajakk i Supetar</small></div><span class="act">—</span></li><li><div class="day"><b>Fre 18. juni · Hjemreise</b><small>Ferje om morgenen, Split 10:30 – Oslo 13:20, videre til Alta</small></div><span class="act">—</span></li></ol>
+    <p style="margin-top:16px;font-size:13px;color:var(--muted)">Priser per person, listepriser 2026. Ferja Supetar–Split koster 6,50 euro hver vei, og øybussene er rimelige. Poenget med dette opplegget er at gruppen bor på øya og bare tar ferja én gang; Krka, Klis og Trogir ligger på fastlandet og er ikke med. Aktiviteter er forslag, ikke bestilt.</p>
+  </section>
+
+  <section>
+    <h2>Overnatting</h2>
+    <h3>Reiseforslag fra Ving 21. september 2026, ingen plasser reservert</h3>
+    <p class="lede">Waterman Supetrus Resort ligger i Supetar på Brač, i gangavstand til havna. Ving har satt opp åtte 2-romsleiligheter uten måltider: to med to balkonger til de sju voksne og seks til de 21 elevene. Anlegget har flere bassenger, spa og sports­tilbud. Frokostbuffet kan kjøpes hos Ving for 1 240 kroner per person, Holiday Inclusive for 3 095 og All Inclusive for 4 125.</p>
+    <table style="margin-top:18px"><tr><td><b>Waterman Supetrus, uten måltider</b><span class="basis">Supetar, Brač · familievennlig anlegg med flere bassenger, spa og kort vei til havna · 8 × 2-romsleilighet · 8 527 per person med fly og transfer · Vings reiseforslag B1M3CUA</span></td><td class="num"><span class="tag t-ok">Tilbud mottatt</span></td></tr><tr><td><b>Waterman Supetrus med frokost</b><span class="basis">Samme leiligheter, frokostbuffet lagt til · 1 240 per person for uka · 9 767 med fly og transfer</span></td><td class="num"><span class="tag t-ok">Tilbud mottatt</span></td></tr><tr><td><b>Waterman Supetrus med All Inclusive</b><span class="basis">Samme leiligheter, alle måltider og drikke · 4 125 per person for uka · 12 652 med fly og transfer</span></td><td class="num"><span class="tag t-ok">Tilbud mottatt</span></td></tr></table>
+  </section>
+
+  <section>
+    <h2>Hva turen koster</h2>
+    <table>
+      <tr><th>Post</th><th>Grunnlag</th><th style="text-align:right">Kroner</th></tr>
+      <tr><td>Buss Kautokeino–Alta t/r</td><td><span class="tag t-ok">Bekreftet</span><span class="basis">Kjøring og henting, oppgitt pris</span></td><td class="num">17 000</td></tr><tr><td>Fly Alta–Oslo tur/retur, 28 personer</td><td><span class="tag t-quote">Delvis tilbud</span><span class="basis">28 × 2 598 · Norwegian, samme anslag som i de andre arkene: 207 144 for hele Alta–Oslo–Chania minus gruppetilbudet Oslo–Chania på 134 400 · gruppepris på Alta–Oslo er bedt om, men ikke mottatt</span></td><td class="num">72 744</td></tr><tr><td>Vings charterpakke: fly, transfer med ferje og 7 netter leilighet</td><td><span class="tag t-ok">Tilbud mottatt</span><span class="basis">28 × 8 527 · Reiseforslag B1M3CUA av 21.9.2026: Norwegian Oslo–Split 11. juni 16:25 og Split–Oslo 18. juni 10:30, to innsjekkede kolli per person, transfer med ferje til Supetar og 7 netter i åtte 2-romsleiligheter på Waterman Supetrus Resort · 238 750 for 28 · ingen plasser reservert</span></td><td class="num">238 756</td></tr><tr><td>Mat, delvis laget selv</td><td><span class="tag t-est">Estimat</span><span class="basis">28 × 2 300 · leilighet med kjøkken, frokost og noen middager laget selv, lunsj ute (80) og middag ute annenhver kveld (140) · kjøpes frokostbuffet hos Ving i stedet, koster den 1 240 per person</span></td><td class="num">64 400</td></tr><tr><td>Aktiviteter og øytransport</td><td><span class="tag t-est">Estimat</span><span class="basis">28 × 1 200 · buss til Bol og Zlatni Rat, Vidova Gora, ferje til Split tur/retur med palasskjellerne, og Pučišća — se programmet</span></td><td class="num">33 600</td></tr><tr><td>Reiseforsikring for gruppen</td><td><span class="tag t-quote">Tilbud innhentes</span><span class="basis">28 × 290</span></td><td class="num">8 120</td></tr>
+      <tr class="sum"><td>Totalt</td><td></td><td class="num">434 620</td></tr>
+    </table>
+    <div class="headline-num">
+      <div><b>15 500</b><small>kroner per reisende</small></div>
+      <div><b>2 av 6</b><small>poster bekreftet eller slått opp</small></div>
+    </div>
+    <div class="warn">
+      <b>Ving har ikke reservert plasser.</b> Prisen er et reiseforslag av 21. september 2026 med forbehold om ledig kapasitet og prisendring. Ving flyr bare fra Oslo og selger ikke tilslutningsbilletter, så buss til Alta, fly Alta–Oslo og eventuell natt ved Gardermoen står utenfor tilbudet og er anslag. Mat og aktiviteter er anslag. Kurs brukt: 1 EUR = 10,77 kr (Norges Bank 14.9.2026).
+    </div>
+  </section>
+
+
+
+  <footer>
+    Ikke inkludert: lommepenger, pass eller nasjonalt ID-kort, avbestillingsforsikring, egenandel ved sykdom.<br>
+    Bilder fra Wikimedia Commons: «Aerial view of Diocletian's Palace in Split, Croatia (48608247353)» av dronepicr (CC BY 2.0) · «Peristyle of Diocletian's Palace, Split (11908116224)» av Following Hadrian (CC BY-SA 2.0) · «Dioklecijanova palača, Split - jugoistok» av Silverije (CC BY-SA 3.0) · «Skradinski buk waterfall – NP Krka – 2016» av Skot (CC BY-SA 4.0).<br>
+    Alle beløp i kroner. Fly, hotell og pakker er slått opp 15. september 2026 for de oppgitte datoene; mat og aktiviteter er anslag. Beløpene er for 28 reisende, uten buffer.
+  </footer>
+
+</div>
+</body>
+</html>

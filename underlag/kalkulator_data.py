@@ -15,6 +15,40 @@ da vises alternativet, men kan ikke velges.
 
 DATA = {
 
+'kreta-charter': dict(
+    hotellpost='Vings charterpakke: fly, transfer og 7 netter leilighet',
+    matpost='Mat, delvis laget selv',
+    aktivpost='Aktiviteter og lokalbusser',
+    hotelltittel='Pakke og pensjon, sju netter',
+    hotellnote='Fly, transfer og leilighet henger sammen i én pakke fra Ving. Valget her er hvor mye mat som legges inn i pakken — velger dere mer pensjon, kan matbudsjettet under settes ned.',
+    hotell=[
+        dict(navn='Ilion Beach, uten måltider', pp=8099, tekst='Åtte 1-romsleiligheter med kjøkkenkrok på stranda i Gerani. Fly, transfer og to kolli er med. Frokost og noen middager lages selv.'),
+        dict(navn='Ilion Beach med frokost', pp=9044, tekst='Samme leiligheter med frokostbuffet på hotellet, 945 per person for uka. Da slipper man handling og oppvask om morgenen.'),
+        dict(navn='Ilion Beach med halvpensjon', pp=10919, tekst='Frokost og middag på hotellet, 2 820 per person for uka. Dyrest i pakken, men matbudsjettet under kan da settes til det laveste.'),
+    ],
+    mat=[
+        dict(navn='Nøktern', pp=1500, tekst='Frokost og de fleste middagene laget i leiligheten, lunsj ute (90) på utfluktsdagene.'),
+        dict(navn='Som planlagt', pp=2200, tekst='Frokost i leiligheten, lunsj ute (90) og taverna fem av sju kvelder (200).'),
+        dict(navn='Raus', pp=3000, tekst='Lunsj og middag ute hver dag, og is og drikke på utfluktene.'),
+    ]),
+
+'brac-charter': dict(
+    hotellpost='Vings charterpakke: fly, transfer med ferje og 7 netter leilighet',
+    matpost='Mat, delvis laget selv',
+    aktivpost='Aktiviteter og øytransport',
+    hotelltittel='Pakke og pensjon, sju netter',
+    hotellnote='Fly, ferje, transfer og leilighet henger sammen i én pakke fra Ving. Valget her er hvor mye mat som legges inn i pakken.',
+    hotell=[
+        dict(navn='Waterman Supetrus, uten måltider', pp=8527, tekst='Åtte 2-romsleiligheter i Supetar på Brač, med bassenger og kort vei til havna. Fly, ferje, transfer og to kolli er med.'),
+        dict(navn='Waterman Supetrus med frokost', pp=9767, tekst='Samme leiligheter med frokostbuffet, 1 240 per person for uka.'),
+        dict(navn='Waterman Supetrus med All Inclusive', pp=12652, tekst='Alle måltider og drikke på anlegget, 4 125 per person for uka. Da kan matbudsjettet under settes til det laveste, men gruppen spiser da på hotellet hver dag.'),
+    ],
+    mat=[
+        dict(navn='Nøktern', pp=1600, tekst='Frokost og de fleste middagene laget i leiligheten, lunsj ute (80) på utfluktsdagene.'),
+        dict(navn='Som planlagt', pp=2300, tekst='Frokost i leiligheten, lunsj ute (80) og middag ute annenhver kveld (140).'),
+        dict(navn='Raus', pp=3200, tekst='Lunsj og middag ute hver dag, og is og drikke underveis.'),
+    ]),
+
 'kreta-billigst': dict(
     hotellpost='Hotell i Rethymno, 7 netter med frokost',
     matpost='Middag ute og lunsj',

@@ -137,5 +137,18 @@ PUNKT = {
     'Rivaen':                   [43.5070, 16.4390, 16],
     'Kvelden — verdt å planlegge': [43.5081, 16.4402, 16],
 
+    # --- Vings charteralternativer
+    'Ilion Beach, uten måltider':  [35.5225, 23.8760, 15],
+    'Ilion Beach med frokost':     [35.5225, 23.8760, 15],
+    'Ilion Beach med halvpensjon': [35.5225, 23.8760, 15],
+    'Waterman Supetrus, uten måltider':        [43.3850, 16.5480, 15],
+    'Waterman Supetrus med frokost':            [43.3850, 16.5480, 15],
+    'Waterman Supetrus med All Inclusive':      [43.3850, 16.5480, 15],
+    'Supetar':                  [43.3833, 16.5500, 14],
+    'Zlatni Rat':               [43.2570, 16.6350, 14],
+    'Vidova Gora':              [43.2870, 16.6070, 13],
+    'Split':                    [43.5081, 16.4402, 13],
+    'Pučišća':                 [43.3450, 16.7280, 14],
+
     # «Fridag» og «Sove lenge» har ingen bestemt plass og får ingen zoom.
 }

@@ -163,6 +163,11 @@ OBJEKT = {
 'Katedralen sv. Duje': dict(type='sted', bilder=['Bell Tower Of Cathedral', 'Vestibule']),
 'Marjan': dict(type='sted', bilder=['Marjana-Telegrin']),
 
+# ---------------------------------------------------------------- Brač, egne utflukter
+'Zlatni Rat': dict(type='utflukt', bilder=['Zlatni Rat, Hvar'], punkt=['Zlatni Rat på Brač']),
+'Split': dict(type='utflukt', bilder=['City of Split Riva', 'Aerial_view_of_Diocletian'],
+    punkt=['Diokletians palass', 'Rivaen']),
+
 # ---------------------------------------------------------------- dager uten sted
 'Fridag': dict(type='dag', tekst='Ingen felles utflukt. Stranda, byen og bassenget ligger der de ligger — '
     'dagen koster bare det den enkelte bruker. Der det står et beløp, er det satt av til lokalbuss og inngang.'),

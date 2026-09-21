@@ -280,6 +280,9 @@ DEST_10B = {
     'Klassetur-CostaBlanca-best.html':     dict(id='costablanca-best',     par='costablanca', variant='best',     oversikt='Costa Blanca', base=['Albir', 38.5697, -0.0642],     land='Spania', pass_=False, transfer=None),
     'Klassetur-Split-billigst.html':       dict(id='split-billigst',       par='split',       variant='billigst', oversikt='Split',        base=['Split', 43.5081, 16.4402],     land='Kroatia', pass_=False, transfer=None),
     'Klassetur-Split-best.html':           dict(id='split-best',           par='split',       variant='best',     oversikt='Split',        base=['Podstrana', 43.4870, 16.5520], land='Kroatia', pass_=False, transfer=None),
+    # Vings charteralternativer, mottatt 21.9.2026. Uten variant, sa de star i lista bade under Billigst og Best.
+    'Klassetur-Kreta-charter.html':        dict(id='kreta-charter',        par='kreta-charter', variant=None,     oversikt='Kreta med charter', base=['Gerani', 35.5225, 23.8760],  land='Hellas',  pass_=False, transfer=None),
+    'Klassetur-Brac-charter.html':         dict(id='brac-charter',         par='brac-charter',  variant=None,     oversikt='Bra\u010d med charter', base=['Supetar', 43.3833, 16.5500], land='Kroatia', pass_=False, transfer=None),
 }
 # Klassene. Den første er den kartet åpner med.
 KLASSER = [

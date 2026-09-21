@@ -52,10 +52,13 @@ POSTER = [
          tekst='De ser på mulighetene, men trenger å vite hva turen får koste og om vi vil bo i sentrum '
                'eller heller ved stranda. Svar er på vei.'),
 
-    dict(hvem='Ving gruppeavdeling', hva='Pris på alle tre reisemål',
-         maal=[], status='oss', dato='svarte 16. sep',
-         tekst='Ving har ingen charter fra Alta og må hente pris på rutefly for hver dato og hvert reisemål. '
-               'De spør om vi kan flytte på datoene, hva turen får koste, og hvem andre vi har spurt. Svar er på vei.'),
+    dict(hvem='Ving gruppeavdeling', hva='To charteralternativer fra Oslo',
+         maal=['kreta-charter', 'brac-charter'], status='tilbud', dato='21. sep',
+         tekst='Reiseforslag BO4FXR5: Sunclass Oslo–Chania 10.–18. juni og 7 netter i leilighet på Ilion Beach i Gerani, '
+               '226 779 for 28. Reiseforslag B1M3CUA: Norwegian Oslo–Split 11.–18. juni og 7 netter på Waterman Supetrus '
+               'i Supetar på Brač, 238 750 for 28. Begge uten måltider; frokost koster 945 og 1 240 per person. '
+               'Ving flyr bare fra Oslo og selger ikke tilslutningsbilletter, så buss, Alta–Oslo og natt ved Gardermoen kommer i tillegg. '
+               'Ingen plasser er reservert.'),
 
     dict(hvem='Travelmate', hva='Pris på alle tre reisemål',
          maal=[], status='nei', dato='svarte 16. sep',

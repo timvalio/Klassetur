@@ -41,6 +41,12 @@ POST = {
         [(1.0, 'ukjent', 'Apollo-pakken med fly og hotell — betalingsplan ikke oppgitt')],
     'Koffert og transfer':                [(1.0, 'ukjent', 'Tillegg hos Apollo — betalingsplan ikke oppgitt')],
     'Reiseforsikring for gruppen':        [(1.0, 'jun27', 'Reiseforsikring — tilbud ikke innhentet ennå')],
+    # --- Vings charteralternativer
+    'Fly Alta–Oslo tur/retur, 28 personer': [(0.3, 'okt26', 'Depositum på Alta–Oslo, 30 prosent'), (0.7, 'mai27', 'Resten av Alta–Oslo, 30 dager før avreise')],
+    'Vings charterpakke: fly, transfer og 7 netter leilighet': [(1.0, 'ukjent', 'Vings charterpakke — betalingsplan ikke oppgitt i reiseforslaget')],
+    'Vings charterpakke: fly, transfer med ferje og 7 netter leilighet': [(1.0, 'ukjent', 'Vings charterpakke — betalingsplan ikke oppgitt i reiseforslaget')],
+    'Natt ved Gardermoen på hjemreisen': [(1.0, 'jun27', 'Natten i Oslo, betales ved ankomst')],
+    'Aktiviteter og øytransport': [(1.0, 'underveis', 'Utflukter og øytransport')],
     'Buss Kautokeino–Alta t/r':           [(1.0, 'etter', 'Buss til og fra Alta')],
     'Middag ute og lunsj':                [(1.0, 'underveis', 'Mat')],
     'Mat, delvis laget selv':             [(1.0, 'underveis', 'Mat')],

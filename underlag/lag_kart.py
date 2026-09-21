@@ -418,16 +418,21 @@ def varighet_min(info):
     return t * 60 + mi
 
 import base64, mimetypes
+EGNE_BILDER = {}          # slug -> data-URI. Selve bildet ligger ett sted i fila; hotellene peker hit.
+
 def eget_bilde(slug_):
-    """Finner underlag/bilder/hotell/<slug>.jpg|jpeg|png|webp og returnerer data-URI, ellers None."""
+    """Finner underlag/bilder/hotell/<slug>.jpg|jpeg|png|webp. Returnerer '@<slug>', ellers None."""
+    if slug_ in EGNE_BILDER:
+        return '@' + slug_
     for ext in ('.jpg', '.jpeg', '.png', '.webp'):
         fn = os.path.join(HER, 'bilder', 'hotell', slug_ + ext)
         if os.path.exists(fn):
             mime = mimetypes.guess_type(fn)[0] or 'image/jpeg'
             data = open(fn, 'rb').read()
-            if len(data) > 600_000:
-                print('  NB: %s er %d KB — vurder a krympe bildet (under 300 KB per bilde holder)' % (os.path.basename(fn), len(data) // 1024))
-            return 'data:%s;base64,%s' % (mime, base64.b64encode(data).decode('ascii'))
+            if len(data) > 300_000:
+                print('  NB: %s er %d KB — vurder a krympe bildet (under 100 KB per bilde holder)' % (os.path.basename(fn), len(data) // 1024))
+            EGNE_BILDER[slug_] = 'data:%s;base64,%s' % (mime, base64.b64encode(data).decode('ascii'))
+            return '@' + slug_
     return None
 
 def maps_link(q):
@@ -544,7 +549,7 @@ def kalkulator(did, kostnader, dager, n, pkt=None, hmaps=None, land=''):
     hotell = [dict(h) for h in K['hotell']]
     for h in hotell:
         h['sted'] = sted(h['navn'])
-        h['objekt'] = objekt(h['navn'], 'hotell', pkt,
+        h['objekt'] = objekt(h['navn'], 'hotell', pkt, bilde=eget_bilde(slug(h['navn'])), bildekreditt='eget bilde',
                              maps=hmaps.get(h['navn']) or maps_link(h['navn'] + (', ' + land if land else '')))
     for h in hotell:                      # standardvalget er det arket allerede regner med
         h['standard'] = (h['pp'] == hot_pp) or (hot_pp and h['pp'] and abs(h['pp'] - hot_pp) <= 15)
@@ -696,6 +701,7 @@ def bygg():
     data = {
         'generert': datetime.date.today().isoformat(),
         'prefix': PREFIX,
+        'hotellbilder': EGNE_BILDER,
         'standard': KLASSER[0]['id'],
         'klasser': {k['id']: k for k in klasser},
         'origo': {'navn': 'Kautokeino', 'lat': STEDER['Kautokeino'][0], 'lng': STEDER['Kautokeino'][1]},

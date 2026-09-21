@@ -12,6 +12,7 @@ Hotellene har vi ikke frie bilder av. Der viser vi et bilde av stedet rundt, tyd
 merket med at det ikke er hotellet, og lenker videre til hotellets egne bilder i
 Google Maps. Legges det en jpg i underlag/bilder/hotell/, brukes den i stedet.
 """
+import re
 import omraade_data
 
 _PAR = [(f, t) for d in omraade_data.OMRAADE.values() for tm in d['temaer'] for f, t in tm['bilder']]
@@ -20,15 +21,36 @@ _TEKST = dict(_PAR)
 
 
 def _f(nokkel):
-    """Filnavnet som inneholder nøkkelen. Må treffe nøyaktig én fil."""
+    """Filnavnet som inneholder nøkkelen. Må treffe nøyaktig én fil.
+
+    Er nøkkelen et helt filnavn (slutter på .jpg/.png), brukes det som det er — da er det
+    et bilde vi har hentet fra Wikimedia selv, og som ikke står i arkene fra før."""
+    if re.search(r'\.(jpe?g|png)$', nokkel, re.I):
+        return nokkel
     treff = [f for f in _FILER if nokkel.lower() in f.lower()]
     if len(treff) != 1:
         raise KeyError('bildenøkkelen %r traff %d filer: %s' % (nokkel, len(treff), treff))
     return treff[0]
 
 
+# Bildetekst for filene vi har hentet inn selv (de i arkene har sin egen fra før).
+EGNE_TEKSTER = {
+    'Cala de Finestrat, Finestrat, España, 2014-07-03, DD 01.JPG': 'Cala de Finestrat, finsand i en lukket bukt',
+    'Cala La Almadrava, Benidorm, España, 2014-07-02, DD 75.JPG': 'Cala Almadrava nord for Benidorm',
+    'Terra Natura - panoramio.jpg': 'Terra Natura i Benidorm',
+    'Platanias near Rethymno, Crete 001.JPG': 'Stranda ved Platanes, øst for Rethymno',
+    'Georgioupoli, Crete - panoramio.jpg': 'Georgioupolis',
+    'Aptera - Thermen - Ruinen 2.jpg': 'De romerske badene i Aptera',
+    'Imbros Gorge, Crete.jpg': 'Imbros-juvet',
+    'Croatia Split beach Znjan panorama.jpg': 'Žnjan-stranda i Split',
+    '2. SKYWALK (BIOKOVO).jpg': 'Skywalk-plattformen på Biokovo',
+    'Bisevo blue cave - panoramio.jpg': 'Den blå grotta på Biševo',
+    'Fruit at Pazar.jpg': 'Frukt på Pazar, torget i Split',
+}
+
+
 def bildetekst(fil):
-    return _TEKST.get(fil, '')
+    return EGNE_TEKSTER.get(fil) or _TEKST.get(fil, '')
 
 
 # type: 'utflukt' | 'hotell' | 'sted'
@@ -91,6 +113,23 @@ OBJEKT = {
 'Krka-fossene': dict(type='sted', bilder=['Skradinski Buk'], punkt=['Krka nasjonalpark']),
 'Øyene Brač og Hvar': dict(type='sted', bilder=['Zlatni Rat, Hvar'],
     punkt=['Zlatni Rat på Brač', 'Blå grotte og Hvar']),
+
+# ---------------------------------------------------------------- steder vi har hentet bilde til selv
+'Cala de Finestrat': dict(type='sted', bilder=['Cala de Finestrat, Finestrat, España, 2014-07-03, DD 01.JPG']),
+'Cala del Tio Ximo og Cala Almadrava': dict(type='sted', bilder=['Cala La Almadrava, Benidorm, España, 2014-07-02, DD 75.JPG']),
+'Terra Natura og Aqua Natura': dict(type='sted', bilder=['Terra Natura - panoramio.jpg']),
+'Bystranda i Rethymno og Platanes': dict(type='sted', bilder=['Platanias near Rethymno, Crete 001.JPG']),
+'Georgioupolis — med forbehold': dict(type='sted', bilder=['Georgioupoli, Crete - panoramio.jpg']),
+'Aptera': dict(type='sted', bilder=['Aptera - Thermen - Ruinen 2.jpg']),
+'Imbros-juvet': dict(type='sted', bilder=['Imbros Gorge, Crete.jpg']),
+'Žnjan': dict(type='sted', bilder=['Croatia Split beach Znjan panorama.jpg']),
+'Biokovo Skywalk': dict(type='sted', bilder=['2. SKYWALK (BIOKOVO).jpg']),
+'Blå grotte og Hvar': dict(type='sted', bilder=['Bisevo blue cave - panoramio.jpg', 'Zlatni Rat, Hvar']),
+'Pazar og fisketorget': dict(type='sted', bilder=['Fruit at Pazar.jpg']),
+'Havkajakk under Marjan': dict(type='sted', bilder=['Marjana-Telegrin']),
+'Turen til fyret': dict(type='sted', bilder=['Faro de Punta Albir']),
+# Omiš — Velika Plaža, Zipline i Omiš og Torre Bombarda star uten bilde med vilje:
+# det eneste Omiš-bildet vi har er en iskrem, og fyrbildet viser ikke Torre Bombarda.
 
 # ---------------------------------------------------------------- steder i omradet som mangler eget bilde
 'Gamlebyen i Rethymno': dict(type='sted', bilder=['Rimondi', '8236']),

@@ -27,11 +27,6 @@ POSTER = [
          tekst='Tilbud X2ETUP: 139 188 kroner for alle 28, skatter og innsjekket koffert inkludert. '
                'Tilbudet står til rundt 20. september.'),
 
-    dict(hvem='TUI, via Eli Ristin', hva='Ferdig pakke fra Tromsø, all inclusive',
-         maal=['kreta'], status='tilbud', dato='15. sep', pp=21200,
-         tekst='470 925 kroner for 28 på Blue Star Caldera Creta Paradise i Gerani, med mat på flyet, '
-               'bagasje og transfer. Avreise fra Tromsø, så buss dit kommer i tillegg.'),
-
     dict(hvem='Norwegian gruppeavdeling', hva='Fly Oslo–Chania tur/retur',
          maal=['kreta'], status='tilbud', dato='17. sep', pp=4800,
          tekst='Tilbud XV5CP6: 134 400 kroner for 28 med skatter, på DY 1898 ut 8. juni og DY 1899 hjem 15. juni. '

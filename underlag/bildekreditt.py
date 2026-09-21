@@ -4,6 +4,18 @@ Hentet fra Wikimedia Commons (extmetadata: Artist, LicenseShortName) 16.9.2026.
 Nøklene bruker understrek, slik Commons selv normaliserer filnavn."""
 
 NYE_KREDITT = {
+    # --- hentet inn i tillegg, for steder som manglet bilde (Wikimedia Commons, sjekket 21.9.2026)
+    'Cala_de_Finestrat,_Finestrat,_España,_2014-07-03,_DD_01.JPG': ('Diego Delso', 'CC BY-SA 4.0'),
+    'Cala_La_Almadrava,_Benidorm,_España,_2014-07-02,_DD_75.JPG': ('Diego Delso', 'CC BY-SA 3.0'),
+    'Terra_Natura_-_panoramio.jpg': ('Gustavo Morán Chacón', 'CC BY-SA 3.0'),
+    'Platanias_near_Rethymno,_Crete_001.JPG': ('Moonik', 'CC BY-SA 3.0'),
+    'Georgioupoli,_Crete_-_panoramio.jpg': ('Sorin Craciun', 'CC BY-SA 3.0'),
+    'Aptera_-_Thermen_-_Ruinen_2.jpg': ('Wolfgang Sauber', 'CC BY-SA 3.0'),
+    'Imbros_Gorge,_Crete.jpg': ('Aivin Gast', 'CC BY-SA 4.0'),
+    'Croatia_Split_beach_Znjan_panorama.jpg': ('Klapi', 'CC BY-SA 4.0'),
+    '2._SKYWALK_(BIOKOVO).jpg': ('Marko Jukić', 'CC BY-SA 4.0'),
+    'Bisevo_blue_cave_-_panoramio.jpg': ('Dejan Sekuloski', 'CC BY 3.0'),
+    'Fruit_at_Pazar.jpg': ('Fighting Irish 1977 fr', 'CC BY 2.0'),
     # --- Kreta
     'Preveli_Palm_Beach_03.JPG': ('Uoaei1', 'CC BY-SA 4.0'),
     'Preveli_Palm_Beach_Panorama_02.JPG': ('Uoaei1', 'CC BY-SA 4.0'),

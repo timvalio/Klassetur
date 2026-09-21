@@ -463,20 +463,28 @@ def objekt_bilder(filer, omr=False):
 BOKSTAV = u'0-9A-Za-z\u00c0-\u024f'
 
 def tema_bilder(navn, tema):
-    """Bilder i temaets galleri som hoyst sannsynlig viser nettopp dette punktet.
+    """Bilder i temaets galleri som høyst sannsynlig viser nettopp dette punktet.
 
-    Vi krever at navnet (eller et ord pa minst fem bokstaver fra det) star i bildeteksten,
-    og at treffet begynner pa et ordskille — ellers ville «Imbros-juvet» fatt bildet av
-    «Samaria-juvet»."""
-    ord = sorted({t for t in re.split(u'[^%s]+' % BOKSTAV, navn) if len(t) >= 5}, key=len, reverse=True)
-    ut = []
-    for b in tema['bilder']:
-        for t in [navn] + ord:
-            if re.search(u'(?<![%s\\-])' % BOKSTAV + re.escape(t), b['tekst'], re.I):
-                ut.append(b); break
-        if len(ut) >= 2:
-            break
-    return ut
+    To runder: først hele navnet, deretter ordene på minst seks bokstaver. Treffet må
+    begynne på et ordskille — ellers ville «Imbros-juvet» fått bildet av «Samaria-juvet»,
+    og korte ord som «Albir» ville gitt «Søndagsmarkedet i Albir» et tilfeldig strandbilde.
+    """
+    # Arrangementer, marked og «kvelden i byen» har ingen bygning å vise. Uten denne
+    # sperra ville de plukket det første bildet fra samme by — et kveldsbilde fra Chania
+    # havnet for eksempel under «Kvelden i gamlebyen», som handler om Rethymno.
+    if any(w in navn.lower() for w in ('festival', 'marked', 'kveld', 'opptog', 'hva mat')):
+        return []
+
+    def traff(t, tekst):
+        return re.search(u'(?<![%s\\-])' % BOKSTAV + re.escape(t), tekst, re.I) is not None
+    ord_ = sorted({t for t in re.split(u'[^%s]+' % BOKSTAV, navn) if len(t) >= 6}, key=lambda x: (-len(x), x))
+    # Ett ord om gangen, det lengste først: ellers ville «Santa Bárbara-borgen i Alicante»
+    # truffet «Borgen i Guadalest» på ordet «borgen» før den kom til «Alicante».
+    for t in [navn] + ord_:
+        ut = [b for b in tema['bilder'] if traff(t, b['tekst'])]
+        if ut:
+            return ut[:2]
+    return []
 
 
 def bilde_fra_url(b):

@@ -15,7 +15,7 @@ maal:    liste med reisemål-id-er ('kreta', 'costablanca', 'split'), eller
          Tom liste = gjelder alle tre.
 """
 
-OPPDATERT = '17. september 2026'
+OPPDATERT = '22. september 2026'
 
 LEDE = ('Vi har spurt flybolag, reisebyrå og hotell om pris på de tre reisemålene. '
         'Her står hvem som har svart, og hvem vi fortsatt venter på.')
@@ -46,8 +46,8 @@ POSTER = [
          tekst='Gruppetilbud for 28 på avreise 8. juni: Aegean A3 4559/4558 Alta–Chania tur/retur, sju netter med frokost, '
                '23 kg bagasje og transfer. Galeana Beach fra 13 739 per person i delt dobbeltrom, Ariadne Rethymnon fra 14 784. '
                'Én fri reiseleder fra 20 fullt betalende. Ingen plasser reservert; må bestilles senest 90 dager før avreise. '
-               'Apollo trenger mer tid på priser for spesialbestilte utflukter, og opplyser at de har flere rom på '
-               'lørdagsavgangen fra Tromsø enn på tirsdagsavgangen fra Alta.'),
+               'Apollo trenger mer tid på priser for spesialbestilte utflukter. De har flere rom på lørdagsavgangen '
+               'fra Tromsø 5. juni enn på tirsdagsavgangen fra Alta, og er 22. september bedt om pris også på den.'),
 
     dict(hvem='Peer Gynt Tours', hva='Pris på alle tre reisemål',
          maal=[], status='oss', dato='svarte 16. sep',

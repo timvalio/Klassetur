@@ -66,15 +66,16 @@ DATA = {
     ]),
 
 'kreta-best': dict(
-    hotellpost='Direktefly Alta–Chania og hotell, 7 netter med frokost',
+    hotellpost='Fly, hotell med frokost, bagasje og transfer',
     matpost='Middag ute og lunsj',
     aktivpost='Aktiviteter med leiebuss',
     hotelltittel='Hotell og direktefly — Apollo-pakke',
     hotellnote='Her henger fly og hotell sammen i én pakke, så valget endrer begge deler.',
     hotell=[
-        dict(navn='Galeana Beach', pp=12820, tekst='3 stjerner rett på stranda i Platanes, frokost. Fem km øst for Rethymno by.'),
-        dict(navn='Akti Chara', pp=12370, tekst='4 stjerner på stranda i Platanes, men studioer uten måltider — da må matbudsjettet opp.'),
-        dict(navn='Ariadne Rethymnon', pp=13620, tekst='Frokost, 280 m fra stranda i Platanes. Dyrest av de tre.'),
+        dict(navn='Galeana Beach, dobbeltrom med ekstraseng', pp=13233, tekst='3 stjerner rett på stranda i Platanes, frokost. Elevene tre og tre på rom på ca. 27 kvm.'),
+        dict(navn='Galeana Beach, familierom til elevene', pp=13432, tekst='Samme hotell, men elevene bor på ca. 37 kvm i stedet for 27.'),
+        dict(navn='Ariadne Rethymnon, ettroms leilighet', pp=14189, tekst='Frokost, 280 m fra stranda i Platanes. Leiligheter på ca. 25 kvm.'),
+        dict(navn='Ariadne Rethymnon, toroms leilighet', pp=14503, tekst='Samme hotell, leiligheter på ca. 35 kvm med eget soverom.'),
     ],
     mat=[
         dict(navn='Nøktern', pp=2000, tekst='Frokost på hotellet, lunsj ved stranda (90 kr) og taverna fem av sju kvelder.'),

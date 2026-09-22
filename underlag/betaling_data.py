@@ -37,9 +37,10 @@ POST = {
     'Hotell i Podstrana, 7 netter med frokost': [(1.0, 'jun27', 'Hotellet, betales ved ankomst')],
     'Hotell ved Gardermoen, 1 natt':      [(1.0, 'jun27', 'Natten i Oslo, betales ved ankomst')],
     'Hotell ved Gardermoen, 1 natt med frokost': [(1.0, 'jun27', 'Natten i Oslo, betales ved ankomst')],
-    'Direktefly Alta–Chania og hotell, 7 netter med frokost':
-        [(1.0, 'ukjent', 'Apollo-pakken med fly og hotell — betalingsplan ikke oppgitt')],
-    'Koffert og transfer':                [(1.0, 'ukjent', 'Tillegg hos Apollo — betalingsplan ikke oppgitt')],
+    'Fly, hotell med frokost, bagasje og transfer':
+        [(0.15, 'okt26', 'Depositum til Apollo, 2 000 per person rundt 14 dager etter bestilling'),
+         (0.85, 'mai27', 'Resten av Apollo-pakken, om lag 40 dager før avreise')],
+    'Miljøskatt på hotellet':               [(1.0, 'jun27', 'Gresk klimaavgift, betales direkte til hotellet')],
     'Reiseforsikring for gruppen':        [(1.0, 'jun27', 'Reiseforsikring — tilbud ikke innhentet ennå')],
     # --- Vings charteralternativer
     'Fly Alta–Oslo tur/retur, 28 personer': [(0.3, 'okt26', 'Depositum på Alta–Oslo, 30 prosent'), (0.7, 'mai27', 'Resten av Alta–Oslo, 30 dager før avreise')],

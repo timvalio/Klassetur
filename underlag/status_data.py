@@ -42,10 +42,12 @@ POSTER = [
          tekst='Den siste biten som mangler før Kreta og Split kan regnes ferdig. Ut mandag 7. juni, hjem tirsdag 15. juni.'),
 
     dict(hvem='Apollo', hva='Direktefly Alta–Chania med hotell',
-         maal=['kreta'], status='venter', dato='registrert 17. sep',
-         tekst='Elisabeth Holmsen i gruppeavdelingen har registrert forespørselen under DTN:08490001588 '
-               'og kommer tilbake med forslag og gruppepriser når kapasiteten er sjekket. '
-               'De kan nås direkte på grupper@apollo.no.'),
+         maal=['kreta'], status='tilbud', dato='21. sep',
+         tekst='Gruppetilbud for 28 på avreise 8. juni: Aegean A3 4559/4558 Alta–Chania tur/retur, sju netter med frokost, '
+               '23 kg bagasje og transfer. Galeana Beach fra 13 739 per person i delt dobbeltrom, Ariadne Rethymnon fra 14 784. '
+               'Én fri reiseleder fra 20 fullt betalende. Ingen plasser reservert; må bestilles senest 90 dager før avreise. '
+               'Apollo trenger mer tid på priser for spesialbestilte utflukter, og opplyser at de har flere rom på '
+               'lørdagsavgangen fra Tromsø enn på tirsdagsavgangen fra Alta.'),
 
     dict(hvem='Peer Gynt Tours', hva='Pris på alle tre reisemål',
          maal=[], status='oss', dato='svarte 16. sep',

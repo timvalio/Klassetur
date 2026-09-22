@@ -424,9 +424,21 @@ import base64, mimetypes
 EGNE_BILDER = {}          # slug -> data-URI. Selve bildet ligger ett sted i fila; hotellene peker hit.
 
 def eget_bilde(slug_):
-    """Finner underlag/bilder/hotell/<slug>.jpg|jpeg|png|webp. Returnerer '@<slug>', ellers None."""
+    """Finner underlag/bilder/hotell/<slug>.jpg|jpeg|png|webp. Returnerer '@<slug>', ellers None.
+
+    Heter hotellet i arket «Galeana Beach, dobbeltrom med ekstraseng», leter vi ogsa etter
+    galeana-beach.jpg: samme hotell med flere romtyper skal dele ett bilde.
+    """
     if slug_ in EGNE_BILDER:
         return '@' + slug_
+    biter = slug_.split('-')
+    for i in range(len(biter) - 1, 1, -1):
+        kort = '-'.join(biter[:i])
+        if kort in EGNE_BILDER:
+            return '@' + kort
+        for ext in ('.jpg', '.jpeg', '.png', '.webp'):
+            if os.path.exists(os.path.join(HER, 'bilder', 'hotell', kort + ext)):
+                return eget_bilde(kort)
     for ext in ('.jpg', '.jpeg', '.png', '.webp'):
         fn = os.path.join(HER, 'bilder', 'hotell', slug_ + ext)
         if os.path.exists(fn):

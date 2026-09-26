@@ -309,8 +309,8 @@ DEST = {
 DEST_10B = {
     'Klassetur-Kreta-billigst.html':       dict(id='kreta-billigst',       par='kreta',       variant='billigst', oversikt='Kreta',        base=['Rethymno', 35.3650, 24.4820],  land='Hellas', pass_=False, transfer=None),
     'Klassetur-Kreta-best.html':           dict(id='kreta-best',           par='kreta',       variant='best',     oversikt='Kreta',        base=['Platanes', 35.3760, 24.5450],  land='Hellas', pass_=False, transfer=None),
-    'Klassetur-CostaBlanca-billigst.html': dict(id='costablanca-billigst', par='costablanca', variant='billigst', oversikt='Costa Blanca', base=['Albir', 38.5697, -0.0642],     land='Spania', pass_=False, transfer=None),
-    'Klassetur-CostaBlanca-best.html':     dict(id='costablanca-best',     par='costablanca', variant='best',     oversikt='Costa Blanca', base=['Albir', 38.5697, -0.0642],     land='Spania', pass_=False, transfer=None),
+    'Klassetur-CostaBrava-billigst.html':  dict(id='costabrava-billigst',  par='costabrava',  variant='billigst', oversikt='Costa Brava',  base=['Santa Susanna', 41.6360, 2.7130], land='Spania', pass_=False, transfer=None),
+    'Klassetur-CostaBrava-best.html':      dict(id='costabrava-best',      par='costabrava',  variant='best',     oversikt='Costa Brava',  base=['Santa Susanna', 41.6360, 2.7130], land='Spania', pass_=False, transfer=None),
     'Klassetur-Split-billigst.html':       dict(id='split-billigst',       par='split',       variant='billigst', oversikt='Split',        base=['Split', 43.5081, 16.4402],     land='Kroatia', pass_=False, transfer=None),
     'Klassetur-Split-best.html':           dict(id='split-best',           par='split',       variant='best',     oversikt='Split',        base=['Podstrana', 43.4870, 16.5520], land='Kroatia', pass_=False, transfer=None),
     # Vings charteralternativer, mottatt 21.9.2026. Uten variant, sa de star i lista bade under Billigst og Best.

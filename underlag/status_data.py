@@ -22,10 +22,12 @@ LEDE = ('Vi har spurt flybolag, reisebyrå og hotell om pris på de tre reisemå
 
 POSTER = [
     # --- fly og pakker
-    dict(hvem='Norwegian gruppeavdeling', hva='Fly Alta–Oslo–Alicante tur/retur',
-         maal=['costablanca'], status='tilbud', dato='15. sep', pp=4971,
-         tekst='Tilbud X2ETUP: 139 188 kroner for alle 28, skatter og innsjekket koffert inkludert. '
-               'Tilbudet står til rundt 20. september.'),
+    dict(hvem='Norwegian gruppeavdeling', hva='Fly Alta–Oslo–Barcelona tur/retur',
+         maal=['costabrava'], status='klar', dato='ikke sendt',
+         tekst='Costa Brava er det eneste reisemålet uten noe flytilbud. Forespørselen gjelder DY 321 Alta–Oslo og '
+               'D8 5523 Oslo–Barcelona ut tirsdag 8. juni, DY 1741 og DY 328 hjem tirsdag 15. juni. '
+               'Fram til svaret kommer står flyprisen som billigste oppslag 26. september pluss 381 kroner per flyetappe — '
+               'påslaget som er målt mot Norwegians tre gruppetilbud i september.'),
 
     dict(hvem='Norwegian gruppeavdeling', hva='Fly Oslo–Chania tur/retur',
          maal=['kreta'], status='tilbud', dato='17. sep', pp=4800,
@@ -65,7 +67,8 @@ POSTER = [
     dict(hvem='Travelmate', hva='Pris på alle tre reisemål',
          maal=[], status='nei', dato='svarte 16. sep',
          tekst='Finner ikke noe billigere: Norwegian holder allerede gruppen til Alicante, '
-               'ingen god rute til Split, og over 8 000 kroner til Kreta fra Alta.'),
+               'ingen god rute til Split, og over 8 000 kroner til Kreta fra Alta. '
+               'Svaret gjaldt Costa Blanca, som siden er byttet ut med Costa Brava.'),
 
     # --- hotell
     dict(hvem='Olympic Palladium, Rethymno', hva='7 netter med frokost',
@@ -74,12 +77,21 @@ POSTER = [
                'med frokost, pluss klimaskatt 5 euro per rom per natt. Til sammen 78 900 kroner for hele uka. '
                'Halvpensjon koster 16 euro ekstra per person per dag. Rommene er ikke holdt av ennå.'),
 
-    dict(hvem='Albir Garden Resort', hva='7 netter for 28',
-         maal=['costablanca-billigst'], status='venter', dato='sendt 16. sep', tekst=''),
+    dict(hvem='SANTA SUSANNA Chic! Apartments by ALEGRIA', hva='7 netter for 28',
+         maal=['costabrava-billigst'], status='klar', dato='ikke sendt', pp=3057,
+         tekst='Slått opp på booking.com 26. september for 8.–15. juni 2027: 48 907 kroner for 16 personer, '
+               '3 057 per person, fri avbestilling. Booking.com priser bare 16 om gangen, så de siste tolv må bekreftes direkte.'),
 
-    dict(hvem='Albir Playa Hotel & Spa', hva='7 netter for 28',
-         maal=['costablanca-best'], status='nei', dato='svarte 16. sep',
-         tekst='Hotellet tar ikke imot skolegrupper. Vi trenger et annet hotell til denne varianten.'),
+    dict(hvem='AQUA Hotel Onabrava & Spa, Santa Susanna', hva='7 netter med halvpensjon for 28',
+         maal=['costabrava-best'], status='klar', dato='ikke sendt', pp=4670,
+         tekst='Slått opp på booking.com 26. september for 8.–15. juni 2027: 74 724 kroner for 16 personer, '
+               '4 670 per person med frokost og middag, fri avbestilling og ingen forskuddsbetaling. '
+               '9,0 av 10 i omtale. Hele gruppa må bekreftes direkte med hotellet: +34 93 767 83 70, onabrava@aquahotel.com.'),
+
+    dict(hvem='Moventis Experience / From2 Travel', hva='Buss Barcelona lufthavn–Santa Susanna',
+         maal=['costabrava'], status='klar', dato='ikke sendt',
+         tekst='Publisert pris for delt buss er 18 euro per person hver vei, satt av ved overnattingsstedet. '
+               'Pris på privat buss for 28 bør hentes inn, og det må bekreftes at siste avgang passer med landing 22:55.'),
 
     dict(hvem='Hotel San Antonio, Podstrana', hva='7 netter for 28',
          maal=['split-best'], status='nei', dato='svarte 18. sep',

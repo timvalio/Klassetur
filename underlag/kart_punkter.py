@@ -46,6 +46,28 @@ PUNKT = {
     'Guadalest og Algar':       [38.6600, -0.1580, 12],
     'Tabarca':                  [38.1650, -0.4790, 13],
 
+    # --- Costa Brava, hoteller (Santa Susanna, 60 km nord for Barcelona)
+    'SANTA SUSANNA Chic! Apartments by ALEGRIA': [41.6385, 2.7075, 15],
+    'ALEGRIA Cartago Nova':     [41.6430, 2.7400, 15],   # Malgrat de Mar, ved stranda
+    'Santa Susanna Resort Affiliated by FERGUS': [41.6350, 2.7175, 15],
+    'Hostal Boutique Rivolto Rooms': [41.6375, 2.7110, 16],
+    'AQUA Hotel Onabrava & Spa 4*Sup': [41.6330, 2.7065, 15],
+    'AQUA Hotel Aquamarina & Spa': [41.6320, 2.7040, 15],
+    'ALEGRIA Caprici Verd 4 SUP': [41.6335, 2.7095, 15],
+    'ALEGRIA Florida & Spa':    [41.6318, 2.7020, 15],
+    # --- Costa Brava, utflukter og steder
+    'Santa Susanna':            [41.6360, 2.7130, 14],
+    'Barcelona':                [41.3851, 2.1734, 12],
+    'Sagrada Família':          [41.4036, 2.1744, 16],
+    'Park Güell':               [41.4145, 2.1527, 15],
+    'Tossa de Mar':             [41.7197, 2.9317, 14],
+    'Water World':              [41.7133, 2.8352, 15],   # Carretera de Vidreres, Lloret de Mar
+    'PortAventura og Ferrari Land': [41.0870, 1.1560, 13],
+    'Marineland Catalunya':     [41.6620, 2.7500, 14],   # Palafolls
+    'Calella':                  [41.6140, 2.6560, 14],
+    'Blanes':                   [41.6740, 2.7910, 14],
+    'Malgrat de Mar':           [41.6460, 2.7420, 14],
+
     # --- Split, hoteller
     'Design Hostel One':        [43.5085, 16.4400, 16],   # innenfor murene i gamlebyen
     'Plavi Horizont, Podstrana':[43.4870, 16.5520, 15],

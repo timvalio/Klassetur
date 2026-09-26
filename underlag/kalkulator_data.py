@@ -83,15 +83,16 @@ DATA = {
         dict(navn='Raus', pp=3700, tekst='Taverna hver kveld med forrett og dessert, og mat kjøpt på utfluktene.'),
     ]),
 
-'costablanca-billigst': dict(
-    hotellpost='Leiligheter i Albir, 7 netter',
+'costabrava-billigst': dict(
+    hotellpost='Leiligheter i Santa Susanna, 7 netter',
     matpost='Mat, delvis laget selv',
     aktivpost='Aktiviteter og transport',
     hotelltittel='Overnatting, sju netter',
     hotell=[
-        dict(navn='Albir Garden Resort', pp=3090, tekst='Leiligheter for fire med kjøkken, midt i Albir, eget badeland. 15 minutters gange til stranda.'),
-        dict(navn='Nacavi Albir Aparthotel', pp=2660, tekst='Leiligheter for fire i Albir. Rimeligst, men minst informasjon å gå på.'),
-        dict(navn='Hotel Noguera El Albir', pp=3910, tekst='Lite familiedrevet hotell, 9,0 av 10 i omtale, dobbeltrom med frokost. Ingen kjøkken, så matbudsjettet må opp.'),
+        dict(navn='SANTA SUSANNA Chic! Apartments by ALEGRIA', pp=3057, tekst='Leiligheter med kjøkken og basseng, 600 m fra sentrum og 850 m fra stranda. 8,6 av 10 i omtale.'),
+        dict(navn='ALEGRIA Cartago Nova', pp=2194, tekst='Rett ved stranda i Malgrat de Mar, 1,7 km fra Santa Susanna. Frokost inkludert, 8,0 av 10. Uten kjøkken, så matbudsjettet må opp.'),
+        dict(navn='Santa Susanna Resort Affiliated by FERGUS', pp=2718, tekst='Firemannsrom med frokost, 650 m fra stranda. 6,0 av 10 i omtale.'),
+        dict(navn='Hostal Boutique Rivolto Rooms', pp=2817, tekst='150 m fra sentrum og 750 m fra stranda, 8,7 av 10. Uten måltider og uten basseng, og lite nok til at gruppa fyller huset.'),
     ],
     mat=[
         dict(navn='Nøktern', pp=1400, tekst='Frokost og de fleste middagene laget i leiligheten, lunsj ute et par ganger.'),
@@ -99,21 +100,22 @@ DATA = {
         dict(navn='Raus', pp=2800, tekst='Lunsj og middag ute hver dag — menú del día (170 kr) og tapas om kvelden.'),
     ]),
 
-'costablanca-best': dict(
+'costabrava-best': dict(
     hotellpost='Hotell med halvpensjon, 7 netter',
     matpost='Lunsj og mat underveis',
     aktivpost='Aktiviteter med leiebuss',
     hotelltittel='Hotell med halvpensjon, sju netter',
-    hotellnote='Frokost og middag er med i hotellprisen, derfor er matbudsjettet lavere her.',
+    hotellnote='Frokost og middag er med i hotellprisen, derfor er matbudsjettet lavere her. Alle fire ligger i Santa Susanna og hadde halvpensjon ledig 8.–15. juni 2027 med fri avbestilling.',
     hotell=[
-        dict(navn='Hotel Cap Negret', pp=9000, tekst='4 stjerner rett på stranda i Altea, 9,0 av 10 i omtale, halvpensjon. Ikke kontaktet ennå.'),
-        dict(navn='Albir Playa Hotel & Spa', pp=None, tekst='Svarte 16. september at de ikke tar imot skolegrupper. Ute av lista.'),
-        dict(navn='Hotel Kaktus Albir', pp=None, tekst='4 stjerner på stranda i Albir, bekreftet tremannsrom. Prisen vi har er en Ving-pakke med fly fra Oslo, så den kan ikke regnes inn her. Forespørsel bør sendes.'),
+        dict(navn='AQUA Hotel Onabrava & Spa 4*Sup', pp=4670, tekst='4 stjerner superior, 9,0 av 10, basseng og spa, 300 m fra stranda. Firemannsrom med frokost og middag.'),
+        dict(navn='AQUA Hotel Aquamarina & Spa', pp=4241, tekst='4 stjerner, 8,2 av 10, 250 m fra stranda. Firemannsrom med frokost og middag — rimeligst av de fire.'),
+        dict(navn='ALEGRIA Caprici Verd 4 SUP', pp=4551, tekst='4 stjerner superior, 7,9 av 10, 250 m fra stranda. Firemannsrom med frokost og middag.'),
+        dict(navn='ALEGRIA Florida & Spa', pp=4741, tekst='4 stjerner, 8,3 av 10, 250 m fra stranda. Familierom med frokost og middag.'),
     ],
     mat=[
         dict(navn='Nøktern', pp=1000, tekst='Frokost og middag er med i hotellet. Lunsj blir bocadillo eller pizzaskive (100 kr).'),
         dict(navn='Som planlagt', pp=1450, tekst='Frokost og middag på hotellet, lunsj ute (150 kr) hver dag, pluss mat på reisedagene.'),
-        dict(navn='Raus', pp=2100, tekst='Lunsj ute hver dag (200 kr), is og drikke på utfluktene, og en kveld ute i Altea.'),
+        dict(navn='Raus', pp=2100, tekst='Lunsj ute hver dag (200 kr), is og drikke på utfluktene, og en kveld ute i Barcelona.'),
     ]),
 
 'split-billigst': dict(

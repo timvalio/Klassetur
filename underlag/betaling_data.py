@@ -33,6 +33,7 @@ POST = {
         [(0.30, 'okt26', 'Depositum til Design Hostel One, 30 prosent ved bekreftelse'),
          (0.70, 'mai27', 'Resten av hostellet, 15 dager før ankomst')],
     'Leiligheter i Albir, 7 netter':      [(1.0, 'jun27', 'Leilighetene, betales ved ankomst')],
+    'Leiligheter i Santa Susanna, 7 netter': [(1.0, 'jun27', 'Leilighetene, betales ved ankomst')],
     'Hotell med halvpensjon, 7 netter':   [(1.0, 'jun27', 'Hotellet, betales ved ankomst')],
     'Hotell i Podstrana, 7 netter med frokost': [(1.0, 'jun27', 'Hotellet, betales ved ankomst')],
     'Hotell ved Gardermoen, 1 natt':      [(1.0, 'jun27', 'Natten i Oslo, betales ved ankomst')],
@@ -42,6 +43,7 @@ POST = {
          (0.85, 'mai27', 'Resten av Apollo-pakken, om lag 40 dager før avreise')],
     'Miljøskatt på hotellet':               [(1.0, 'jun27', 'Gresk klimaavgift, betales direkte til hotellet')],
     'Reiseforsikring':                    [(1.0, 'jun27', 'Reiseforsikring — tilbud ikke innhentet ennå')],
+    'Reiseforsikring, kjøpes av foreldrene': [(1.0, 'underveis', 'Kjøpes av hver familie selv — går ikke over klassekassa')],
     'Hotell i Split, 7 netter med frokost':
         [(0.30, 'mar27', 'Depositum til Cora Hotel, 30 prosent'),
          (0.70, 'mai27', 'Resten av hotellet, 14 dager før ankomst')],

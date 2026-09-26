@@ -41,7 +41,10 @@ POST = {
         [(0.15, 'okt26', 'Depositum til Apollo, 2 000 per person rundt 14 dager etter bestilling'),
          (0.85, 'mai27', 'Resten av Apollo-pakken, om lag 40 dager før avreise')],
     'Miljøskatt på hotellet':               [(1.0, 'jun27', 'Gresk klimaavgift, betales direkte til hotellet')],
-    'Reiseforsikring for gruppen':        [(1.0, 'jun27', 'Reiseforsikring — tilbud ikke innhentet ennå')],
+    'Reiseforsikring':                    [(1.0, 'jun27', 'Reiseforsikring — tilbud ikke innhentet ennå')],
+    'Hotell i Split, 7 netter med frokost':
+        [(0.30, 'mar27', 'Depositum til Cora Hotel, 30 prosent'),
+         (0.70, 'mai27', 'Resten av hotellet, 14 dager før ankomst')],
     'Turistskatt på stedet':               [(1.0, 'jun27', 'Turistskatt, betales på hotellet ved ankomst')],
     'Miljøskatt på hotellet':               [(1.0, 'jun27', 'Gresk klimaavgift, betales på hotellet ved ankomst')],
     # --- Vings charteralternativer

@@ -805,6 +805,9 @@ a{color:var(--deep)}
 .card .bar{grid-column:1/3;height:3px;background:var(--line);border-radius:2px;margin-top:6px;overflow:hidden}
 .card.sel .bar{background:rgba(255,255,255,.18)}
 .card .bar i{display:block;height:100%;background:var(--c);width:0}
+/* Enkel liste: én pakke per linje, ingen fargekoder å tyde */
+#cards.enkel .card::before,#cards.enkel .card .r .dot,#cards.enkel .card .bar{display:none}
+#cards.enkel .card{padding-left:18px}
 .listfoot{padding:14px 18px 24px;font-size:12px;color:var(--muted)}
 .listfoot p{margin:0 0 6px}
 
@@ -1105,6 +1108,8 @@ table.cost tr.sum td{border-top:1px solid var(--ink);border-bottom:0;font-weight
   #cards{display:grid;grid-template-columns:1fr 1fr}
   #cards .card{border-right:1px solid var(--line)}
   #cards .card:nth-child(2n){border-right:0}
+  #cards.enkel{grid-template-columns:1fr}
+  #cards.enkel .card{border-right:0}
   .listfoot p{max-width:80ch}
 }
 @media (min-width:1600px){
@@ -1115,6 +1120,8 @@ table.cost tr.sum td{border-top:1px solid var(--ink);border-bottom:0;font-weight
   #cards{grid-template-columns:1fr 1fr 1fr}
   #cards .card:nth-child(2n){border-right:1px solid var(--line)}
   #cards .card:nth-child(3n){border-right:0}
+  #cards.enkel{grid-template-columns:1fr}
+  #cards.enkel .card{border-right:0}
 }
 /* kartet er smalt nå — hold kontrollene små */
 @media (min-width:861px){
@@ -1538,6 +1545,8 @@ function sorted(list) {
 }
 function renderList() {
   const box = document.getElementById('cards');
+  const enkel = K.id === '10B';            // 10B: én pakke per linje, uten fargekoder
+  box.classList.toggle('enkel', enkel);
   const frame = state.price === 'pp' ? FRAME.pp : FRAME.total;
   let html = '', lastReg = null;
   sorted(visible()).forEach(d => {
@@ -1546,7 +1555,7 @@ function renderList() {
     const p = pris(d);
     const via = r.legs.filter(l => l.type !== 'transfer').map(l => l.til).join(' · ');
     html += `<div class="card${state.sel === d.id ? ' sel' : ''}${state.hot === d.id ? ' hot' : ''}" data-id="${d.id}" style="--c:${d.farge}">
-      <div class="n">${esc(d.navn)}${(state.variant === 'alle' && d.variant) ? '<i class="vtag">' + (d.variant === 'best' ? 'Best' : 'Billigst') + '</i>' : ''}<small>${esc(r.tilbud ? r.basis.replace(/^(Billigst|Best) · /, '') : d.under)}</small></div>
+      <div class="n">${esc(d.navn)}<small>${esc(r.tilbud ? r.basis.replace(/^(Billigst|Best) · /, '') : d.under)}</small></div>
       <div class="p num">${fmt(p)}<small>${state.price === 'pp' ? 'kr per reisende' : 'kr for hele gruppen'}</small></div>
       <div class="r"><span class="dot"></span>${esc(via)}${d.ruter.length > 1 ? ' · ' + d.ruter.length + ' reiseveier' : ''}${d.pass ? ' · krever pass' : ''}${statusMerke(d)}</div>
       <div class="r t"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 18a8 8 0 1 1 0-16 8 8 0 0 1 0 16Zm.5-13H11v6l5.2 3.1.8-1.3-4.5-2.7V7Z"/></svg>${esc(tidTekst(r))} underveis${r.hub ? ' + ventetid i ' + esc(r.hub) : ''}</div>
@@ -1556,7 +1565,7 @@ function renderList() {
   });
   box.innerHTML = html;
   const o = O;
-  document.getElementById('listfoot').innerHTML = `<p>${esc(o.warn)}</p><p>${esc(o.footer)}</p><p>Søylen viser prisen mot rammen: ${fmt(FRAME.pp)} kr per reisende, ${fmt(FRAME.total)} kr for ${K.n}. Tallene er hentet fra ${esc(o.fil)} og turarkene, sist samlet ${esc(DATA.generert)}. Arkene ligger innbakt i denne fila, så den kan sendes alene.</p>`;
+  document.getElementById('listfoot').innerHTML = `<p>${esc(o.warn)}</p><p>${esc(o.footer)}</p><p>${enkel ? '' : 'Søylen viser prisen mot rammen: ' + fmt(FRAME.pp) + ' kr per reisende, ' + fmt(FRAME.total) + ' kr for ' + K.n + '. '}Tallene er hentet fra ${esc(o.fil)} og turarkene, sist samlet ${esc(DATA.generert)}. Arkene ligger innbakt i denne fila, så den kan sendes alene.</p>`;
 }
 document.getElementById('cards').addEventListener('click', e => { const c = e.target.closest('.card'); if (c) select(c.dataset.id); });
 document.getElementById('cards').addEventListener('mouseover', e => { const c = e.target.closest('.card'); if (c) hover(c.dataset.id, true); });

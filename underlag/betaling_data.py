@@ -42,6 +42,8 @@ POST = {
          (0.85, 'mai27', 'Resten av Apollo-pakken, om lag 40 dager før avreise')],
     'Miljøskatt på hotellet':               [(1.0, 'jun27', 'Gresk klimaavgift, betales direkte til hotellet')],
     'Reiseforsikring for gruppen':        [(1.0, 'jun27', 'Reiseforsikring — tilbud ikke innhentet ennå')],
+    'Turistskatt på stedet':               [(1.0, 'jun27', 'Turistskatt, betales på hotellet ved ankomst')],
+    'Miljøskatt på hotellet':               [(1.0, 'jun27', 'Gresk klimaavgift, betales på hotellet ved ankomst')],
     # --- Vings charteralternativer
     'Fly Alta–Oslo tur/retur, 28 personer': [(0.3, 'okt26', 'Depositum på Alta–Oslo, 30 prosent'), (0.7, 'mai27', 'Resten av Alta–Oslo, 30 dager før avreise')],
     'Vings charterpakke: fly, transfer og 7 netter leilighet': [(1.0, 'ukjent', 'Vings charterpakke — betalingsplan ikke oppgitt i reiseforslaget')],

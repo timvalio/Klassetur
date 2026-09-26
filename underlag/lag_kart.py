@@ -31,6 +31,38 @@ PREFIX = os.path.relpath(HER, os.path.dirname(KART)).replace(os.sep, '/')
 PREFIX = '' if PREFIX == '.' else PREFIX + '/'
 
 # ---------------------------------------------------------------- hjelpere
+# Kostnadskategoriene. Samme inndeling som i regnearket Klassetur-10B-sammenligning.xlsx,
+# slik at nettsida og arket ikke kan vise ulike tall for samme post.
+KATEGORI = [
+    ('A', u'Buss Kautokeino\u2013flyplass t/r'),
+    ('B', u'Fly Alta\u2013Oslo t/r'),
+    ('C', u'Fly ut og hjem, hele reisen'),
+    ('D', u'Pakke: fly, hotell og transfer'),
+    ('E', u'Hotell p\u00e5 reisem\u00e5let, 7 netter'),
+    ('F', u'Overnatting underveis'),
+    ('G', u'Avgifter og gebyrer'),
+    ('H', u'Mat'),
+    ('I', u'Aktiviteter og lokaltransport'),
+    ('J', u'Reiseforsikring'),
+]
+
+def kat_for(post):
+    """Plasserer en kostnadspost i en av kategoriene over. Ukjent post havner i 'X'."""
+    p = (post or u'').lower()
+    if p.startswith(u'buss kautokeino'):                                       return 'A'
+    if p.startswith(u'fly alta\u2013oslo'):                                     return 'B'
+    if p.startswith(u'fly, 28 personer') or p.startswith(u'fly, 20 personer'):  return 'C'
+    if u'charterpakke' in p or p.startswith(u'fly, hotell'):                   return 'D'
+    if u'gardermoen' in p or u'natt ved' in p:                                 return 'F'
+    if p.startswith((u'leiligheter i', u'hotell med', u'hostel i', u'hotell i', u'overnatting,')): return 'E'
+    if u'milj\u00f8skatt' in p or u'turistskatt' in p or u'avgift' in p or u'innreisetillatelse' in p: return 'G'
+    if p.startswith((u'mat', u'middag', u'lunsj')):                            return 'H'
+    if p.startswith(u'aktiviteter'):                                           return 'I'
+    if u'forsikring' in p:                                                     return 'J'
+    if p.startswith((u'fly', u'nattog', u'tog')):                              return 'C'
+    if u'hotell' in p or u'leilighet' in p or u'hostel' in p or u'resort' in p: return 'E'
+    return 'X'
+
 def txt(s):
     """HTML -> ren tekst"""
     s = re.sub(r'<br\s*/?>', ' ', s or '')
@@ -163,8 +195,9 @@ def les_ark(fn):
         if len(c) == 3:
             tag = re.search(r'<span class="tag[^"]*">(.*?)</span>', c[1], re.S)
             basis = re.search(r'<span class="basis">(.*?)</span>', c[1], re.S)
-            rows.append({'post': txt(c[0]), 'tag': txt(tag.group(1)) if tag else txt(re.sub(r'<span class="basis">.*?</span>', '', c[1], flags=re.S)),
-                         'basis': txt(basis.group(1)) if basis else '', 'belop': num(c[2])})
+            post = txt(c[0])
+            rows.append({'post': post, 'tag': txt(tag.group(1)) if tag else txt(re.sub(r'<span class="basis">.*?</span>', '', c[1], flags=re.S)),
+                         'basis': txt(basis.group(1)) if basis else '', 'belop': num(c[2]), 'kat': kat_for(post)})
     d['kostnader'] = rows
     m = re.search(r'<tr class="sum"><td>(.*?)</td><td></td><td class="num">(.*?)</td></tr>', ko, re.S)
     d['sum'] = num(m.group(2)) if m else None
@@ -725,7 +758,7 @@ def bygg():
     data = {
         'generert': datetime.date.today().isoformat(),
         'prefix': PREFIX,
-        'hotellbilder': EGNE_BILDER,
+        'hotellbilder': EGNE_BILDER, 'kategorier': [list(k) for k in KATEGORI],
         'standard': KLASSER[0]['id'],
         'klasser': {k['id']: k for k in klasser},
         'origo': {'navn': 'Kautokeino', 'lat': STEDER['Kautokeino'][0], 'lng': STEDER['Kautokeino'][1]},

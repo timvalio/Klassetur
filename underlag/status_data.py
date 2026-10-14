@@ -15,54 +15,68 @@ maal:    liste med reisemål-id-er ('kreta', 'costablanca', 'split'), eller
          Tom liste = gjelder alle tre.
 """
 
-OPPDATERT = '22. september 2026'
+OPPDATERT = '14. oktober 2026'
 
-LEDE = ('Vi har spurt flybolag, reisebyrå og hotell om pris på de tre reisemålene. '
-        'Her står hvem som har svart, og hvem vi fortsatt venter på.')
+LEDE = ('Alle prisene fra september gikk ut etter noen dager. 12. oktober ble hele runden sendt på nytt — '
+        'samme reisemål, samme datoer, samme gruppe. 14. oktober kom Norwegians gruppetilbud ZJIHGF på flyet '
+        'til Barcelona, det første ekte tilbudet på Costa Brava, og samme dag ble alle overnattingene slått '
+        'opp på nytt — denne gangen for hele gruppa på 28 i ett søk, ikke 16 om gangen. Ingen av hotellene har '
+        'gitt gruppepris ennå, så de står fortsatt som oppslag. Apollo, Ving og GHT Hotels er også spurt om '
+        'Costa Brava.')
 
 POSTER = [
     # --- fly og pakker
-    dict(hvem='Norwegian gruppeavdeling', hva='Fly Alta–Oslo–Barcelona tur/retur',
-         maal=['costabrava'], status='klar', dato='ikke sendt',
-         tekst='Costa Brava er det eneste reisemålet uten noe flytilbud. Forespørselen gjelder DY 321 Alta–Oslo og '
-               'D8 5523 Oslo–Barcelona ut tirsdag 8. juni, DY 1741 og DY 328 hjem tirsdag 15. juni. '
-               'Fram til svaret kommer står flyprisen som billigste oppslag 26. september pluss 381 kroner per flyetappe — '
-               'påslaget som er målt mot Norwegians tre gruppetilbud i september.'),
+    dict(hvem='Norwegian gruppeavdeling', hva='Fly Alta–Oslo tur/retur',
+         maal=['kreta', 'split'], status='klar', dato='skjema klart 12. okt',
+         tekst='Ut mandag 7. juni 11:55 (DY 321), hjem tirsdag 15. juni 19:50 (DY 328). '
+               'Den største posten uten tilbud: 480 116 kroner fordelt på fem alternativer. '
+               'Anslaget er regnet om 14. oktober til 3 814 per person — billigste direktefly '
+               '2 598 pluss 608 per flyetappe, som er påslaget målt mot ZJIHGF. '
+               'Skjemaet på group.norwegian.com er fylt ut med rute og datoer og må sendes derfra. '
+               'Gruppetilbud står fem virkedager, så det må hentes inn tett på bestilling.'),
 
     dict(hvem='Norwegian gruppeavdeling', hva='Fly Oslo–Chania tur/retur',
-         maal=['kreta'], status='tilbud', dato='17. sep', pp=4800,
-         tekst='Tilbud XV5CP6: 134 400 kroner for 28 med skatter, på DY 1898 ut 8. juni og DY 1899 hjem 15. juni. '
-               'Står i fem dager, altså til rundt 22. september.'),
+         maal=['kreta'], status='klar', dato='skjema klart 12. okt',
+         tekst='Ut tirsdag 8. juni (DY 1898), hjem tirsdag 15. juni (DY 1899). '
+               'Tilbud XV5CP6 fra 17. september — 134 400 for 28 med skatter og koffert — gikk ut rundt 24. september '
+               'og står fortsatt som det daterte grunnlaget til et nytt svar kommer.'),
 
     dict(hvem='Norwegian gruppeavdeling', hva='Fly Oslo–Split tur/retur',
-         maal=['split'], status='tilbud', dato='17. sep', pp=2600,
-         tekst='Tilbud XV8K8J: 72 800 kroner for 28 med skatter, på DY 1950 ut 8. juni og DY 1951 hjem 15. juni. '
-               'Står i fem dager, altså til rundt 22. september.'),
+         maal=['split'], status='klar', dato='skjema klart 12. okt',
+         tekst='Ut tirsdag 8. juni (DY 1950), hjem tirsdag 15. juni (DY 1951). '
+               'Tilbud XV8K8J fra 17. september — 72 800 for 28 med skatter og koffert — gikk ut rundt 24. september '
+               'og står fortsatt som det daterte grunnlaget.'),
 
-    dict(hvem='Norwegian gruppeavdeling', hva='Fly Alta–Oslo tur/retur',
-         maal=['kreta', 'split'], status='venter', dato='sendt 16. sep',
-         tekst='Den siste biten som mangler før Kreta og Split kan regnes ferdig. Ut mandag 7. juni, hjem tirsdag 15. juni.'),
+    dict(hvem='Norwegian gruppeavdeling', hva='Fly Alta–Oslo–Barcelona tur/retur',
+         maal=['costabrava'], status='tilbud', dato='14. okt', pp=6145,
+         tekst='Tilbud ZJIHGF: 157 304 pluss skatter og avgifter 14 756 = 172 060 kroner for 28, altså 6 145 per person '
+               'med 2 × 23 kg koffert. DY 321 Alta–Oslo og D8 5523 Oslo–Barcelona ut tirsdag 8. juni, DY 1741 og DY 328 '
+               'hjem tirsdag 15. juni. Står i sju dager, til rundt 21. oktober. Det er 25 424 kroner mer enn anslaget — '
+               'påslaget over nettpris ble 608 kroner per flyetappe, ikke 381 som målt i september.'),
 
-    dict(hvem='Apollo', hva='Direktefly Alta–Chania med hotell',
-         maal=['kreta'], status='tilbud', dato='21. sep',
-         tekst='Gruppetilbud for 28 på avreise 8. juni: Aegean A3 4559/4558 Alta–Chania tur/retur, sju netter med frokost, '
-               '23 kg bagasje og transfer. Galeana Beach fra 13 739 per person i delt dobbeltrom, Ariadne Rethymnon fra 14 784. '
-               'Én fri reiseleder fra 20 fullt betalende. Ingen plasser reservert; må bestilles senest 90 dager før avreise. '
-               'Apollo trenger mer tid på priser for spesialbestilte utflukter. De har flere rom på lørdagsavgangen '
-               'fra Tromsø 5. juni enn på tirsdagsavgangen fra Alta, og er 22. september bedt om pris også på den.'),
+    dict(hvem='Apollo', hva='Kreta med direktefly, og pris på Costa Brava',
+         maal=['kreta', 'costabrava'], status='oss', dato='purret 9. okt',
+         tekst='Bedt om fornyet gruppepris på begge avgangene: Alta 8.–15. juni (A3 4559/4558) og Tromsø 5.–12. juni '
+               '(SK 7355/7356), Galeana Beach med frokost, koffert og transfer, og «den 21. gratis» regnet inn. '
+               'Tilbudet fra 21. og 25. september sto til Galeana Beach fra 13 739 per person fra Alta og 12 305 fra Tromsø. '
+               'Saksnummer DTN:08490001588. Utfluktsprisene de skyldte oss er etterspurt på nytt. '
+               'Elisabeth Holmsen purret 9. oktober og spør om vi har bestemt oss eller valgt en annen reise — hun venter på svar fra oss. '
+               'Samme svar kan spørre om de selger Costa Brava, og be om utfluktsprisene de trengte mer tid på.'),
+
+    dict(hvem='Ving gruppeavdeling', hva='To charteralternativer, og et forslag på Costa Brava',
+         maal=['kreta-charter', 'brac-charter', 'costabrava'], status='venter', dato='sendt 12. okt',
+         tekst='Bedt om fornyede priser på BO4FXR5 (Oslo–Chania 10.–18. juni, Ilion Beach i Gerani) og '
+               'B1M3CUA (Oslo–Split 11.–18. juni, Waterman Supetrus på Brač). Reiseforslagene fra 21. september '
+               'lød på 226 779 og 238 750 for 28, begge uten måltider og uten reserverte plasser. '
+               'Ving har egne hoteller i Lloret de Mar, så de er også bedt om et tredje forslag på Costa Brava — '
+               'ett rimelig og ett med halvpensjon.'),
 
     dict(hvem='Peer Gynt Tours', hva='Pris på alle tre reisemål',
-         maal=[], status='oss', dato='svarte 16. sep',
-         tekst='De ser på mulighetene, men trenger å vite hva turen får koste og om vi vil bo i sentrum '
-               'eller heller ved stranda. Svar er på vei.'),
-
-    dict(hvem='Ving gruppeavdeling', hva='To charteralternativer fra Oslo',
-         maal=['kreta-charter', 'brac-charter'], status='tilbud', dato='21. sep',
-         tekst='Reiseforslag BO4FXR5: Sunclass Oslo–Chania 10.–18. juni og 7 netter i leilighet på Ilion Beach i Gerani, '
-               '226 779 for 28. Reiseforslag B1M3CUA: Norwegian Oslo–Split 11.–18. juni og 7 netter på Waterman Supetrus '
-               'i Supetar på Brač, 238 750 for 28. Begge uten måltider; frokost koster 945 og 1 240 per person. '
-               'Ving flyr bare fra Oslo og selger ikke tilslutningsbilletter, så buss, Alta–Oslo og natt ved Gardermoen kommer i tillegg. '
-               'Ingen plasser er reservert.'),
+         maal=[], status='venter', dato='svart 16. sep',
+         tekst='De fikk svar allerede 16. september: inntil 15 000 kroner per person for hele turen, base ved stranda '
+               'med gangavstand til butikker, elevene på tremannsrom og de voksne på dobbelt- og tremannsrom, frokost '
+               'som minimum. Datoene er ikke låst — lørdag til lørdag, for eksempel 5.–12. juni, går også fint. '
+               'Siden har det vært stille. Trenger en purring, ikke et nytt svar.'),
 
     dict(hvem='Travelmate', hva='Pris på alle tre reisemål',
          maal=[], status='nei', dato='svarte 16. sep',
@@ -72,44 +86,75 @@ POSTER = [
 
     # --- hotell
     dict(hvem='Olympic Palladium, Rethymno', hva='7 netter med frokost',
-         maal=['kreta-billigst'], status='tilbud', dato='17. sep', pp=2820,
-         tekst='HotelBrain har gitt gruppepris: 8 tremannsrom à 105 euro og 2 dobbeltrom à 78 euro per natt '
-               'med frokost, pluss klimaskatt 5 euro per rom per natt. Til sammen 78 900 kroner for hele uka. '
-               'Halvpensjon koster 16 euro ekstra per person per dag. Rommene er ikke holdt av ennå.'),
+         maal=['kreta-billigst'], status='venter', dato='sendt 12. okt',
+         tekst='Bedt om fornyet gruppepris på 8 tremannsrom og 2 dobbeltrom med frokost, 8.–15. juni, '
+               'og om rommene kan holdes på opsjon. HotelBrains pris fra 17. september var 78 900 kroner for uka, '
+               'med halvpensjon som tillegg på 16 euro per person per dag.'),
 
     dict(hvem='SANTA SUSANNA Chic! Apartments by ALEGRIA', hva='7 netter for 28',
-         maal=['costabrava-billigst'], status='klar', dato='ikke sendt', pp=3057,
-         tekst='Slått opp på booking.com 26. september for 8.–15. juni 2027: 48 907 kroner for 16 personer, '
-               '3 057 per person, fri avbestilling. Booking.com priser bare 16 om gangen, så de siste tolv må bekreftes direkte.'),
+         maal=['costabrava-billigst'], status='venter', dato='sendt 12. okt',
+         tekst='Leiligheter med kjøkken, selvhushold, 8.–15. juni. Booking.com priser hele gruppa på 28 i ett søk: '
+               '80 855 for uka 14. oktober, 2 888 per person, fordelt på seks leiligheter. Raten var ikke merket '
+               'med fri avbestilling, så vi ber om gruppepris og om leilighetene kan holdes på opsjon.'),
 
     dict(hvem='AQUA Hotel Onabrava & Spa, Santa Susanna', hva='7 netter med halvpensjon for 28',
-         maal=['costabrava-best'], status='klar', dato='ikke sendt', pp=4670,
-         tekst='Slått opp på booking.com 26. september for 8.–15. juni 2027: 74 724 kroner for 16 personer, '
-               '4 670 per person med frokost og middag, fri avbestilling og ingen forskuddsbetaling. '
-               '9,0 av 10 i omtale. Hele gruppa må bekreftes direkte med hotellet: +34 93 767 83 70, onabrava@aquahotel.com.'),
+         maal=['costabrava-best'], status='venter', dato='sendt 12. okt',
+         tekst='Firemannsrom til elevene og dobbeltrom til de voksne, frokost og middag, 8.–15. juni. '
+               'Booking.com priser hele gruppa i ett søk: 131 334 for uka med halvpensjon 14. oktober '
+               '(4 691 per person) og 110 365 med bare frokost, med fri avbestilling og ingen forskuddsbetaling. '
+               '9,0 av 10 i omtale. +34 93 767 83 70, onabrava@aquahotel.com.'),
 
-    dict(hvem='Moventis Experience / From2 Travel', hva='Buss Barcelona lufthavn–Santa Susanna',
-         maal=['costabrava'], status='klar', dato='ikke sendt',
-         tekst='Publisert pris for delt buss er 18 euro per person hver vei, satt av ved overnattingsstedet. '
-               'Pris på privat buss for 28 bør hentes inn, og det må bekreftes at siste avgang passer med landing 22:55.'),
+    dict(hvem='GHT Hotels, Costa Brava', hva='7 netter for 28, kjeden med gruppeavdeling',
+         maal=['costabrava'], status='venter', dato='sendt 12. okt',
+         tekst='Kjede med hoteller i Calella, Lloret de Mar og Tossa de Mar, og egen gruppeavdeling for '
+               'bestillinger over 20 rom. Spurt om pris både med frokost og med halvpensjon, og om hvilke av '
+               'hotellene som tar imot skolegrupper på dette alderstrinnet. GHT Marítim i Calella lå på '
+               '60 504 for 16 personer med halvpensjon da det ble slått opp 26. september. '
+               'grups@ghthotels.com, +34 93 766 20 72.'),
 
-    dict(hvem='Hotel San Antonio, Podstrana', hva='7 netter for 28',
-         maal=['split-best'], status='nei', dato='svarte 18. sep',
-         tekst='Har bare ledig 8.–10. juni, ikke hele uka. De setter oss på venteliste og sier fra hvis det blir avbestillinger. '
-               'Samme gruppe driver også Classic Hotel Gala i Split og Jona Rooms i Podstrana, og åpner et femstjerners Marriott-hotell i Split neste år.'),
+    dict(hvem='Cora Hotel, Split', hva='7 netter med frokost for 28',
+         maal=['split-best'], status='nei', dato='ikke ledig 14. okt',
+         tekst='Sto som hotell for Split «best» etter at Hotel San Antonio bare hadde ledig 8.–10. juni. '
+               'Booking.com melder 14. oktober at hotellet ikke er ledig for 28 personer 8.–15. juni 2027. '
+               'Hotel Atrium er satt inn i stedet.'),
+
+    dict(hvem='Hotel Atrium, Split', hva='7 netter med frokost for 28',
+         maal=['split-best'], status='klar', dato='tekst klar 14. okt',
+         tekst='Erstatter Cora Hotel. 5 stjerner, 9,1 av 10, 1,3 km fra sentrum. Booking.com priser hele '
+               'gruppa i ett søk: 202 788 for uka 14. oktober, 7 243 per person. Spurt om gruppepris, '
+               'tillegg for halvpensjon og om rommene kan holdes på opsjon. '
+               'info@hotel-atrium.hr, +385 21 20 00 00.'),
 
     dict(hvem='Design Hostel One, Split', hva='7 netter for 28',
-         maal=['split-billigst'], status='oss', dato='svarte 16. sep',
-         tekst='Kan ta hele gruppen: tre sovesaler med seks senger og én med fire til elevene, uten andre gjester inne, '
-               'og private rom til de voksne. 5 prosent avslag. Frokost koster 12 euro per person per dag. '
-               'De venter på svar om hvor mange rom de voksne trenger.'),
+         maal=['split-billigst'], status='venter', dato='sendt 12. okt',
+         tekst='De ventet på romfordelingen for de voksne — svart 12. oktober: tre dobbeltrom og ett enkeltrom. '
+               'Elevene tar tre sovesaler med seks senger og én med fire. Bedt om fornyet pris med '
+               '5 prosent avslag og frokost til 12 euro per person per dag. Nettprisen har steget: '
+               '135 203 for gruppa 14. oktober, 22 503 mer enn 26. september.'),
+
+    dict(hvem='Hotel San Antonio, Podstrana', hva='7 netter for 28',
+         maal=[], status='nei', dato='svarte 18. sep',
+         tekst='Har bare ledig 8.–10. juni, ikke hele uka. Vi står på venteliste hvis det blir avbestillinger. '
+               'Cora Hotel er satt inn i stedet for Split «best».'),
 
     dict(hvem='Quality Airport Hotel Gardermoen', hva='Natten i Oslo på veien ned',
-         maal=['kreta', 'split'], status='tilbud', dato='17. sep', pp=750,
-         tekst='Christer Johansen har ledige rom: tremannsrom 2 215, dobbeltrom 1 580 og noen få familierom 2 515, '
-               'alle med frokost. Med 8 tremannsrom og 2 dobbeltrom blir det 20 880 for hele gruppen. '
-               'Frokosten serveres fra klokka 04:00, så den rekkes før utsjekk 04:30. '
-               'Hvordan 28 personer med bagasje kommer til terminalen, har de ikke svart på.'),
+         maal=['kreta', 'split'], status='venter', dato='sendt 12. okt',
+         tekst='Natt 7.–8. juni, 8 tremannsrom og 2 dobbeltrom med frokost fra 04:00. '
+               'Prisen fra 17. september var 20 880 for hele gruppen. Booking.com lå 14. oktober på 15 865 '
+               'for de samme 28 — 5 015 under gruppeprisen. Vi venter fortsatt på svar om hvordan '
+               '28 personer med bagasje kommer seg til terminalen, og hva det koster.'),
+
+    # --- transport på stedet
+    dict(hvem='Moventis Experience / From2 Travel', hva='Buss Barcelona lufthavn–Santa Susanna',
+         maal=['costabrava'], status='venter', dato='sendt 12. okt',
+         tekst='Bedt om pris på privat buss for 28 begge veier, og om den delte bussen går sent nok til '
+               'landing 22:55. Publisert pris for delt buss er 18 euro per person hver vei.'),
+
+    dict(hvem='Buss Kautokeino–Tromsø', hva='Tur/retur for 28',
+         maal=['kreta'], status='oss', dato='ikke sendt',
+         tekst='Den eneste posten ingen har fått spørsmål om. Trengs bare hvis Apollos lørdagsavgang fra Tromsø '
+               'velges. Står nå som anslag: 65 500 kroner, regnet ut fra bekreftede 26 200 til Kittilä. '
+               'Samme busselskap som ga prisene til Alta og Kittilä kan svare.'),
 ]
 
 # Sjekket, men ikke aktuelle — vises som én linje under lista.

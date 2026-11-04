@@ -307,20 +307,13 @@ DEST = {
 }
 # 10B: seks ark i undermappa 10B/. «variant» må stå først i basis-teksten på raden i 10B-oversikten (Billigst …/Best …).
 DEST_10B = {
-    'Klassetur-Kreta-billigst.html':       dict(id='kreta-billigst',       par='kreta',       variant='billigst', oversikt='Kreta',        base=['Rethymno', 35.3650, 24.4820],  land='Hellas', pass_=False, transfer=None),
-    'Klassetur-Kreta-best.html':           dict(id='kreta-best',           par='kreta',       variant='best',     oversikt='Kreta',        base=['Platanes', 35.3760, 24.5450],  land='Hellas', pass_=False, transfer=None),
     'Klassetur-CostaBrava-billigst.html':  dict(id='costabrava-billigst',  par='costabrava',  variant='billigst', oversikt='Costa Brava',  base=['Santa Susanna', 41.6360, 2.7130], land='Spania', pass_=False, transfer=None),
     'Klassetur-CostaBrava-best.html':      dict(id='costabrava-best',      par='costabrava',  variant='best',     oversikt='Costa Brava',  base=['Santa Susanna', 41.6360, 2.7130], land='Spania', pass_=False, transfer=None),
-    'Klassetur-Split-billigst.html':       dict(id='split-billigst',       par='split',       variant='billigst', oversikt='Split',        base=['Split', 43.5081, 16.4402],     land='Kroatia', pass_=False, transfer=None),
-    'Klassetur-Split-best.html':           dict(id='split-best',           par='split',       variant='best',     oversikt='Split',        base=['Podstrana', 43.4870, 16.5520], land='Kroatia', pass_=False, transfer=None),
-    # Vings charteralternativer, mottatt 21.9.2026. Uten variant, sa de star i lista bade under Billigst og Best.
-    'Klassetur-Kreta-charter.html':        dict(id='kreta-charter',        par='kreta-charter', variant=None,     oversikt='Kreta med charter', base=['Gerani', 35.5225, 23.8760],  land='Hellas',  pass_=False, transfer=None),
-    'Klassetur-Brac-charter.html':         dict(id='brac-charter',         par='brac-charter',  variant=None,     oversikt='Bra\u010d med charter', base=['Supetar', 43.3833, 16.5500], land='Kroatia', pass_=False, transfer=None),
 }
 # Klassene. Den første er den kartet åpner med.
 KLASSER = [
     dict(id='10B', n=28, mappe=os.path.join(HER, '10B'), oversikt='Klassetur-kandidater-10B.html', dest=DEST_10B, prefix='10B/', varianter=['billigst', 'best'],
-         beskrivelse='21 elever og 7 voksne. Tre reisemål valgt, hvert regnet både billigst og best.'),
+         beskrivelse='21 elever og 7 voksne. Costa Brava er valgt, regnet både billigst og best.'),
     dict(id='10A', n=20, mappe=HER, oversikt='Klassetur-kandidater-2027.html', dest=DEST, prefix='', varianter=[],
          beskrivelse='20 reisende. Alle kandidatene, regnet med prisene fra 4. september 2026.'),
 ]

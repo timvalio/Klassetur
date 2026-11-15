@@ -25,7 +25,7 @@ def bygg():
         bekreftet=P.BEKREFTET,
         flyDepositum=P.FLY_DEPOSITUM, flySum=P.FLY_SUM, bussSum=P.BUSS_SUM,
         transfer=P.TRANSFER, hotell=P.hoteller(), hotellUtelatt=P.HOTELL_UTELATT, mat=P.MAT,
-        sikreInntekter=P.SIKRE_INNTEKTER,
+        sikreInntekter=P.SIKRE_INNTEKTER, grunnvalg=P.grunnvalg(),
         aktiviteter=P.AKTIVITETER, buffer=P.BUFFER,
     )
     h = MAL.replace('/*__LEAFLET_CSS__*/', LEAFLET_CSS)
@@ -151,10 +151,21 @@ a{color:var(--deep)}
 .kartboks .k.stor{position:fixed;inset:0;height:auto;width:auto;border:0;border-radius:0;z-index:9000}
 a.kart-full{font-size:16px;font-weight:700;color:#36322C}
 .est{display:block;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#8A7A4E;font-weight:700}
+.rad .pris small.grunn{display:block;font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--deep);font-weight:700}
+.rad .pris small.opp{display:block;color:#9A5B2E;font-weight:700}
+.rad .pris small.ned{display:block;color:#3F6B45;font-weight:700}
 .dest{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:#8A7A4E;font-weight:700;
   background:#F6EFD9;border:1px solid #E4D8B4;border-radius:5px;padding:2px 7px;align-self:center}
+.dgrunn{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--deep);font-weight:700;
+  background:#E6EDF1;border:1px solid #C9D8E0;border-radius:5px;padding:2px 7px;align-self:center}
+.ddiff{font-size:13px;font-weight:700;align-self:center;border-radius:5px;padding:2px 8px}
+.ddiff.opp{color:#8A4E22;background:#F7E8DC;border:1px solid #E6CDB8}
+.ddiff.ned{color:#2F5A36;background:#E2EEE4;border:1px solid #C4DCC8}
 .lnote{font-size:12px;color:var(--muted);padding:8px 13px;border-top:1px solid var(--line);
   background:#FBF8F0;line-height:1.45}
+.intro{font-size:12.5px;line-height:1.5;color:#44403A;background:var(--kort);
+  border:1px solid var(--line);border-radius:9px;padding:11px 13px;margin-bottom:12px}
 .bekreft{font-size:12.5px;color:#6B5324;background:#FBF3DE;border:1px solid #E8DCBB;
   border-radius:8px;padding:10px 13px;margin:0 0 18px;line-height:1.5}
 .reise{border:1px solid var(--line);border-radius:8px;padding:11px 13px;margin:0 0 18px;background:var(--kort)}
@@ -224,7 +235,7 @@ h2.dh{font-size:16px;margin:0 0 9px;font-weight:600}
 
 <header class="top">
   <div><b>Klassetur 10B · Costa Brava</b><small>8.–15. juni 2027 · 28 reisende</small></div>
-  <button class="nullstill" id="nullstill" type="button">Nullstill valg</button>
+  <button class="nullstill" id="nullstill" type="button">Tilbake til grunnvalget</button>
 </header>
 
 <div class="wrap">
@@ -248,7 +259,10 @@ const datoKort = s => { const d = new Date(s + 'T00:00:00');
   return isNaN(d) ? s : d.toLocaleDateString('no-NO', {day:'numeric', month:'short'}).replace(/\.$/, ''); };
 
 /* ---------------- tilstand ---------------- */
-const start = {transfer:null, hotell:null, mat:null, akt:[], buffer:'b0'};
+// alt er valgt fra start: billigste oppsett som henger sammen
+const start = {transfer:D.grunnvalg.transfer, hotell:D.grunnvalg.hotell,
+               mat:D.grunnvalg.mat, akt:D.grunnvalg.akt.slice(), buffer:D.grunnvalg.buffer};
+const erGrunn = (g,id) => D.grunnvalg[g] === id;
 let S = JSON.parse(JSON.stringify(start));
 let samletInn = D.samletInn, samletInnDato = D.samletInnDato;
 let visAlleHotell = false, visPerElev = false, visPerMnd = false;
@@ -322,6 +336,33 @@ function regn(){
 }
 
 /* ---------------- venstre: tidslinja ---------------- */
+/* Hotell og mat henger sammen: et sted uten måltider kan ikke ha halvpensjon,
+   og et sted med frokost og middag kan ikke ha selvhushold. */
+function matPasser(h, m){
+  if (!h) return true;
+  if (h.mat === 'Uten måltider') return m.id !== 'halvpensjon';
+  return m.id !== 'selvhushold';
+}
+function billigsteMat(h){
+  const gyldige = D.mat.filter(m => matPasser(h, m));
+  return gyldige.reduce((a,b) => (b.kr < a.kr ? b : a), gyldige[0]);
+}
+/* hva hotellet faktisk koster når maten som må følge med er regnet inn */
+function hotellMedMat(h){
+  return h.kr + (h.skatt||0) + billigsteMat(h).kr;
+}
+
+/* differansen mot grunnvalget, så det synes hva en oppgradering koster */
+function diffmerke(g, a){
+  if (g === 'akt') return '<small class="num">' + nf(a.kr/D.gruppe) + ' pp</small>';
+  if (erGrunn(g, a.id)) return '<small class="grunn">grunnvalg</small>';
+  const b = finn(g, D.grunnvalg[g]);
+  if (!b || b.kr === null || a.kr === null) return '<small class="num">' + nf(a.kr/D.gruppe) + ' pp</small>';
+  const d = g === 'hotell' ? hotellMedMat(a) - hotellMedMat(b) : a.kr - b.kr;
+  if (!d) return '<small class="num">samme pris</small>';
+  return '<small class="num ' + (d>0?'opp':'ned') + '">' + (d>0?'+':'−') + nf(Math.abs(d)) + '</small>';
+}
+
 function rad(g, a, flervalg){
   const pa = flervalg ? S.akt.includes(a.id) : S[g] === a.id;
   const ingen = a.kr === null || a.kr === undefined;
@@ -333,7 +374,7 @@ function rad(g, a, flervalg){
     '<span class="tekst"><span class="navn">' + esc(a.navn) + '</span>' +
       (a.kort ? '<span class="meta">' + esc(a.kort) + '</span>' : '') + '</span>' +
     '<span class="pris">' + (ingen ? '<span class="ingen">pris mangler</span>'
-      : '<b class="num">' + nf(a.kr) + '</b><small class="num">' + nf(a.kr/D.gruppe) + ' pp</small>' +
+      : '<b class="num">' + nf(a.kr) + '</b>' + diffmerke(g, a) +
         (a.anslag ? '<small class="est">estimat</small>' : '')) + '</span>';
   d.querySelector('.velg').addEventListener('click', ev => { ev.stopPropagation(); velg(g, a, flervalg); });
   d.addEventListener('click', () => { vis = {type:g, id:a.id}; tegn(); });
@@ -344,6 +385,15 @@ function velg(g, a, flervalg){
   if (a.kr === null || a.kr === undefined) return;
   if (flervalg) S.akt = S.akt.includes(a.id) ? S.akt.filter(x=>x!==a.id) : S.akt.concat([a.id]);
   else S[g] = (S[g] === a.id) ? null : a.id;
+  // maten må passe til hotellet
+  if (g === 'hotell' && S.hotell){
+    const h = finn('hotell', S.hotell), m = finn('mat', S.mat);
+    if (!m || !matPasser(h, m)) S.mat = billigsteMat(h).id;
+  }
+  if (g === 'mat' && S.mat){
+    const h = finn('hotell', S.hotell), m = finn('mat', S.mat);
+    if (h && !matPasser(h, m)) S.hotell = null;
+  }
   tegn();
 }
 
@@ -367,6 +417,14 @@ function tegnListe(){
 
   D.bekreftet.forEach(b => L.appendChild(ledd({ok:true, tittel:b.tittel, sum:b.kr,
     klikk:() => { vis = {type:'bekreftet', id:b.id}; tegn(); }})));
+
+  const intro = document.createElement('div');
+  intro.className = 'intro';
+  intro.innerHTML = '<b>Alt er valgt fra start.</b> Transfer, hotell og mat står på det billigste ' +
+    'oppsettet som henger sammen, og stranda er med fordi den er gratis. ' +
+    'Alt annet i lista er oppgraderinger og tillegg — tallet til høyre viser hva de koster ' +
+    'i forhold til grunnvalget.';
+  L.appendChild(intro);
 
   L.appendChild(ledd({ok:false, tittel:'Transfer flyplass – hotell',
     sum: v.transfer ? v.transfer.kr : null,
@@ -393,7 +451,7 @@ function tegnListe(){
   L.appendChild(ledd({ok:false, tittel:'Mat', sum: v.mat ? v.mat.kr : null,
     rader: D.mat.map(a => rad('mat', a, false))}));
 
-  L.appendChild(ledd({ok:false, tittel:'Aktiviteter',
+  L.appendChild(ledd({ok:false, tittel:'Aktiviteter — tillegg',
     sum: v.akt.length ? v.akt.reduce((s,x)=>s+(x.kr||0),0) : null,
     rader: D.aktiviteter.map(a => rad('akt', a, true))}));
 
@@ -483,6 +541,17 @@ function faktaliste(f){
     '<div><dt>' + esc(k) + '</dt><dd>' + esc(v) + '</dd></div>').join('') + '</dl>';
 }
 
+function detaljDiff(g, o){
+  if (!D.grunnvalg[g]) return '';
+  if (erGrunn(g, o.id)) return '<span class="dgrunn">grunnvalg</span>';
+  const b = finn(g, D.grunnvalg[g]);
+  if (!b || b.kr === null || o.kr === null) return '';
+  const d = g === 'hotell' ? hotellMedMat(o) - hotellMedMat(b) : o.kr - b.kr;
+  if (!d) return '<span class="dgrunn">samme pris som grunnvalget</span>';
+  return '<span class="ddiff ' + (d>0?'opp':'ned') + '">' + (d>0?'+':'−') + nf(Math.abs(d)) +
+         ' mot grunnvalget</span>';
+}
+
 function detaljObjekt(g, o){
   const flervalg = g === 'akt';
   const pa = flervalg ? S.akt.includes(o.id) : S[g] === o.id;
@@ -526,6 +595,7 @@ function detaljObjekt(g, o){
   h += '<div class="dpris">' +
     (ingen ? '<span class="mangler">pris mangler</span><span>må innhentes før dette kan velges</span>'
      : (o.anslag ? '<span class="dest">estimat</span>' : '') +
+       (erBekreftet || flervalg ? '' : detaljDiff(g, o)) +
        '<b class="num">' + nf(o.kr/del) + '</b><span>kroner ' +
        (visPerElev ? 'per elev · ' + nf(o.kr/D.gruppe) + ' per reisende'
                    : 'for hele klassen · ' + nf(o.kr/D.gruppe) + ' per reisende') + '</span>') +
@@ -690,6 +760,13 @@ function detaljKasse(){
   h += '<div class="regne">' +
     '<div class="r"><span>Samlet inn så langt<br><small style="color:var(--muted)">status per ' +
       dato(samletInnDato) + '</small></span><b class="num" style="color:var(--ok)">+' + v(samletInn) + '</b></div>';
+  R.sikre.forEach(i => {
+    h += '<div class="r"><span>' + esc(i.navn) +
+      '<br><small style="color:var(--muted)">sikker inntekt' +
+      (i.dato ? ', ' + dato(i.dato) : '') + '</small></span>' +
+      (i.kr ? '<b class="num" style="color:var(--ok)">+' + v(i.kr) + '</b>'
+            : '<b style="color:var(--muted)">beløp mangler</b>') + '</div>';
+  });
   R.bok.forEach(b => {
     h += '<div class="r">' +
       (b.id ? '<span><a href="#" data-g="' + b.g + '" data-i="' + b.id + '" class="bl">' + esc(b.navn) + '</a></span>'
@@ -731,8 +808,10 @@ function fotnoter(){
     'av Nils Rune Eira. Hotellprisene er booking.com sine gruppepriser for alle 28 i ett søk, slått opp ' +
     '14. oktober 2026 for 8.–15. juni 2027. Inngangsbilletter er veiledende nettpriser slått opp ' +
     '13. november 2026. Eurobeløp er regnet om med ' + String(D.eur).replace('.',',') + ' (' + D.eurKilde + ').</p>' +
-    '<p><b>Ikke priset.</b> Privat buss fra flyplassen, tog fra flyplassen om kvelden, tur til Tossa de Mar, ' +
-    'og leiebuss til Water World, Illa Fantasia og PortAventura. Matpostene er anslag.</p>' +
+    '<p><b>Anslag, ikke tilbud.</b> Hotellprisene er booking.com-søk uten gruppepris. Matpostene er ' +
+    'anslag. Bussen til aktivitetene er regnet ut fra publiserte satser for leiebuss med sjåfør, ' +
+    'ikke fra spanske tilbud. Fortsatt uten pris: privat buss fra flyplassen, tog fra flyplassen om ' +
+    'kvelden, og billetten til Tossa de Mar.</p>' +
     '<p><b>Valgene lagres i din egen nettleser.</b> Andre som åpner sida ser sine egne valg.</p></div>';
 }
 
@@ -778,6 +857,7 @@ function tegn(){ lagre(); tegnListe(); tegnSum(); tegnDetalj(); }
 document.getElementById('nullstill').addEventListener('click', () => {
   S = JSON.parse(JSON.stringify(start));
   samletInn = D.samletInn; samletInnDato = D.samletInnDato; visAlleHotell = false; visPerElev = false; visPerMnd = false;
+  try { localStorage.removeItem('k10b'); } catch(e){}
   vis = {type:'kasse', id:null};
   tegn();
 });

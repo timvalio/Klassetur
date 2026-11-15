@@ -15,8 +15,8 @@ EUR = 10.56
 EUR_KILDE = 'currency.wiki, 13.11.2026'
 
 GRUPPE, ELEVER, VOKSNE = 28, 21, 7
-SAMLET_INN = 265000
-SAMLET_INN_DATO = '2026-11-13'   # oppdateres etter hvert som kassa vokser
+SAMLET_INN = 415000
+SAMLET_INN_DATO = '2026-11-14'   # oppdateres etter hvert som kassa vokser
 FRIST = '2027-03-30'          # første virkedag etter påska — 2. påskedag er mandag 29. mars 2027
 AVREISE = '2027-06-08'
 NETTER = 7
@@ -146,8 +146,8 @@ MAT = [
 # Inntekter klassen vet kommer, og som derfor kan regnes med i budsjettet.
 # kr=None betyr at beløpet ennå ikke er fylt inn.
 SIKRE_INNTEKTER = [
-    dict(id='paskefestival', navn='Vakthold påskefestivalen', kr=None,
-         dato='2027-03-28', note='Garantert oppdrag. Beløpet må fylles inn.'),
+    dict(id='paskefestival', navn='Vakthold påskefestivalen', kr=60000,
+         dato='2027-03-28', note='Garantert oppdrag. Omtrentlig beløp oppgitt av klassen.'),
 ]
 
 # ------------------------------------------------------------ husregler, booking.com 14.11.2026
@@ -424,3 +424,29 @@ def hoteller():
             lenke=h['url'], lenketekst='Se på booking.com'))
     ut.sort(key=lambda x: x['kr'])
     return ut
+
+
+def grunnvalg():
+    """Det billigste oppsettet som faktisk henger sammen.
+
+    Hotell og mat må passe til hverandre: et sted uten måltider må ha
+    selvhushold eller alle måltider ute, et sted med frokost og middag må ha
+    halvpensjon eller alle måltider ute. Billigste hotell er derfor ikke
+    nødvendigvis billigste kombinasjon.
+    """
+    tra = min((t for t in TRANSFER if t['kr']), key=lambda t: t['kr'])
+    beste = None
+    for h in hoteller():
+        for m in MAT:
+            if h['mat'] == 'Uten måltider' and m['id'] == 'halvpensjon':
+                continue
+            if h['mat'] != 'Uten måltider' and m['id'] == 'selvhushold':
+                continue
+            sum_ = h['kr'] + h['skatt'] + m['kr']
+            if beste is None or sum_ < beste[0]:
+                beste = (sum_, h, m)
+    _, h, m = beste
+    return dict(transfer=tra['id'], hotell=h['id'], mat=m['id'],
+                akt=[a['id'] for a in AKTIVITETER if a['kr'] == 0],
+                buffer='b0',
+                sum=tra['kr'] + h['kr'] + h['skatt'] + m['kr'])

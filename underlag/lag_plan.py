@@ -870,6 +870,14 @@ tegn();
 '''
 
 if __name__ == '__main__':
-    ut = HER / 'Klassetur-10B-plan.html'
-    ut.write_text(bygg(), encoding='utf-8')
-    print('skrev', ut, ut.stat().st_size, 'byte')
+    html = bygg()
+    # Sida skal ligge to steder i repoet: i rota for lokal bruk, og i docs/,
+    # som er mappa GitHub Pages publiserer fra. Uten kopien i docs/ blir
+    # endringene liggende i repoet uten å vises på nettstedet.
+    rot = HER.parent if HER.name == 'underlag' else HER
+    mål = [rot / 'Klassetur-10B-plan.html']
+    if (rot / 'docs').is_dir():
+        mål.append(rot / 'docs' / 'Klassetur-10B-plan.html')
+    for m in mål:
+        m.write_text(html, encoding='utf-8')
+        print('skrev', m, m.stat().st_size, 'byte')

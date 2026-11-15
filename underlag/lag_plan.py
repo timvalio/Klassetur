@@ -265,21 +265,19 @@ const start = {transfer:D.grunnvalg.transfer, hotell:D.grunnvalg.hotell,
 const erGrunn = (g,id) => D.grunnvalg[g] === id;
 let S = JSON.parse(JSON.stringify(start));
 let samletInn = D.samletInn, samletInnDato = D.samletInnDato;
-let visAlleHotell = false, visPerElev = false, visPerMnd = false;
+let visAlleHotell = false, visPerElev = false;
 let vis = {type:'kasse', id:null};
 try {
   const l = localStorage.getItem('k10b'); if (l) S = Object.assign(S, JSON.parse(l));
   const k = localStorage.getItem('k10b-inn'); if (k !== null) samletInn = +k;
   const kd = localStorage.getItem('k10b-inndato'); if (kd) samletInnDato = kd;
   const e = localStorage.getItem('k10b-elev'); if (e !== null) visPerElev = e === '1';
-  const m = localStorage.getItem('k10b-mnd');  if (m !== null) visPerMnd  = m === '1';
 } catch(e){}
 function lagre(){ try {
   localStorage.setItem('k10b', JSON.stringify(S));
   localStorage.setItem('k10b-inn', String(samletInn));
   localStorage.setItem('k10b-inndato', samletInnDato);
   localStorage.setItem('k10b-elev', visPerElev ? '1' : '0');
-  localStorage.setItem('k10b-mnd',  visPerMnd  ? '1' : '0');
 } catch(e){} }
 
 /* ---------------- oppslag ---------------- */
@@ -491,17 +489,11 @@ function tegnSum(){
     '</div>' +
     '<div class="bok">' + rader + '</div>' +
     '<div class="gap' + (R.mangler<=0?' nok':'') + '" style="margin-top:9px">' +
-      '<div style="display:flex;align-items:center;gap:8px">' +
-        '<div class="t" style="flex:1">' + (R.mangler>0?'Mangler':'Til overs') + '</div>' +
-        '<span class="bryter" id="br-mnd">' +
-          '<button type="button" data-v="0"' + (visPerMnd?'':' class="on"') + '>Totalt</button>' +
-          '<button type="button" data-v="1"' + (visPerMnd?' class="on"':'') + '>Per måned</button>' +
-        '</span>' +
-      '</div>' +
-      '<div class="v num">' + nf(Math.abs(R.mangler) / del / (visPerMnd?R.mnd:1)) + '</div>' +
+      '<div class="t">' + (R.mangler>0?'Mangler':'Til overs') + '</div>' +
+      '<div class="v num">' + nf(Math.abs(R.mangler) / del) + '</div>' +
       '<div class="u">' + (R.mangler>0
-        ? (visPerMnd ? 'per måned' : 'til sammen') + (visPerElev?' per elev':' for hele klassen') +
-          ' · ' + R.mnd + ' måneder igjen til ' + dato(D.frist)
+        ? 'til sammen' + (visPerElev?' per elev':' for hele klassen') + ' — ' +
+          nf(R.mangler / del / R.mnd) + ' per måned i ' + R.mnd + ' måneder til ' + dato(D.frist)
         : 'det som er valgt er dekket') + '</div>' +
       (R.sikkerSum
         ? '<div class="u" style="margin-top:4px">Sikre inntekter på ' + v(R.sikkerSum) +
@@ -526,10 +518,6 @@ function tegnSum(){
   document.getElementById('br-elev').addEventListener('click', e => {
     const b = e.target.closest('button'); if(!b) return;
     visPerElev = b.dataset.v === '1'; lagre(); tegnSum(); tegnDetalj();
-  });
-  document.getElementById('br-mnd').addEventListener('click', e => {
-    const b = e.target.closest('button'); if(!b) return;
-    visPerMnd = b.dataset.v === '1'; lagre(); tegnSum(); tegnDetalj();
   });
   document.getElementById('b-kasse').addEventListener('click', () => { vis={type:'kasse',id:null}; tegn(); });
 }
@@ -751,10 +739,6 @@ function detaljKasse(){
     '<span class="bryter" id="d-elev">' +
       '<button type="button" data-v="0"' + (visPerElev?'':' class="on"') + '>Hele klassen</button>' +
       '<button type="button" data-v="1"' + (visPerElev?' class="on"':'') + '>Per elev (21)</button>' +
-    '</span>' +
-    '<span class="bryter" id="d-mnd">' +
-      '<button type="button" data-v="0"' + (visPerMnd?'':' class="on"') + '>Totalt</button>' +
-      '<button type="button" data-v="1"' + (visPerMnd?' class="on"':'') + '>Per måned</button>' +
     '</span></div>';
 
   h += '<div class="regne">' +
@@ -783,8 +767,8 @@ function detaljKasse(){
   h += '</div>';
 
   if (R.mangler > 0)
-    h += '<div class="varsel"><b>' + v(R.mangler / (visPerMnd ? R.mnd : 1)) + ' kroner ' +
-         (visPerMnd ? 'per måned ' : '') + enhet + '.</b> Siste innbetaling er satt til ' +
+    h += '<div class="varsel"><b>' + v(R.mangler) + ' kroner ' + enhet + '.</b> ' +
+         'Siste innbetaling er satt til ' +
          dato(D.frist) + ', første virkedag etter påska. Da er det ' + R.mnd + ' måneder igjen.</div>';
 
   if (R.bundetUdekket > 0)
@@ -845,18 +829,16 @@ function tegnDetalj(){
   H.querySelectorAll('a.bl').forEach(a => a.addEventListener('click', ev => {
     ev.preventDefault(); vis = {type:a.dataset.g, id:a.dataset.i}; tegn();
   }));
-  const be = document.getElementById('d-elev'), bm = document.getElementById('d-mnd');
+  const be = document.getElementById('d-elev');
   if (be) be.addEventListener('click', e => { const t=e.target.closest('button'); if(!t) return;
     visPerElev = t.dataset.v === '1'; lagre(); tegnSum(); tegnDetalj(); });
-  if (bm) bm.addEventListener('click', e => { const t=e.target.closest('button'); if(!t) return;
-    visPerMnd = t.dataset.v === '1'; lagre(); tegnSum(); tegnDetalj(); });
 }
 
 function tegn(){ lagre(); tegnListe(); tegnSum(); tegnDetalj(); }
 
 document.getElementById('nullstill').addEventListener('click', () => {
   S = JSON.parse(JSON.stringify(start));
-  samletInn = D.samletInn; samletInnDato = D.samletInnDato; visAlleHotell = false; visPerElev = false; visPerMnd = false;
+  samletInn = D.samletInn; samletInnDato = D.samletInnDato; visAlleHotell = false; visPerElev = false;
   try { localStorage.removeItem('k10b'); } catch(e){}
   vis = {type:'kasse', id:null};
   tegn();

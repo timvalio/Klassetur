@@ -871,13 +871,15 @@ tegn();
 
 if __name__ == '__main__':
     html = bygg()
-    # Sida skal ligge to steder i repoet: i rota for lokal bruk, og i docs/,
-    # som er mappa GitHub Pages publiserer fra. Uten kopien i docs/ blir
-    # endringene liggende i repoet uten å vises på nettstedet.
+    # Sida skal ligge to steder i repoet: i rota for lokal bruk, og som
+    # docs/index.html, som er forsida GitHub Pages publiserer. Uten kopien i
+    # docs/ blir endringene liggende i repoet uten å vises på nettstedet.
+    # NB: underlag/lag_kart.py skriver også til docs/index.html. Kjøres den,
+    # blir forsida overskrevet med det gamle kartet.
     rot = HER.parent if HER.name == 'underlag' else HER
     mål = [rot / 'Klassetur-10B-plan.html']
     if (rot / 'docs').is_dir():
-        mål.append(rot / 'docs' / 'Klassetur-10B-plan.html')
+        mål.append(rot / 'docs' / 'index.html')
     for m in mål:
         m.write_text(html, encoding='utf-8')
         print('skrev', m, m.stat().st_size, 'byte')

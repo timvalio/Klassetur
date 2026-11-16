@@ -847,15 +847,37 @@ h2.dh{font-size:16px;margin:0 0 9px;font-weight:600}
 .fot{color:var(--muted);font-size:12.5px;border-top:1px solid var(--line);padding-top:14px;margin-top:26px}
 .fot p{margin:0 0 7px;max-width:70ch}
 
+/* håndtaket på regnskapet vises bare på liten skjerm */
+.sumhandle{display:none}
+
 @media (max-width:900px){
   body{overflow:auto}
   html,body{height:auto}
   .wrap{display:block;height:auto}
   .venstre{border-right:0}
   .liste{overflow:visible;padding:12px}
-  .sumboks{position:sticky;bottom:0;z-index:20;box-shadow:0 -4px 16px rgba(0,0,0,.1)}
   .hoyre{overflow:visible;border-top:1px solid var(--line)}
   .detalj{padding:20px 16px 50px}
+
+  /* Regnskapet blir en skuff nederst: sammenslått viser den bare nøkkeltallet,
+     og et trykk på pila folder den ut over innholdet. */
+  .sumboks{position:fixed;left:0;right:0;bottom:0;z-index:40;max-height:none;
+    padding:0;border-top:2px solid var(--deep);box-shadow:0 -4px 18px rgba(0,0,0,.16)}
+  .sumhandle{display:flex;align-items:center;gap:10px;width:100%;
+    padding:11px 15px calc(11px + env(safe-area-inset-bottom));text-align:left}
+  .sumhandle .sh-t{font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+  .sumhandle .sh-v{font-size:19px;font-weight:800;letter-spacing:-.02em;flex:1}
+  .sumhandle .sh-v.ok{color:var(--ok)}
+  .sumhandle .sh-v.mangel{color:var(--apen)}
+  .sumhandle .sh-p{width:26px;height:26px;flex:0 0 auto;border-radius:50%;
+    background:var(--deep);color:var(--paper);display:grid;place-items:center;
+    font-size:12px;transition:transform .18s}
+  .suminnhold{display:none;padding:0 15px calc(15px + env(safe-area-inset-bottom));
+    max-height:68vh;overflow-y:auto}
+  .sumboks.apen .suminnhold{display:block}
+  .sumboks.apen .sh-p{transform:rotate(180deg)}
+  /* plass til skuffa så den ikke dekker bunnen av sida */
+  .hoyre{padding-bottom:64px}
 }
 </style>
 </head>
@@ -901,6 +923,7 @@ const erGrunn = (g,id) => D.grunnvalg[g] === id;
 let S = JSON.parse(JSON.stringify(start));
 let samletInn = D.samletInn, samletInnDato = D.samletInnDato;
 let visAlleHotell = false, visPerElev = false;
+let sumApen = false;   // regnskapsskuffa på liten skjerm
 let vis = {type:'kasse', id:null};
 try {
   const l = localStorage.getItem('k10b'); if (l) S = Object.assign(S, JSON.parse(l));
@@ -1010,7 +1033,16 @@ function rad(g, a, flervalg){
       : '<b class="num">' + nf(a.kr) + '</b>' + diffmerke(g, a) +
         (a.anslag ? '<small class="est">estimat</small>' : '')) + '</span>';
   d.querySelector('.velg').addEventListener('click', ev => { ev.stopPropagation(); velg(g, a, flervalg); });
-  d.addEventListener('click', () => { vis = {type:g, id:a.id}; tegn(); });
+  d.addEventListener('click', () => {
+    vis = {type:g, id:a.id}; tegn();
+    // på liten skjerm ligger detaljen under lista — lukk skuffa og gå dit
+    if (window.matchMedia('(max-width:900px)').matches){
+      sumApen = false;
+      const B = document.getElementById('sumboks'); if (B) B.classList.remove('apen');
+      const h = document.querySelector('.hoyre');
+      if (h) h.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+  });
   return d;
 }
 
@@ -1114,7 +1146,15 @@ function tegnSum(){
     else rader += '<div class="b ut"><span>' + esc(p.navn) + '</span><b class="num">−' + v(p.kr) + '</b></div>';
   });
 
+  const nok = R.mangler <= 0;
+  B.className = 'sumboks' + (sumApen ? ' apen' : '');
   B.innerHTML =
+    '<button class="sumhandle" id="sumhandle" type="button" aria-expanded="' + (sumApen?'true':'false') + '">' +
+      '<span class="sh-t">' + (nok ? 'Til overs' : 'Mangler') + '</span>' +
+      '<b class="sh-v num ' + (nok?'ok':'mangel') + '">' + nf(Math.abs(R.mangler) / del) + '</b>' +
+      '<span class="sh-p">▲</span>' +
+    '</button>' +
+    '<div class="suminnhold">' +
     '<div style="display:flex;align-items:center;gap:8px;margin-bottom:2px">' +
       '<span style="font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);flex:1">Regnskap</span>' +
       '<span class="bryter" id="br-elev">' +
@@ -1144,7 +1184,15 @@ function tegnSum(){
       '<input class="num" id="f-inn" inputmode="numeric"></label>' +
       '<label style="flex:1"><span class="l">Per dato</span>' +
       '<input type="date" id="f-dato" style="font-size:12.5px;font-weight:600"></label></div>' +
-    '<button class="sknapp" id="b-kasse" type="button">Vis regnskapet i full bredde →</button>';
+    '<button class="sknapp" id="b-kasse" type="button">Vis regnskapet i full bredde →</button>' +
+    '</div>';
+
+  const hdl = document.getElementById('sumhandle');
+  if (hdl) hdl.addEventListener('click', () => {
+    sumApen = !sumApen;
+    B.classList.toggle('apen', sumApen);
+    hdl.setAttribute('aria-expanded', sumApen ? 'true' : 'false');
+  });
 
   const fi = document.getElementById('f-inn'), fd = document.getElementById('f-dato');
   fi.value = nf(samletInn); fd.value = samletInnDato;
